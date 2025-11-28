@@ -59,6 +59,7 @@ export default function Header() {
   const [showProducts, setShowProducts] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [aboutMobileOpen, setAboutMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false); // ✅ for hydration-safe theme toggle
 
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
@@ -82,6 +83,11 @@ export default function Header() {
     window.addEventListener("scroll", closeOnScroll);
     return () => window.removeEventListener("scroll", closeOnScroll);
   }, [isOpen]);
+
+  // ✅ mark component as mounted on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const formatCurrency = (v) =>
     new Intl.NumberFormat("en-IN", {
@@ -200,13 +206,21 @@ export default function Header() {
               Get Started
             </motion.a>
 
-            {/* Theme Toggle */}
+            {/* ✅ Theme Toggle (hydration-safe) */}
             <motion.button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
               whileHover={{ scale: 1.05 }}
+              aria-label="Toggle theme"
             >
-              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              {!mounted ? (
+                // render invisible icon until mounted to keep server & client HTML same
+                <Sun size={20} className="opacity-0" />
+              ) : theme === "dark" ? (
+                <Sun size={20} />
+              ) : (
+                <Moon size={20} />
+              )}
             </motion.button>
 
             {/* Cart Button */}
