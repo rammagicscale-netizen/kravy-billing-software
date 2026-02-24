@@ -12,7 +12,7 @@ import Faqs from "./Faqs";
 import Testimonials from "./Reviews";
 import WhyChooseUs from "./whyChooseUs";
 import AboutPlatform from "./AboutThisPlatform";
-import OutletPhotoCompare from "./OutletPhotoCompare";
+
 import OutletCompare from "./OutletCompare";
 import MasonryGallery from "../galllery";
 import ZomatoApproved from "./ZomatoApproved";
@@ -96,7 +96,7 @@ export default function Home() {
 
       <ZomatoApproved />
 
-      <OutletPhotoCompare />
+
       <OutletCompare />
       <WhyChooseUs />
       <AboutPlatform />
