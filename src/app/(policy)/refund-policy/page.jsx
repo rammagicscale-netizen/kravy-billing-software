@@ -18,9 +18,9 @@ export const metadata = {
 
 const cardData = [
   {
-    title: "No Refunds After Activation",
+    title: "No Refund / Return",
     description:
-      "Once your subscription and device setup are activated, refunds cannot be processed.",
+      "Once your subscription and device setup are activated, refunds or returns cannot be processed.",
     icon: <ShieldCheck className="w-6 h-6 text-green-500" />,
     content: (
       <>
@@ -31,6 +31,13 @@ const cardData = [
         Since our service includes both hardware and licensed software,
         <strong> no refunds</strong> are available after activation or delivery,
         unless required by law or due to a verified billing error.
+
+        {/* New Highlighted Note */}
+        <div className="mt-4 p-3 border-l-2 border-red-500 bg-red-500/10">
+          <p className="text-xs text-red-400 uppercase tracking-wider font-semibold">
+            Strict Policy: No refund / return available after activation.
+          </p>
+        </div>
       </>
     ),
   },

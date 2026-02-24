@@ -13,7 +13,7 @@ const products = [
   // MAIN HARDWARE + SETUPS
   {
     id: "smart-pos-bundle",
-    name: "Kravy Smart POS Bundle",
+    name: "Kravy Smart POS",
     tag: "Best for busy restaurants",
     image: "/assets/setup1.png",
     rating: 4.8,
@@ -21,11 +21,11 @@ const products = [
     originalPrice: 29999,
     salePrice: 24999,
     isFromPrice: false,
-    billingCycle: "one-time (device + setup)",
+    billingCycle: "one-time setup",
     planLabel: "Device + printer + software",
     planStartsFrom: "Plan starts from ₹24,999",
     shortDescription:
-      "Complete POS machine + thermal printer + Kravy billing app pre-installed.",
+      "Complete POS machine, thermal printer, and Kravy billing app.",
     features: [
       "Touchscreen POS with fast performance",
       "High-speed thermal printer",
@@ -297,11 +297,17 @@ Please share more details, demo and best offer for this product.
                   {product.salePrice ? (
                     <>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-sm md:text-base font-semibold">
-                          {product.isFromPrice ? "From " : ""}
+                        <span className="text-xl font-bold text-white">
+                          {product.isFromPrice ? (
+                            <span className="text-sm font-normal text-gray-400 mr-1">
+                              From
+                            </span>
+                          ) : (
+                            ""
+                          )}
                           {formatCurrency(product.salePrice)}
                           {product.billingCycle && (
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-sm font-normal text-gray-400">
                               {" "}
                               / {product.billingCycle}
                             </span>

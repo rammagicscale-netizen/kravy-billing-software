@@ -39,7 +39,8 @@ const cardData = [
     icon: <ShieldCheck className="w-6 h-6 text-green-500" />,
     content: (
       <>
-        At <strong>{COMPANY.LEGAL_NAME}</strong>, we provide both hardware and
+        {/* Updated Legal Name for GST Compliance */}
+        At <span className="font-semibold text-white uppercase">{COMPANY.LEGAL_NAME}</span>, we provide both hardware and
         software solutions. All hardware orders, including{" "}
         <strong>thermal printers</strong> and <strong>POS devices</strong>, are
         processed within <strong>1–3 business days</strong> of payment.
@@ -119,6 +120,24 @@ const cardData = [
             All replacements are subject to verification by our support team.
           </li>
         </ul>
+
+        {/* New Replacement Timeline */}
+        <div className="mt-4 flex items-center gap-2 text-blue-400 font-medium">
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+            />
+          </svg>
+          <span>Replacement will be delivered within 5-6 days.</span>
+        </div>
         <br />
         Please email{" "}
         <a

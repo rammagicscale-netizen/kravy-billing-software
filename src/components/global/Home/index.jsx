@@ -42,7 +42,7 @@ export default function Home() {
           <span className="text-red-500 underline">Do Effortless Billing </span>
           <span className="bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
             <br />
-            With Us 
+            With Us
           </span>
         </motion.h1>
 
@@ -67,17 +67,17 @@ export default function Home() {
               View
             </button>
           </a> */}
+          {/* Button hidden as requested */}
           <a
             href="https://kravy-pos-website.vercel.app/"
             target="_blank"
-            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl 
+            className="hidden group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl 
   bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 
   px-7 py-3.5 font-semibold text-white transition-all duration-300 
   shadow-md hover:shadow-lg hover:scale-[1.04] active:scale-[0.97]"
           >
             <span className="relative z-10 flex items-center gap-2">
               Try Now
-              
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
             <div

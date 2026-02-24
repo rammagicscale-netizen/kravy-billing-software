@@ -1,6 +1,6 @@
 export const COMPANY = {
   NAME: "Kravy",
-  LEGAL_NAME: "Kravy Technologies Pvt. Ltd.",
+  LEGAL_NAME: "KRAVY SOFTWARE DEVELOPMENT",
   DOMAIN: "https://kravy.in",
   EMAIL: {
     SUPPORT: "support@kravy.in",

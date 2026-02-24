@@ -56,9 +56,9 @@ const cardData = [
     ),
   },
   {
-    title: "Strict No Refund Policy After Activation",
+    title: "No Refund / Return",
     description:
-      "Once the hardware is delivered or the software license is activated, refunds are not available.",
+      "Once your subscription and device setup are activated, refunds or returns cannot be processed.",
     icon: <Trash2 className="w-6 h-6 text-green-500" />,
     content: (
       <>
@@ -70,10 +70,13 @@ const cardData = [
         <br />
         Users receive complete access to licensed billing software and connected
         devices upon activation, making returns or cancellations impractical.
-        <br />
-        <br />
-        We encourage customers to review their selected plan and requirements
-        carefully before confirming payment.
+
+        {/* New Highlighted Note */}
+        <div className="mt-4 p-3 border-l-2 border-red-500 bg-red-500/10">
+          <p className="text-xs text-red-400 uppercase tracking-wider font-semibold">
+            Strict Policy: No refund / return available after activation.
+          </p>
+        </div>
       </>
     ),
   },
@@ -92,15 +95,26 @@ const cardData = [
           <li>Hardware damaged during delivery</li>
         </ul>
         <br />
-        In such cases, please notify us within <strong>7 days</strong> of
-        delivery or payment by emailing{" "}
-        <a
-          href={`mailto:${COMPANY.EMAIL.SUPPORT}`}
-          className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
-        >
-          {COMPANY.EMAIL.SUPPORT}
-        </a>{" "}
-        with your order details and supporting evidence.
+        <p>
+          In such cases, please notify us within <strong>7 days</strong> of
+          delivery or payment by emailing{" "}
+          <a
+            href={`mailto:${COMPANY.EMAIL.SUPPORT}`}
+            className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
+          >
+            {COMPANY.EMAIL.SUPPORT}
+          </a>{" "}
+          with your order details and supporting evidence.
+        </p>
+
+        {/* New Refund Timeline added below */}
+        <div className="mt-4 p-4 border-t border-gray-800 bg-black/20 rounded-lg">
+          <p className="text-sm text-gray-400">
+            Refund will be credited within{" "}
+            <span className="text-white font-bold">7-8 days</span> to the
+            original source of payment method.
+          </p>
+        </div>
       </>
     ),
   },

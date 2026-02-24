@@ -14,9 +14,12 @@ export default function Footer() {
       className="w-full border-t border-gray-200 dark:border-gray-800 py-6 px-6 md:px-12 text-sm text-gray-600 dark:text-gray-400"
     >
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-center">
-          © {new Date().getFullYear()} Kravy.in . All rights reserved.
-        </p>
+        <div className="text-center">
+          <p>© {new Date().getFullYear()} Kravy.in</p>
+          <p className="text-[10px] uppercase tracking-widest opacity-50 mt-1">
+            A product of KRAVY SOFTWARE DEVELOPMENT
+          </p>
+        </div>
         <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2">
           <Link
             href="/terms-and-conditions"
