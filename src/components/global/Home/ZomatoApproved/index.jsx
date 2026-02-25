@@ -96,7 +96,7 @@ const ZomatoApproved = () => {
       </div>
 
       {/* Bottom CTA */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
@@ -122,7 +122,7 @@ const ZomatoApproved = () => {
             </motion.a>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 };
@@ -476,11 +476,10 @@ function MobileCarousel({ zomatoImages }) {
             key={`dot-${i}`}
             onClick={() => scrollTo(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className={`w-2 h-2 rounded-full transition-all duration-200 ${
-              active === i
+            className={`w-2 h-2 rounded-full transition-all duration-200 ${active === i
                 ? "bg-neutral-900 dark:bg-white"
                 : "bg-neutral-300 dark:bg-neutral-600"
-            }`}
+              }`}
           />
         ))}
       </div>
