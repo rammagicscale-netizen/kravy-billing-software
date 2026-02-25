@@ -204,7 +204,7 @@ export default function AboutPage() {
           <CardBlock
             icon={<Cpu size={20} />}
             title="What we do"
-            text="We provide a complete billing solution – POS software + Android app + digital receipts – tuned for speed."
+            text="We focus exclusively on software excellence – Cloud POS + Android app + real-time analytics – with zero hardware lock-in."
           />
           <CardBlock
             icon={<Store size={20} />}
@@ -428,36 +428,22 @@ export default function AboutPage() {
         </p>
       </section>
 
-      {/* Careers (Careers anchor) */}
+      {/* Pricing / Plan Section */}
       <section
-        id="careers"
+        id="pricing"
         className="max-w-6xl mx-auto px-4 md:px-6 pb-20 scroll-mt-28"
       >
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 md:p-7 shadow-sm dark:border-slate-800 dark:bg-slate-950/70">
-          <h2 className="text-lg md:text-2xl font-bold mb-2">Careers at Kravy</h2>
-          <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 mb-3">
-            We&apos;re always interested in people who understand both{" "}
-            <span className="font-semibold">real-world shops</span> and{" "}
-            <span className="font-semibold">clean software</span>. If you care about
-            making life easier for small businesses, we&apos;d love to talk.
+        <div className="rounded-3xl border border-emerald-200 bg-emerald-50/50 p-6 md:p-10 text-center dark:border-emerald-500/30 dark:bg-emerald-500/5">
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-3">Choose Your Perfect Plan</h2>
+          <p className="text-sm md:text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mb-6">
+            Simple, scalable pricing crafted for every food business — from cloud kitchens to fine dining.
           </p>
-
-          <ul className="text-xs md:text-sm text-slate-700 dark:text-slate-300 space-y-1.5 mb-4">
-            <li>• Roles across product, engineering, design, and customer success.</li>
-            <li>• Remote-friendly with focus on Indian market.</li>
-            <li>• Work directly with founders and early customers.</li>
-          </ul>
-
-          <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300">
-            To explore opportunities, drop your details using our{" "}
-            <a
-              href="/contact"
-              className="text-emerald-600 dark:text-emerald-400 underline-offset-2 hover:underline"
-            >
-              contact form
-            </a>{" "}
-            with the subject line <span className="font-semibold">“Career at Kravy”</span>.
-          </p>
+          <a
+            href="/contact"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-colors"
+          >
+            Get Started Now
+          </a>
         </div>
       </section>
     </main>

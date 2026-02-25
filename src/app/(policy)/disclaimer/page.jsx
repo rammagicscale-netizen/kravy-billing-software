@@ -32,16 +32,16 @@ export const metadata = {
 
 const cardData = [
   {
-    title: "Software and Hardware Usage",
+    title: "Software Usage",
     description:
-      "Our billing app and printer device are provided as a combined solution for ease of business operations.",
+      "Our billing app is provided as a software solution for ease of business operations.",
     icon: <ShieldCheck className="w-6 h-6 text-green-500" />,
     content: (
       <>
-        {COMPANY.NAME} provides both hardware (thermal printer) and software
-        (billing app) as part of its service offering. While we ensure smooth
+        {COMPANY.NAME} provides a cloud-based billing software
+        as part of its service offering. While we ensure smooth
         integration, occasional compatibility or network-related issues may
-        arise due to third-party devices or system environments.
+        arise due to third-party integrations or system environments.
         <br />
         <br />
         We recommend using officially supported devices and maintaining updated
@@ -90,8 +90,8 @@ const cardData = [
     icon: <AlertTriangle className="w-6 h-6 text-yellow-500" />,
     content: (
       <>
-        Users must ensure that login credentials, business data, and hardware
-        devices are used securely and in compliance with local business laws.
+        Users must ensure that login credentials and business data
+        are used securely and in compliance with local business laws.
         <br />
         <br />
         {COMPANY.NAME} shall not be liable for any misuse, data entry errors, or
@@ -104,7 +104,7 @@ const cardData = [
 const contactData = {
   title: "Need Help or Have Questions?",
   description:
-    "Our support team is available to help with questions about your Kravy subscription, hardware setup, or billing concerns.",
+    "Our support team is available to help with questions about your Kravy subscription or billing concerns.",
   content: (
     <div>
       <p className="mb-4">
@@ -143,8 +143,8 @@ const page = () => {
           and User Responsibility
         </div>
       }
-      description={`Understand the terms, scope, and responsibilities of using ${COMPANY.NAME} hardware and software solutions.`}
-      ctaDescription={`${COMPANY.NAME} provides hardware and software billing solutions for businesses. Please read this disclaimer carefully before use.`}
+      description={`Understand the terms, scope, and responsibilities of using ${COMPANY.NAME} software solutions.`}
+      ctaDescription={`${COMPANY.NAME} provides software billing solutions for businesses. Please read this disclaimer carefully before use.`}
       ctaLink="/support"
       ctaButton={
         <span className="flex items-center gap-2">

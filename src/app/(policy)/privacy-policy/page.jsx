@@ -31,7 +31,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: `Privacy Policy | ${COMPANY.NAME}`,
-    description: `${COMPANY.NAME} respects your privacy and keeps your data secure across all hardware and software systems.`,
+    description: `${COMPANY.NAME} respects your privacy and keeps your data secure across our software systems.`,
     images: [COMPANY.OG_IMAGE],
   },
 };

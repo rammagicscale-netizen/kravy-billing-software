@@ -3,10 +3,10 @@ import { COMPANY } from "@/constants";
 
 export const CONTACT_METADATA = {
   title: `Contact Us | ${COMPANY.NAME} Billing Software`,
-  description: `Need help with your ${COMPANY.NAME} POS setup, printer delivery, or subscription? Contact the ${COMPANY.NAME} support team for quick assistance.`,
+  description: `Need help with your ${COMPANY.NAME} POS setup, subscription, or software account? Contact the ${COMPANY.NAME} support team for quick assistance.`,
   openGraph: {
     title: `Contact Us | ${COMPANY.NAME} Billing Software`,
-    description: `Need help with your ${COMPANY.NAME} POS setup, printer delivery, or subscription? Contact the ${COMPANY.NAME} support team for quick assistance.`,
+    description: `Need help with your ${COMPANY.NAME} POS setup, subscription, or software account? Contact the ${COMPANY.NAME} support team for quick assistance.`,
     url: `${COMPANY.DOMAIN}/contact`,
     siteName: COMPANY.NAME,
     images: [
@@ -20,7 +20,7 @@ export const CONTACT_METADATA = {
   twitter: {
     card: "summary_large_image",
     title: `Contact Us | ${COMPANY.NAME}`,
-    description: `Need help with your ${COMPANY.NAME} billing or hardware setup? Contact our support team for quick assistance.`,
+    description: `Need help with your ${COMPANY.NAME} billing or account setup? Contact our support team for quick assistance.`,
     images: [COMPANY.OG_IMAGE],
   },
 };
@@ -29,12 +29,12 @@ export const CONTACT_CARDS = [
   {
     title: "Customer Support",
     description:
-      "Need help setting up your printer, billing app, or subscription?",
+      "Need help setting up your billing app or subscription?",
     icon: <Headset className="w-6 h-6 text-green-500" />,
     content: (
       <>
-        Whether you’re facing issues with your thermal printer, account setup,
-        or software login, our team is here to help.
+        Whether you’re facing issues with your account setup,
+        software login, or dashboard, our team is here to help.
         <br />
         <br />
         Email us at{" "}
@@ -85,13 +85,13 @@ export const CONTACT_CARDS = [
 export const CONTACT_SECTION = {
   title: "We’re Here to Help",
   description:
-    "Have questions about installation, delivery, or billing? Get in touch with our support team.",
+    "Have questions about installation, account setup, or billing? Get in touch with our support team.",
   content: (
     <div>
       <p className="mb-4">
         Whether you're a restaurant owner, café manager, or shop operator,{" "}
         {COMPANY.NAME} ensures your billing setup runs smoothly. Reach out with
-        any questions about your device, subscription, or account.
+        any questions about your subscription or account.
       </p>
       <p>
         Support:{" "}
@@ -123,3 +123,4 @@ export const CONTACT_SECTION = {
     </div>
   ),
 };
+

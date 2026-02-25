@@ -18,13 +18,13 @@ const faqs = [
   {
     icon: HelpCircle,
     question: "What is Kravy?",
-    answer: `${COMPANY.NAME} is a modern billing and POS solution built for restaurants, cafés, and retail stores. It combines hardware, software, and cloud-based tools to simplify daily operations and sales tracking.`,
+    answer: `${COMPANY.NAME} is a modern cloud-based billing and POS software solution built for restaurants, cafés, and retail stores. It simplifies daily operations and sales tracking through powerful intuitive tools.`,
   },
   {
     icon: Sparkles,
     question: "What do I get with a Kravy subscription?",
     answer:
-      "You get full access to Kravy’s POS software, cloud dashboard, real-time reporting, hardware integration, and 24/7 support — everything needed to run your business efficiently.",
+      "You get full access to Kravy’s POS software, cloud dashboard, real-time reporting, and 24/7 support — everything needed to run your business efficiently.",
   },
   {
     icon: ShieldCheck,
@@ -83,11 +83,10 @@ export default function Faqs() {
             >
               <button
                 onClick={() => toggle(i)}
-                className={`w-full flex items-center justify-between px-5 py-4 text-left font-medium text-md md:text-lg transition-all duration-300 ${
-                  isOpen
+                className={`w-full flex items-center justify-between px-5 py-4 text-left font-medium text-md md:text-lg transition-all duration-300 ${isOpen
                     ? "bg-indigo-100 dark:bg-[#1a183b]/60"
                     : "hover:bg-indigo-50 dark:hover:bg-[#16142f]/40"
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon className="w-5 h-5 text-indigo-500 dark:text-indigo-400 shrink-0" />
