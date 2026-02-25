@@ -105,10 +105,9 @@ export default function PricingSection() {
             }}
             transition={{ type: "spring", stiffness: 180, damping: 12 }}
             className={`flex flex-col justify-between relative p-6 rounded-2xl backdrop-blur-md border h-full transition-all duration-300 
-              ${
-                plan.highlight
-                  ? "bg-gradient-to-br from-purple-100/70 to-indigo-50/50 dark:from-[#2a225a]/50 dark:to-[#14122e]/60 border-purple-300/50 dark:border-purple-400/30"
-                  : "bg-white/70 dark:bg-[#121228]/50 border-gray-200/40 dark:border-gray-700/40"
+              ${plan.highlight
+                ? "bg-gradient-to-br from-purple-100/70 to-indigo-50/50 dark:from-[#2a225a]/50 dark:to-[#14122e]/60 border-purple-300/50 dark:border-purple-400/30"
+                : "bg-white/70 dark:bg-[#121228]/50 border-gray-200/40 dark:border-gray-700/40"
               }`}
           >
             {plan.highlight && (
@@ -139,13 +138,12 @@ export default function PricingSection() {
             </ul>
 
             <motion.a
-              href={`https://app.foodsnap.in/${plan.link}`}
+              href={`/contact?plan=${plan.key}`}
               whileTap={{ scale: 0.97 }}
               className={`mt-6 w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all 
-                ${
-                  plan.highlight
-                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-lg"
-                    : "bg-gray-100 hover:bg-gray-200 dark:bg-[#ffffff10] dark:hover:bg-[#ffffff20] text-gray-900 dark:text-white"
+                ${plan.highlight
+                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-lg"
+                  : "bg-gray-100 hover:bg-gray-200 dark:bg-[#ffffff10] dark:hover:bg-[#ffffff20] text-gray-900 dark:text-white"
                 }`}
             >
               {plan.button} <ArrowRight className="w-4 h-4" />
