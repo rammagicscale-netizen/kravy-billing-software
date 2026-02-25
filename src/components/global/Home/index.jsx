@@ -68,7 +68,7 @@ export default function Home() {
             </button>
           </a> */}
           {/* Button hidden as requested */}
-          <a
+          {/* <a
             href="https://kravy-pos-website.vercel.app/"
             target="_blank"
             className="hidden group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl 
@@ -76,15 +76,11 @@ export default function Home() {
   px-7 py-3.5 font-semibold text-white transition-all duration-300 
   shadow-md hover:shadow-lg hover:scale-[1.04] active:scale-[0.97]"
           >
-            <span className="relative z-10 flex items-center gap-2">
-              Try Now
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </span>
             <div
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 
     bg-gradient-to-r from-emerald-600 to-green-700 blur-xl"
             />
-          </a>
+          </a> */}
         </motion.div>
       </div>
 
@@ -102,7 +98,7 @@ export default function Home() {
       <AboutPlatform />
       <PricingSection />
       {/* <Testimonials /> */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
@@ -123,7 +119,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* <motion.div
         initial={{ opacity: 0, y: 20 }}
