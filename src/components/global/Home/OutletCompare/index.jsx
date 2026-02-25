@@ -3,38 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-
-const outletComparisons = [
-  {
-    id: 1,
-    before: {
-      image: "/assets/b1.png",
-      desc: "Dull and flat sales visuals that reduce appeal and conversions.",
-    },
-    after: {
-      image: "/assets/a1.png",
-      desc: "Clean, powerful billing interface that makes selling faster.",
-    },
-  },
-  {
-    id: 2,
-    before: {
-      image: "/assets/b3.png",
-      desc: "Manual errors and slow billing that frustrate customers.",
-    },
-    after: {
-      image: "/assets/a2.png",
-      desc: "Smooth POS flow that handles rush hours without stress.",
-    },
-  },
-];
 
 export default function OutletCompare() {
   return (
@@ -48,75 +16,69 @@ export default function OutletCompare() {
         viewport={{ once: true }}
       >
         <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white">
-          Before vs After Using{" "}
-          <span className="text-primary">Kravy Billing Software</span>
+          Why Upgrade to{" "}
+          <span className="text-primary">Kravy Billing Software</span>?
         </h2>
         <p className="mt-4 text-gray-600 dark:text-gray-300 text-lg md:text-xl">
-          See how your billing and sales experience transforms with our software.
+          Don't let manual billing slow down your business.
         </p>
       </motion.div>
 
-      {/* Carousel */}
+      {/* Simplified Static Block */}
       <motion.div
-        className="max-w-6xl mx-auto"
+        className="max-w-4xl mx-auto"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
         viewport={{ once: true }}
       >
-        <Carousel className="w-full">
-          <CarouselContent>
-            {outletComparisons.map((item) => (
-              <CarouselItem key={item.id}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                  {/* Before Card */}
-                  <div className="relative rounded-xl overflow-hidden border shadow-md bg-white dark:bg-neutral-900">
-                    <span className="absolute top-3 left-3 bg-red-500 text-white text-xs md:text-sm px-3 py-1 rounded-md z-10 font-semibold shadow-md">
-                      BEFORE
-                    </span>
-                    <Image
-                      src={item.before.image}
-                      alt="Before using Kravy"
-                      width={600}
-                      height={500}
-                      className="w-full h-64 md:h-80 object-cover filter grayscale brightness-75"
-                    />
-                    <div className="p-4">
-                      <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
-                        {item.before.desc}
-                      </p>
-                    </div>
-                  </div>
+        <div className="relative overflow-hidden rounded-2xl border shadow-md bg-white dark:bg-neutral-900 border-gray-200 dark:border-gray-800">
+          <div className="flex flex-col md:flex-row items-center gap-8 p-8">
 
-                  {/* After Card */}
-                  <div className="relative rounded-xl overflow-hidden border shadow-md bg-white dark:bg-neutral-900">
-                    <span className="absolute top-3 left-3 bg-green-600 text-white text-xs md:text-sm px-3 py-1 rounded-md z-10 font-semibold shadow-md">
-                      AFTER
-                    </span>
-                    <Image
-                      src={item.after.image}
-                      alt="After using Kravy"
-                      width={600}
-                      height={500}
-                      className="w-full h-64 md:h-80 object-cover"
-                    />
-                    <div className="p-4">
-                      <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
-                        {item.after.desc}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
+            {/* Keeping only the first image and text */}
+            <div className="flex-1 text-center">
+              <div className="inline-block px-3 py-1 bg-red-600 text-white text-xs font-bold rounded mb-4 shadow-md">
+                BEFORE
+              </div>
+              <Image
+                src="/assets/b3.png"
+                alt="Manual billing errors"
+                width={600}
+                height={500}
+                className="w-full h-auto mb-6 opacity-80 filter grayscale brightness-75 rounded-lg object-cover"
+              />
+              <p className="text-gray-600 dark:text-gray-400 italic">
+                Manual errors and slow billing that frustrate customers.
+              </p>
+            </div>
 
-          {/* Controls */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <CarouselPrevious className="static translate-x-0 translate-y-0" />
-            <CarouselNext className="static translate-x-0 translate-y-0" />
+            {/* Benefit Side */}
+            <div className="flex-1 text-center md:text-left space-y-4">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                The Solution by KRAVY SOFTWARE DEVELOPMENT
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Experience a fully customizable and dynamic billing interface. Our software gives you complete control over your workspace:
+              </p>
+
+              <ul className="text-left space-y-3 mt-4 text-gray-700 dark:text-gray-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 font-bold mt-1 shrink-0">✓</span>
+                  <span><b>Smart Column Rearrangement:</b> Easily change the position of any table column to perfectly match your workflow (e.g., move the 2nd column to the 1st position with ease).</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 font-bold mt-1 shrink-0">✓</span>
+                  <span><b>Complete Visibility Control:</b> Hide any unwanted columns completely. The entire column, including its heading, disappears for a cleaner, clutter-free view.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 font-bold mt-1 shrink-0">✓</span>
+                  <span><b>Personalized Dashboard:</b> Set up your billing table exactly how your business needs it, reducing distractions and speeding up checkouts.</span>
+                </li>
+              </ul>
+            </div>
+
           </div>
-        </Carousel>
+        </div>
       </motion.div>
     </section>
   );

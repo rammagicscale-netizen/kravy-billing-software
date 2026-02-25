@@ -46,12 +46,6 @@ export default function Footer() {
             Return Policy
           </Link>
           <Link
-            href="/refund-policy"
-            className="hover:text-black dark:hover:text-white transition-colors"
-          >
-            Refund Policy
-          </Link>
-          <Link
             href="/disclaimer"
             className="hover:text-black dark:hover:text-white transition-colors"
           >
