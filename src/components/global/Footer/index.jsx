@@ -46,13 +46,6 @@ export default function Footer() {
           >
             Cancellation & Refund
           </Link>
-          <Link
-            href="/disclaimer"
-            className="hover:text-black dark:hover:text-white transition-colors"
-          >
-            Disclaimer
-          </Link>
-
         </div>
       </div>
     </motion.footer>
