@@ -5,17 +5,17 @@ import { COMPANY } from "@/constants";
 
 export const metadata = {
   title: `Contact Us | ${COMPANY.NAME}`,
-  description: `Need help with your billing software, printer setup, or subscription? Contact the ${COMPANY.NAME} support team for assistance.`,
+  description: `Need help with your billing software, account setup, or subscription? Contact the ${COMPANY.NAME} support team for assistance.`,
   keywords: [
     "Kravy contact",
     "billing software support",
-    "thermal printer support",
+    "smart billing support",
     "POS system help",
     "restaurant billing",
   ],
   openGraph: {
     title: `Contact Us | ${COMPANY.NAME}`,
-    description: `Need help with your billing software, printer setup, or subscription? Contact the ${COMPANY.NAME} support team for assistance.`,
+    description: `Need help with your billing software, account setup, or subscription? Contact the ${COMPANY.NAME} support team for assistance.`,
     url: `${COMPANY.DOMAIN}/contact`,
     siteName: COMPANY.NAME,
     images: [
@@ -31,7 +31,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: `Contact Us | ${COMPANY.NAME}`,
-    description: `Need help with your billing software, printer setup, or subscription? Contact the ${COMPANY.NAME} support team for assistance.`,
+    description: `Need help with your billing software, account setup, or subscription? Contact the ${COMPANY.NAME} support team for assistance.`,
     images: [COMPANY.OG_IMAGE],
   },
 };
@@ -39,12 +39,12 @@ export const metadata = {
 const cardData = [
   {
     title: "Customer Support",
-    description: "Need help with your billing software or printer setup?",
+    description: "Need help with your billing software or account setup?",
     icon: <Headset className="w-6 h-6 text-green-500" />,
     content: (
       <>
         Whether you need assistance setting up your Kravy billing system,
-        configuring your thermal printer, or managing your subscription, our
+        configuring your account, or managing your subscription, our
         support team is here for you.
         <br />
         <br />
@@ -98,13 +98,13 @@ const cardData = [
 const contactData = {
   title: "We’re Here to Help",
   description:
-    "Questions about your Kravy subscription, billing setup, or printer installation? Get in touch.",
+    "Questions about your Kravy subscription, billing setup, or account configuration? Get in touch.",
   content: (
     <div>
       <p className="mb-4">
         Whether you're setting up a new Kravy billing system or need help with
-        your existing POS device, we’re happy to assist. Our support covers both
-        hardware and software troubleshooting.
+        your existing account, we’re happy to assist. Our support covers both
+        billing and account troubleshooting.
       </p>
       <p>
         Email Support:{" "}
@@ -147,7 +147,7 @@ const page = () => {
           Support
         </div>
       }
-      description={`Need help with your ${COMPANY.NAME} billing software, printer setup, or subscription? Contact our team for support and assistance.`}
+      description={`Need help with your ${COMPANY.NAME} billing software, account setup, or subscription? Contact our team for support and assistance.`}
       ctaDescription="We’re just an email away. Reach out with your questions, and our support team will get back to you promptly."
       ctaLink="/report-issue"
       ctaButton={

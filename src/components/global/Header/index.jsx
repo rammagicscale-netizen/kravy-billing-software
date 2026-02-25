@@ -29,7 +29,6 @@ const aboutSubLinks = [
 
 // Desktop navigation (About is handled separately)
 const navLinks = [
-  { title: "Products", href: "/products" }, // ⭐ NEW main Products link
   { title: "Updates", href: "/updates" },
   { title: "FAQs", href: "/faqs" },
   { title: "Contact Us", href: "/contact" },
@@ -38,7 +37,6 @@ const navLinks = [
 
 // Mobile navigation (About has its own dropdown, so not here)
 const navMobileLinks = [
-  { title: "Products", href: "/products" }, // ⭐ NEW in mobile too
   { title: "Updates", href: "/updates" },
   { title: "FAQs", href: "/faqs" },
   { title: "Contact Us", href: "/contact" },
@@ -131,18 +129,16 @@ export default function Header() {
             >
               <button
                 type="button"
-                className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-                  isActive(aboutNav.href)
-                    ? "text-green-600 dark:text-green-400"
-                    : "text-gray-700 dark:text-gray-200"
-                }`}
+                className={`flex items-center gap-1 text-sm font-medium transition-colors ${isActive(aboutNav.href)
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-gray-700 dark:text-gray-200"
+                  }`}
               >
                 {aboutNav.title}
                 <ChevronDown
                   size={16}
-                  className={`transition-transform ${
-                    isActive(aboutNav.href) ? "rotate-180" : "group-hover:rotate-180"
-                  }`}
+                  className={`transition-transform ${isActive(aboutNav.href) ? "rotate-180" : "group-hover:rotate-180"
+                    }`}
                 />
               </button>
 
@@ -153,11 +149,10 @@ export default function Header() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`block px-4 py-2 text-xs text-left hover:bg-slate-100 dark:hover:bg-slate-800 ${
-                        isActive(item.href)
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-slate-700 dark:text-slate-200"
-                      }`}
+                      className={`block px-4 py-2 text-xs text-left hover:bg-slate-100 dark:hover:bg-slate-800 ${isActive(item.href)
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-slate-700 dark:text-slate-200"
+                        }`}
                     >
                       {item.title}
                     </Link>
@@ -176,17 +171,15 @@ export default function Header() {
               >
                 <Link
                   href={link.href}
-                  className={`relative text-sm font-medium group transition-colors ${
-                    isActive(link.href)
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-gray-700 dark:text-gray-200"
-                  }`}
+                  className={`relative text-sm font-medium group transition-colors ${isActive(link.href)
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-gray-700 dark:text-gray-200"
+                    }`}
                 >
                   {link.title}
                   <span
-                    className={`absolute left-0 -bottom-1 h-0.5 rounded-full bg-green-500 transition-all ${
-                      isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
+                    className={`absolute left-0 -bottom-1 h-0.5 rounded-full bg-green-500 transition-all ${isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
                   ></span>
                 </Link>
               </motion.div>
@@ -258,11 +251,10 @@ export default function Header() {
               {/* About dropdown (mobile) */}
               <button
                 onClick={() => setAboutMobileOpen((p) => !p)}
-                className={`flex items-center justify-between w-full py-2 text-sm border-b border-gray-200 dark:border-gray-800 ${
-                  isActive("/about")
-                    ? "text-green-600 dark:text-green-400"
-                    : "text-gray-800 dark:text-gray-100"
-                }`}
+                className={`flex items-center justify-between w-full py-2 text-sm border-b border-gray-200 dark:border-gray-800 ${isActive("/about")
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-gray-800 dark:text-gray-100"
+                  }`}
               >
                 <span>{aboutNav.title}</span>
                 {aboutMobileOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -284,11 +276,10 @@ export default function Header() {
                           setIsOpen(false);
                           setAboutMobileOpen(false);
                         }}
-                        className={`block py-1.5 text-xs border-b border-gray-100 last:border-b-0 dark:border-gray-800 ${
-                          isActive(item.href)
-                            ? "text-green-600 dark:text-green-400"
-                            : "text-gray-700 dark:text-gray-200"
-                        }`}
+                        className={`block py-1.5 text-xs border-b border-gray-100 last:border-b-0 dark:border-gray-800 ${isActive(item.href)
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-gray-700 dark:text-gray-200"
+                          }`}
                       >
                         {item.title}
                       </Link>
@@ -303,11 +294,10 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block py-2 text-sm border-b border-gray-200 dark:border-gray-800 ${
-                    isActive(link.href)
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-gray-800 dark:text-gray-100"
-                  }`}
+                  className={`block py-2 text-sm border-b border-gray-200 dark:border-gray-800 ${isActive(link.href)
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-gray-800 dark:text-gray-100"
+                    }`}
                 >
                   {link.title}
                 </Link>

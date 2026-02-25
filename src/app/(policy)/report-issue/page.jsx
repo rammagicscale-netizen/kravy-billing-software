@@ -62,7 +62,7 @@ const cardData = [
     icon: <Mail className="w-6 h-6 text-green-500" />,
     content: (
       <>
-        For questions about billing, plan upgrades, or using the POS system,
+        For questions about billing, plan upgrades, or using the billing system,
         contact our support team anytime.
         <br />
         <br />

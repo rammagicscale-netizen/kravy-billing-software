@@ -55,7 +55,7 @@ export default function OutletCompare() {
             {/* Benefit Side */}
             <div className="flex-1 text-center md:text-left space-y-4">
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                The Solution by KRAVY SOFTWARE DEVELOPMENT
+                The Solution by Kravy Software Development
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Experience a fully customizable and dynamic billing interface. Our software gives you complete control over your workspace:

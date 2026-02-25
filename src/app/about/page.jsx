@@ -40,7 +40,7 @@ const values = [
 ];
 
 const reasons = [
-  "Hardware + software designed to work together from Day 1.",
+  "Smart invoicing + reporting designed to work together from Day 1.",
   "Fast billing flow tuned for Indian retail and F&B use cases.",
   "Easy GST-ready invoicing and digital receipts.",
   "Works even when internet is patchy (hybrid-first thinking).",
@@ -132,12 +132,7 @@ export default function AboutPage() {
               transition={{ delay: 0.15 }}
               className="flex flex-wrap gap-3 items-center"
             >
-              <a
-                href="/products"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25"
-              >
-                Explore Products
-              </a>
+
               <a
                 href="https://www.kravy.in/contact"
                 target="_blank"
@@ -174,7 +169,7 @@ export default function AboutPage() {
               <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 mb-4">
                 Kravy is built for teams who stand behind the counter all day – not
                 for people sitting in cabins. That’s why our screens are minimal, our
-                flows are fast, and our hardware is tuned for daily abuse, dust, and
+                flows are fast, and our interface is tuned for high-volume use cases and
                 rush hours.
               </p>
 
@@ -209,7 +204,7 @@ export default function AboutPage() {
           <CardBlock
             icon={<Cpu size={20} />}
             title="What we do"
-            text="We provide a complete billing solution – POS software + Android app + printer integration + digital receipts – tuned for speed."
+            text="We provide a complete billing solution – POS software + Android app + digital receipts – tuned for speed."
           />
           <CardBlock
             icon={<Store size={20} />}
@@ -266,8 +261,7 @@ export default function AboutPage() {
           <div className="rounded-3xl border border-slate-200 bg-white p-6 md:p-7 shadow-sm dark:border-slate-700 dark:bg-slate-950/60">
             <h2 className="text-lg md:text-2xl font-bold mb-2">Our Mission</h2>
             <p className="text-sm md:text-base text-slate-700 dark:text-slate-300">
-              To remove billing pain from shopkeepers’ lives by combining reliable
-              hardware, intuitive software, and fast support – at a price point that
+              To remove billing pain from shopkeepers’ lives by combining intuitive software and fast support – at a price point that
               makes clear business sense.
             </p>
           </div>

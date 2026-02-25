@@ -5,7 +5,7 @@ import { COMPANY } from "@/constants";
 
 export const metadata = {
   title: `Privacy Policy | ${COMPANY.NAME}`,
-  description: `${COMPANY.NAME} values your privacy. Learn how we collect, use, and protect your data when you use our billing software and POS hardware solutions.`,
+  description: `${COMPANY.NAME} values your privacy. Learn how we collect, use, and protect your data when you use our billing software solutions.`,
   keywords: [
     COMPANY.NAME,
     "Privacy Policy",
@@ -42,7 +42,7 @@ const PRIVACY_INFO = [
     description: "Information collected through your use of Kravy’s services.",
     content: (
       <>
-        We collect minimal information necessary to provide our billing and POS
+        We collect minimal information necessary to provide our billing
         services effectively. This includes:
         <ul className="list-disc pl-5 mt-2">
           <li>Business details (name, phone number, GST, address)</li>
@@ -59,9 +59,8 @@ const PRIVACY_INFO = [
     description: "Purpose behind data collection and retention.",
     content: (
       <>
-        Your data helps us provide seamless software updates, manage your
-        account, and ensure printer-hardware compatibility. We also use
-        aggregated data for analytics to improve service quality.
+        Your data helps us provide seamless software updates and manage your
+        account. We also use aggregated data for analytics to improve service quality.
         <br />
         <br />
         We never sell or rent your data to third parties. Data sharing happens
@@ -123,7 +122,7 @@ const PRIVACY_CONTACT = {
     <div>
       <p className="mb-4">
         We’re transparent about how we handle your data. Whether it’s related to
-        billing records, POS device data, or software usage, you can reach our
+        billing records or software usage, you can reach our
         data support team anytime.
       </p>
       <p>
@@ -159,7 +158,7 @@ export default function PrivacyPolicyPage() {
           by {COMPANY.NAME}
         </div>
       }
-      description={`${COMPANY.NAME} is committed to protecting your personal and business data while delivering secure billing and POS solutions.`}
+      description={`${COMPANY.NAME} is committed to protecting your personal and business data while delivering secure billing solutions.`}
       ctaDescription="Need clarity on data usage or security? Contact our privacy support team for assistance."
       ctaLink="/contact"
       ctaButton={

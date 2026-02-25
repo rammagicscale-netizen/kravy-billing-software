@@ -5,7 +5,7 @@ import { COMPANY } from "@/constants";
 
 export const metadata = {
   title: `FAQ - ${COMPANY.NAME}`,
-  description: `Find answers to common questions about using ${COMPANY.NAME} — from billing setup, printer installation, subscriptions, to support.`,
+  description: `Find answers to common questions about using ${COMPANY.NAME} — from billing setup, subscriptions, to support.`,
   keywords: [
     "Kravy",
     "Billing Software",
@@ -18,7 +18,7 @@ export const metadata = {
   authors: [{ name: `${COMPANY.NAME} Team`, url: COMPANY.DOMAIN }],
   openGraph: {
     title: `FAQ - ${COMPANY.NAME}`,
-    description: `Find answers to common questions about using ${COMPANY.NAME} — from billing setup, printer installation, subscriptions, to support.`,
+    description: `Find answers to common questions about using ${COMPANY.NAME} — from billing setup, subscriptions, to support.`,
     url: `${COMPANY.DOMAIN}/faq`,
     siteName: COMPANY.NAME,
     type: "website",
@@ -26,26 +26,26 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: `FAQ - ${COMPANY.NAME}`,
-    description: `Find answers to common questions about using ${COMPANY.NAME} — from billing setup, printer installation, subscriptions, to support.`,
+    description: `Find answers to common questions about using ${COMPANY.NAME} — from billing setup, subscriptions, to support.`,
   },
 };
 
 const cardData = [
   {
     title: `What is ${COMPANY.NAME}?`,
-    description: `${COMPANY.NAME} is a complete billing solution with software and printer hardware.`,
+    description: `${COMPANY.NAME} is a complete smart billing software solution.`,
     icon: <Rows className="w-6 h-6 text-blue-500" />,
     content: (
       <>
-        {COMPANY.NAME} provides an all-in-one POS billing system for restaurants
-        and small businesses. You get access to our smart billing app along with
-        a plug-and-play thermal printer for fast and reliable billing.
+        {COMPANY.NAME} provides a smart POS billing system for restaurants
+        and small businesses. You get access to our intuitive billing app
+        designed for fast and reliable operations.
       </>
     ),
   },
   {
     title: `How do I get started with ${COMPANY.NAME}?`,
-    description: "Order your printer and activate your subscription to begin.",
+    description: "Simply activate your subscription to begin.",
     icon: <Zap className="w-6 h-6 text-blue-500" />,
     content: (
       <>
@@ -56,8 +56,7 @@ const cardData = [
         >
           {COMPANY.DOMAIN.replace("https://", "")}
         </a>
-        , choose your plan, and subscribe. We’ll deliver your thermal printer
-        and activate your billing account within 2–3 working days.
+        , choose your plan, and subscribe. We’ll activate your billing account instantly.
       </>
     ),
   },
@@ -73,26 +72,15 @@ const cardData = [
       </>
     ),
   },
-  {
-    title: "Can I use Kravy without buying the printer?",
-    description: "You can, but the full experience includes our printer.",
-    icon: <MessageCircle className="w-6 h-6 text-blue-500" />,
-    content: (
-      <>
-        Yes, you can subscribe to the software only — but we highly recommend
-        using it with our official thermal printer for the best speed and
-        integration experience.
-      </>
-    ),
-  },
+
   {
     title: "What are your pricing plans?",
-    description: "Simple, affordable plans — software + printer bundle.",
+    description: "Simple, affordable plans for your business.",
     icon: <Zap className="w-6 h-6 text-blue-500" />,
     content: (
       <>
         We offer flexible pricing depending on your business type. You can
-        subscribe to software-only or the full bundle including hardware.
+        subscribe to the plan that fits your needs.
         <br />
         <a
           href={`${COMPANY.DOMAIN}/pricing`}
@@ -122,18 +110,7 @@ const cardData = [
       </>
     ),
   },
-  {
-    title: "What kind of printer do you provide?",
-    description: "We provide high-speed Bluetooth & USB thermal printers.",
-    icon: <ShieldCheck className="w-6 h-6 text-blue-500" />,
-    content: (
-      <>
-        {COMPANY.NAME} printers are plug-and-play 3-inch thermal printers
-        designed for speed and reliability. They support Windows, Android, and
-        web-based billing systems.
-      </>
-    ),
-  },
+
   {
     title: "Do you offer setup and training?",
     description: "Yes, we provide free onboarding and training.",
@@ -151,13 +128,13 @@ const cardData = [
     icon: <ShieldCheck className="w-6 h-6 text-blue-500" />,
     content: (
       <>
-        We currently don’t offer refunds after printer dispatch or software
-        activation. You can cancel to stop future billing.{" "}
+        We generally maintain a no-refund policy once the software
+        is activated. However, we do allow cancellations.{" "}
         <a
-          href={`${COMPANY.DOMAIN}/refund-policy`}
+          href={`${COMPANY.DOMAIN}/cancellation-and-refund-policy`}
           className="text-blue-600 dark:text-blue-400 hover:underline"
         >
-          View refund policy
+          View our policy
         </a>
         .
       </>
@@ -169,7 +146,7 @@ const cardData = [
     icon: <Headset className="w-6 h-6 text-blue-500" />,
     content: (
       <>
-        For any billing or hardware issues, contact us at{" "}
+        For any billing or technical issues, contact us at{" "}
         <a
           href={`mailto:${COMPANY.EMAIL.SUPPORT}`}
           className="text-blue-600 dark:text-blue-400 hover:underline"
@@ -195,7 +172,7 @@ const contactData = {
   content: (
     <div>
       <p className="mb-4">
-        Whether you need help with installation, printer setup, or billing
+        Whether you need help with installation or billing
         renewal — our support team is here to assist you.
       </p>
       <p>
@@ -231,7 +208,7 @@ const page = () => {
           {COMPANY.NAME}
         </div>
       }
-      description={`Find answers to common questions about ${COMPANY.NAME} — from subscriptions and printer setup to billing and support.`}
+      description={`Find answers to common questions about ${COMPANY.NAME} — from subscriptions to billing and support.`}
       ctaDescription="Can’t find what you're looking for? Contact our support team and we'll help you right away."
       ctaLink="/contact"
       ctaButton={

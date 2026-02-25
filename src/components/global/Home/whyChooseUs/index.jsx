@@ -5,7 +5,7 @@ import { CheckCircle } from "lucide-react";
 
 const features = [
   "Easy invoicing and quick bill generation",
-  "Works on mobile, tablet, and POS machine",
+  "Works on mobile, tablet, and POS devices",
   "Real-time sales tracking",
   "SGST-ready billing",
   "User-friendly POS interface",

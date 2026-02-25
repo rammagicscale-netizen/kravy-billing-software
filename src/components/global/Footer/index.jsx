@@ -4,6 +4,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { COMPANY } from "@/constants";
 
 export default function Footer() {
   return (
@@ -17,7 +18,7 @@ export default function Footer() {
         <div className="text-center">
           <p>© {new Date().getFullYear()} Kravy.in</p>
           <p className="text-[10px] uppercase tracking-widest opacity-50 mt-1">
-            A product of KRAVY SOFTWARE DEVELOPMENT
+            A product of {COMPANY.LEGAL_NAME}
           </p>
         </div>
         <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2">
@@ -40,10 +41,10 @@ export default function Footer() {
             Contact Us
           </Link>
           <Link
-            href="/return-policy"
+            href="/cancellation-and-refund-policy"
             className="hover:text-black dark:hover:text-white transition-colors"
           >
-            Return Policy
+            Cancellation & Refund
           </Link>
           <Link
             href="/disclaimer"
@@ -52,12 +53,6 @@ export default function Footer() {
             Disclaimer
           </Link>
 
-          <Link
-            href="/shipping"
-            className="hover:text-black dark:hover:text-white transition-colors"
-          >
-            Shipping Policy
-          </Link>
         </div>
       </div>
     </motion.footer>

@@ -128,7 +128,7 @@ export const POLICY_CONTACT = {
       </p>
       <p>
         You can also report technical or delivery-related issues through our
-        help desk. Our operations are based in New Delhi, India.
+        help desk. Our operations are based in Delhi.
       </p>
       <p className="mt-2 text-sm text-gray-500">Address: {COMPANY_ADDRESS}</p>
     </div>

@@ -18,7 +18,7 @@ export const metadata = {
   authors: [{ name: COMPANY.NAME, url: COMPANY.DOMAIN }],
   openGraph: {
     title: `Terms & Conditions | ${COMPANY.NAME}`,
-    description: `Understand the rules that govern your use of ${COMPANY.NAME} — ${COMPANY.DESCRIPTION}`,
+    description: `Understand the rules that govern your use of ${COMPANY.NAME}.`,
     url: `${COMPANY.DOMAIN}/terms-and-conditions`,
     siteName: COMPANY.NAME,
     type: "website",
@@ -54,7 +54,7 @@ const cardData = [
     icon: <Zap className="w-6 h-6 text-green-500" />,
     content: (
       <>
-        {COMPANY.NAME} provides a reliable, cloud-based billing and POS system
+        {COMPANY.NAME} provides a reliable, cloud-based billing system
         designed for small shops and restaurants. Misuse, resale, or sharing of
         proprietary resources is strictly prohibited.
         <br />
