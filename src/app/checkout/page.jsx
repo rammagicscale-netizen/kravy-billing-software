@@ -3,6 +3,8 @@
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 
+import axios from "axios";
+
 export default function CheckoutPage() {
   const { cartItems, totalAmount, clearCart } = useCart();
 
@@ -13,12 +15,24 @@ export default function CheckoutPage() {
       maximumFractionDigits: 0,
     }).format(val);
 
-  const handleFakeCheckout = () => {
+  const handlePayment = async () => {
     if (!cartItems.length) return;
-    alert(
-      "Online payment integration is coming soon.\nFor now, we’ll treat this as an enquiry."
-    );
-    clearCart();
+
+    try {
+      const transactionId = "MT" + Date.now();
+      const response = await axios.post("/api/phonepe", {
+        amount: totalAmount,
+        transactionId: transactionId,
+        mobileNumber: "9999999999", // You can add a field to collect this
+      });
+
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Payment initiation failed. Please try again.");
+    }
   };
 
   return (
@@ -69,17 +83,15 @@ export default function CheckoutPage() {
             </span>
           </div>
 
-          <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 px-4 py-3 text-xs text-amber-900 dark:text-amber-100 mb-4">
-            Online payment (Razorpay) is not connected yet. You can still
-            complete this as an enquiry, and our team will contact you to set
-            up billing.
+          <div className="rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700 px-4 py-3 text-xs text-emerald-900 dark:text-emerald-100 mb-4">
+            Payments are secured by PhonePe. Your transaction will be processed via a secure payment gateway.
           </div>
 
           <button
-            onClick={handleFakeCheckout}
-            className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg text-sm font-semibold mb-3"
+            onClick={handlePayment}
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg text-sm font-semibold mb-3 shadow-md hover:scale-[1.01] transition-all"
           >
-            Complete Enquiry
+            Pay Now with PhonePe
           </button>
 
           <Link
