@@ -66,7 +66,22 @@ export const plans = [
   },
 ];
 
+import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
+
 export default function PricingSection() {
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const handlePlanSelect = (plan) => {
+    addToCart({
+      id: plan.key,
+      name: plan.name,
+      price: parseInt(plan.price.replace("₹", "")),
+    });
+    router.push("/checkout");
+  };
+
   return (
     <section id="pricing" className="relative px-4 py-16 md:py-24 text-center">
       <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -137,9 +152,8 @@ export default function PricingSection() {
               ))}
             </ul>
 
-            <motion.a
-              href={`/contact?plan=${plan.key}`}
-              whileTap={{ scale: 0.97 }}
+            <button
+              onClick={() => handlePlanSelect(plan)}
               className={`mt-6 w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all 
                 ${plan.highlight
                   ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-lg"
@@ -147,7 +161,7 @@ export default function PricingSection() {
                 }`}
             >
               {plan.button} <ArrowRight className="w-4 h-4" />
-            </motion.a>
+            </button>
           </motion.div>
         ))}
       </div>

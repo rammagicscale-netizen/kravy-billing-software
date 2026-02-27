@@ -31,7 +31,8 @@ export default function CheckoutPage() {
       }
     } catch (error) {
       console.error("Payment Error:", error);
-      alert("Payment initiation failed. Please try again.");
+      const msg = error.response?.data?.details || error.response?.data?.error || "Payment initiation failed. Please try again.";
+      alert(msg);
     }
   };
 

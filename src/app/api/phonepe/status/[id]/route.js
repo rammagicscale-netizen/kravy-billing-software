@@ -1,55 +1,57 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
-import axios from "axios";
 
-const MERCHANT_ID = process.env.PHONEPE_MERCHANT_ID || "PGMXXXXXXXX";
-const SALT_KEY = process.env.PHONEPE_SALT_KEY || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-const SALT_INDEX = process.env.PHONEPE_SALT_INDEX || "1";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
+// PhonePe redirects back to this URL, usually via POST with form data
 export async function POST(req, { params }) {
     try {
-        const { id: merchantTransactionId } = await params;
+        const { id: merchantOrderId } = await params;
 
-        // After payment, PhonePe redirects back with a POST request
-        // We check the status using PhonePe Status API
-        const checkStatusUrl = `https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${MERCHANT_ID}/${merchantTransactionId}`;
+        let isSuccess = false;
 
-        const string = `/pg/v1/status/${MERCHANT_ID}/${merchantTransactionId}` + SALT_KEY;
-        const checksum = crypto.createHash("sha256").update(string).digest("hex") + "###" + SALT_INDEX;
+        try {
+            // PhonePe typically sends details as form data on redirect
+            const formData = await req.formData();
+            const code = formData.get("code");
+            console.log("PhonePe Redirect Form Data:", Object.fromEntries(formData));
 
-        const options = {
-            method: "GET",
-            url: checkStatusUrl,
-            headers: {
-                accept: "application/json",
-                "Content-Type": "application/json",
-                "X-VERIFY": checksum,
-                "X-MERCHANT-ID": MERCHANT_ID,
-            },
-        };
+            if (code === "PAYMENT_SUCCESS") {
+                isSuccess = true;
+            }
+        } catch (e) {
+            console.log("Could not parse form data on PhonePe redirect", e.message);
+        }
 
-        const response = await axios.request(options);
-
-        console.log("PhonePe Status Response:", response.data);
-
-        if (response.data.success === true) {
-            // Payment Successful
-            return NextResponse.redirect(
-                `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/checkout/success?id=${merchantTransactionId}`,
-                { status: 303 }
-            );
+        if (isSuccess) {
+            return NextResponse.redirect(`${BASE_URL}/checkout/success?id=${merchantOrderId}`, {
+                status: 303,
+            });
         } else {
-            // Payment Failed
-            return NextResponse.redirect(
-                `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/checkout/failed?id=${merchantTransactionId}`,
-                { status: 303 }
-            );
+            return NextResponse.redirect(`${BASE_URL}/checkout/failed?id=${merchantOrderId}`, {
+                status: 303,
+            });
         }
     } catch (error) {
-        console.error("PhonePe Status Check Error:", error.response?.data || error.message);
-        return NextResponse.redirect(
-            `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/checkout/failed`,
-            { status: 303 }
-        );
+        console.error("PhonePe Redirect Handler Error:", error.message);
+        return NextResponse.redirect(`${BASE_URL}/checkout/failed`, {
+            status: 303,
+        });
+    }
+}
+
+// Fallback GET handled just in case they redirect via GET
+export async function GET(req, { params }) {
+    try {
+        const { id: merchantOrderId } = await params;
+        const url = new URL(req.url);
+        const code = url.searchParams.get("code");
+
+        if (code === "PAYMENT_SUCCESS") {
+            return NextResponse.redirect(`${BASE_URL}/checkout/success?id=${merchantOrderId}`);
+        } else {
+            return NextResponse.redirect(`${BASE_URL}/checkout/failed?id=${merchantOrderId}`);
+        }
+    } catch (error) {
+        return NextResponse.redirect(`${BASE_URL}/checkout/failed`);
     }
 }
