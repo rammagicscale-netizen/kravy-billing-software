@@ -7,7 +7,7 @@ export const plans = [
   {
     key: "starter",
     name: "Starter Plan",
-    price: "₹1249",
+    price: "₹1",
     description: "Perfect to start billing digitally for small businesses.",
     features: [
       "Up to 200 invoices / month",
