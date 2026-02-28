@@ -11,26 +11,43 @@ async function testToken() {
     params.append("client_version", CLIENT_VERSION);
     params.append("client_secret", CLIENT_SECRET);
 
+    let token = null;
+
     try {
         const response = await axios.post("https://api.phonepe.com/apis/identity-manager/v1/oauth/token", params, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         });
-        console.log("PROD SUCCESS:", response.data);
+        console.log("PROD SUCCESS TOKEN:", response.data.access_token);
+        token = response.data.access_token;
     } catch (err) {
-        console.error("PROD ERROR:", err.response?.data || err.message);
+        console.error("PROD TOKEN ERROR:", err.response?.data || err.message);
+        return;
     }
 
+    // Next try to initiate payment
+    const payload = {
+        merchantOrderId: "MT" + Date.now(),
+        amount: 10000,
+        paymentFlow: {
+            type: "PG_CHECKOUT",
+            merchantUrls: {
+                redirectUrl: `http://localhost:3000/api/phonepe/status/123`,
+            }
+        }
+    };
+
     try {
-        const response2 = await axios.post("https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token", params, {
+        const response = await axios.post("https://api.phonepe.com/apis/pg/checkout/v2/pay", payload, {
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: `O-Bearer ${token}`,
+                "Content-Type": "application/json",
             },
         });
-        console.log("SANDBOX SUCCESS:", response2.data);
+        console.log("PAYMENT SUCCESS:", response.data);
     } catch (err) {
-        console.error("SANDBOX ERROR:", err.response?.data || err.message);
+        console.error("PAYMENT ERROR:", err.response?.data || err.message);
     }
 }
 
