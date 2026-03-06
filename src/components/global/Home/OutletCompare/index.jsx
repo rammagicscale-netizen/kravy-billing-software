@@ -37,19 +37,19 @@ export default function OutletCompare() {
 
             {/* Keeping only the first image and text */}
             <div className="flex-1 text-center">
-              <div className="inline-block px-3 py-1 bg-red-600 text-white text-xs font-bold rounded mb-4 shadow-md">
-                BEFORE
-              </div>
+              {/* <div className="inline-block px-3 py-1 bg-red-600 text-white text-xs font-bold rounded mb-4 shadow-md">
+                BE
+              </div> */}
               <Image
-                src="/assets/b3.png"
-                alt="Manual billing errors"
+                src="/assets/Dashboard2.png"
+                alt="Dashboard "
                 width={600}
-                height={500}
-                className="w-full h-auto mb-6 opacity-80 filter grayscale brightness-75 rounded-lg object-cover"
+                height={700}
+                className="w-full h-auto mb-6 opacity-80 filter rounded-lg object-cover"
               />
-              <p className="text-gray-600 dark:text-gray-400 italic">
+              {/* <p className="text-gray-600 dark:text-gray-400 italic">
                 Manual errors and slow billing that frustrate customers.
-              </p>
+              </p> */}
             </div>
 
             {/* Benefit Side */}

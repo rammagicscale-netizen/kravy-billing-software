@@ -439,7 +439,7 @@ export default function AboutPage() {
             Simple, scalable pricing crafted for every food business — from cloud kitchens to fine dining.
           </p>
           <a
-            href="/contact"
+            href="/pricing"
             className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-colors"
           >
             Get Started Now

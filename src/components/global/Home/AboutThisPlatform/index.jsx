@@ -5,28 +5,28 @@ import { motion } from "framer-motion";
 const steps = [
   {
     title: "Sign Up & Login",
-    desc: "Create your account and instantly access our curated dashboard.",
-    img: "/assets/setup4.png",
+    desc: "Create your account and securely log in to access your billing dashboard and manage your business.",
+    img: "/assets/Login.png",
   },
   {
-    title: "Browse Photo Library",
-    desc: "Explore high-resolution, Zomato & Swiggy-approved food images.",
-    img: "/assets/setup6.png",
+    title: "Browse Suitable Plans & Add-Ons",
+    desc: "Choose a billing plan that fits your business needs and enable useful add-ons like reports, inventory, and GST billing.",
+    img: "/assets/Pricing.png",
   },
   {
-    title: "Filter by Cuisine or Dish",
-    desc: "Find the perfect photos using tags, dish names, or categories.",
-    img: "/assets/setup.png",
+    title: "Dashboard",
+    desc: "View your business insights in one place including total sales, bills generated, payment modes, and daily growth.",
+    img: "/assets/dashboard.png",
   },
   {
-    title: "Download Instantly",
-    desc: "Download unlimited approved images and use them right away.",
-    img: "/assets/setup.png",
+    title: "Setup Your Menu / Products",
+    desc: "Add your products or menu items, set prices, categories, and taxes to prepare your system for quick billing.",
+    img: "/assets/Menu.png",
   },
   {
-    title: "Get Menu Setup Help (Pro)",
-    desc: "Let us transfer your Zomato menu to Swiggy or another outlet.",
-    img: "/assets/setup.png",
+    title: "Do Seamless Billing",
+    desc: "Generate bills instantly, accept multiple payment modes like cash or UPI, and track every transaction easily.",
+    img: "/assets/Billing.png",
   },
 ];
 

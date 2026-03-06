@@ -4,13 +4,18 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext(null);
 
+// all plan ids
+const PLAN_IDS = ["trial", "year1", "year2", "year3"];
+
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
-  // Load from localStorage once
+  // Load from localStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const saved = window.localStorage.getItem("kravy-cart");
+
+    const saved = localStorage.getItem("kravy-cart");
+
     if (saved) {
       try {
         setCartItems(JSON.parse(saved));
@@ -20,24 +25,36 @@ export function CartProvider({ children }) {
     }
   }, []);
 
-  // Save to localStorage on change
+  // Save to localStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
-    window.localStorage.setItem("kravy-cart", JSON.stringify(cartItems));
+
+    localStorage.setItem("kravy-cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // Add item (or increase its quantity)
+  // Add item
   const addToCart = ({ id, name, price }) => {
     setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === id);
+      let updated = [...prev];
+
+      const isPlan = PLAN_IDS.includes(id);
+
+      // If item is a plan → remove previous plans
+      if (isPlan) {
+        updated = updated.filter((item) => !PLAN_IDS.includes(item.id));
+      }
+
+      const existing = updated.find((item) => item.id === id);
+
       if (existing) {
-        return prev.map((item) =>
+        return updated.map((item) =>
           item.id === id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prev, { id, name, price, quantity: 1 }];
+
+      return [...updated, { id, name, price, quantity: 1 }];
     });
   };
 
@@ -99,8 +116,10 @@ export function CartProvider({ children }) {
 
 export function useCart() {
   const ctx = useContext(CartContext);
+
   if (!ctx) {
     throw new Error("useCart must be used inside CartProvider");
   }
+
   return ctx;
 }

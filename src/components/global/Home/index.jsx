@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { GradientText } from "../GradientTextButton/GradientText";
-import { Video } from "./Video";
+// import { Video } from "./Video";
 import PricingSection from "./Pricing";
 import Faqs from "./Faqs";
 import Testimonials from "./Reviews";
@@ -83,10 +83,10 @@ export default function Home() {
           </a> */}
         </motion.div>
       </div>
-
+{/* 
       <div className="mt-12 md:mt-20 px-4">
         <Video />
-      </div>
+      </div> */}
 
       {/* <MasonryGallery /> */}
 
