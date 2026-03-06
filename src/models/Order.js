@@ -2,8 +2,21 @@ import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema(
   {
-    customerName: String,
-    customerPhone: String,
+    invoiceNumber: {
+      type: String,
+      unique: true,
+    },
+
+    customerName: {
+      type: String,
+      required: true,
+    },
+
+    customerPhone: {
+      type: String,
+      required: true,
+    },
+
     customerEmail: String,
 
     items: [
@@ -16,10 +29,23 @@ const OrderSchema = new mongoose.Schema(
     ],
 
     amount: Number,
+
     transactionId: String,
+
+    paymentMethod: {
+      type: String,
+      default: "PHONEPE",
+    },
+
     paymentStatus: {
       type: String,
+      enum: ["PENDING", "SUCCESS", "FAILED"],
       default: "PENDING",
+    },
+
+    invoiceDate: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true }
