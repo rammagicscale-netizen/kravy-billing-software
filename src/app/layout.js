@@ -15,9 +15,12 @@ const poppins = Poppins({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://kravy.in"),
+
   title: "Kravy – Smart Billing Software for Restaurants & Shops",
   description:
     "Kravy provides a smart billing software solution built for restaurants and small businesses to manage sales and invoices.",
+
   keywords: [
     "Kravy billing software",
     "restaurant billing app",
@@ -26,6 +29,7 @@ export const metadata = {
     "shop billing software",
     "digital invoice system",
   ],
+
   openGraph: {
     title: "Kravy – Smart Billing Software for Restaurants & Shops",
     description:
@@ -34,12 +38,22 @@ export const metadata = {
     siteName: "Kravy",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Kravy Billing Software",
+      },
+    ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Kravy – Billing Made Easy",
     description:
       "Software solution for restaurants, cafés, and small shops. Fast setup and cloud-based billing.",
+    images: ["/og-image.png"],
   },
 };
 

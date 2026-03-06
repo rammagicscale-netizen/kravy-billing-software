@@ -36,6 +36,12 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       default: "PHONEPE",
     },
+    
+    transactionId: {
+    type: String,
+    required: true,
+    unique: true
+    },
 
     paymentStatus: {
       type: String,
