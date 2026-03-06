@@ -1,10 +1,11 @@
+//src/app/checkout/page.jsx
 "use client";
 
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { useState } from "react";
-
 import axios from "axios";
+
 
 export default function CheckoutPage() {
   const { cartItems, addToCart, removeFromCart, totalAmount, clearCart } = useCart();
@@ -36,30 +37,93 @@ export default function CheckoutPage() {
     }).format(val);
 
   const handlePayment = async () => {
-    if (!cartItems.length) return;
+  if (!cartItems.length) return;
 
-    try {
-      const transactionId = "MT" + Date.now();
-      const response = await axios.post("/api/phonepe", {
-        amount: totalAmount,
-        transactionId: transactionId,
-        mobileNumber: "9999999999", // You can add a field to collect this
-      });
+  if (!customer.name || !customer.phone) {
+    alert("Please enter customer name and mobile number");
+    return;
+  }
 
-      if (response.data.url) {
-        window.location.href = response.data.url;
-      }
-    } catch (error) {
-      console.error("Payment Error:", error);
-      const msg = error.response?.data?.details || error.response?.data?.error || "Payment initiation failed. Please try again.";
-      alert(msg);
+  try {
+    const transactionId = "MT" + Date.now();
+
+    // Save order in DB
+    await axios.post("/api/orders", {
+      customerName: customer.name,
+      customerPhone: customer.phone,
+      customerEmail: customer.email,
+      items: cartItems,
+      amount: totalAmount,
+      transactionId,
+    });
+
+    // Initiate PhonePe payment
+    const response = await axios.post("/api/phonepe", {
+      amount: totalAmount,
+      transactionId,
+      mobileNumber: customer.phone,
+    });
+
+    if (response.data.url) {
+      window.location.href = response.data.url;
     }
-  };
 
+  } catch (error) {
+    console.error("Payment Error:", error);
+  }
+};
+
+  const [customer, setCustomer] = useState({
+  name: "",
+  phone: "",
+  email: "",
+});
+const handleCustomerChange = (e) => {
+  setCustomer({
+    ...customer,
+    [e.target.name]: e.target.value,
+  });
+};
   return (
     <section className="max-w-3xl mx-auto px-6 py-16">
       <h1 className="text-3xl font-bold mb-4">Checkout</h1>
+      {/* Customer Details */}
+<div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-6">
+  <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+    Customer Details
+  </h2>
 
+  <div className="grid gap-4 sm:grid-cols-2">
+    
+    <input
+      type="text"
+      name="name"
+      placeholder="Customer Name"
+      value={customer.name}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+    <input
+      type="tel"
+      name="phone"
+      placeholder="Mobile Number"
+      value={customer.phone}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+    <input
+      type="email"
+      name="email"
+      placeholder="Email (optional)"
+      value={customer.email}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 sm:col-span-2"
+    />
+
+  </div>
+</div>
       {cartItems.length === 0 ? (
         <div className="border rounded-xl p-6 text-center border-dashed border-gray-300 dark:border-gray-700">
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">

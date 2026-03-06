@@ -22,7 +22,7 @@ export default function Page() {
 
         {/* Plan banner section */}
         <div className="mt-12">
-          <PlanBanner />
+          {/* <PlanBanner /> */}
         </div>
       </motion.div>
     </div>
