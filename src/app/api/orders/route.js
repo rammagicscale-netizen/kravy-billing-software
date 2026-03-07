@@ -1,3 +1,4 @@
+//src/app/api/orders/route.js
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
 
@@ -31,7 +32,7 @@ export async function POST(req) {
 
     return Response.json({
       success: true,
-      order,
+      orderId: order.transactionId,
     });
 
   } catch (error) {

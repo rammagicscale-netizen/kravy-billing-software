@@ -1,3 +1,5 @@
+//src/lib/sendInvoiceEmail.js
+
 import nodemailer from "nodemailer";
 
 export async function sendInvoiceEmail(order, pdfBuffer) {

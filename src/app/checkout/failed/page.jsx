@@ -40,6 +40,8 @@
 //   );
 // }
 
+
+//src/app/checkout/failed/page.jsx
 import { Suspense } from "react";
 import FailedClient from "./FailedClient";
 

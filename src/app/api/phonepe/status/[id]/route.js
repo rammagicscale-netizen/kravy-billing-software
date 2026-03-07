@@ -1,70 +1,53 @@
+//src/app/api/phonepe/status/[id]/route.js
 import { NextResponse } from "next/server";
+import { connectToDatabase } from "@/lib/mongodb";
+import Order from "@/models/Order";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-// PhonePe redirect (POST form)
 export async function POST(req, { params }) {
-  const merchantOrderId = params.id;
 
-  try {
-    let code = null;
+const merchantOrderId = params.id;
 
-    try {
-      const formData = await req.formData();
-      code = formData.get("code");
+await connectToDatabase();
 
-      console.log(
-        "PhonePe POST Redirect Data:",
-        Object.fromEntries(formData)
-      );
-    } catch (err) {
-      console.log("No form data received:", err.message);
-    }
+try {
 
-    if (code === "PAYMENT_SUCCESS") {
-      return NextResponse.redirect(
-        `${BASE_URL}/checkout/success?orderId=${merchantOrderId}`,
-        { status: 303 }
-      );
-    }
+let code = null;
 
-    return NextResponse.redirect(
-      `${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`,
-      { status: 303 }
-    );
-  } catch (error) {
-    console.error("PhonePe POST handler error:", error.message);
+try {
+const formData = await req.formData();
+code = formData.get("code");
+} catch {}
 
-    return NextResponse.redirect(
-      `${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`,
-      { status: 303 }
-    );
-  }
+if (code === "PAYMENT_SUCCESS") {
+
+await Order.findOneAndUpdate(
+{ transactionId: merchantOrderId },
+{ paymentStatus: "SUCCESS" }
+);
+
+return NextResponse.redirect(
+`${BASE_URL}/checkout/success?orderId=${merchantOrderId}`,
+{ status: 303 }
+);
 }
 
-// fallback if redirect comes as GET
-export async function GET(req, { params }) {
-  const merchantOrderId = params.id;
+await Order.findOneAndUpdate(
+{ transactionId: merchantOrderId },
+{ paymentStatus: "FAILED" }
+);
 
-  try {
-    const url = new URL(req.url);
-    const code = url.searchParams.get("code");
+return NextResponse.redirect(
+`${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`,
+{ status: 303 }
+);
 
-    console.log("PhonePe GET Redirect:", code);
+} catch (error) {
 
-    if (code === "PAYMENT_SUCCESS") {
-      return NextResponse.redirect(
-        `${BASE_URL}/checkout/success?orderId=${merchantOrderId}`
-      );
-    }
-
-    return NextResponse.redirect(
-      `${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`
-    );
-  } catch (error) {
-    console.error("PhonePe GET handler error:", error.message);
-
-    return NextResponse.redirect(`${BASE_URL}/checkout/failed`);
-  }
+return NextResponse.redirect(
+`${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`
+);
+}
 }

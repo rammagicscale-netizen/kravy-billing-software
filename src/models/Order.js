@@ -1,61 +1,61 @@
+//src/models/Order.js
+
 import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema(
-  {
-    invoiceNumber: {
-      type: String,
-      unique: true,
-    },
+{
+  invoiceNumber: {
+    type: String,
+    unique: true,
+  },
 
-    customerName: {
-      type: String,
-      required: true,
-    },
-
-    customerPhone: {
-      type: String,
-      required: true,
-    },
-
-    customerEmail: String,
-
-    items: [
-      {
-        id: String,
-        name: String,
-        price: Number,
-        quantity: Number,
-      },
-    ],
-
-    amount: Number,
-
-    transactionId: String,
-
-    paymentMethod: {
-      type: String,
-      default: "PHONEPE",
-    },
-    
-    transactionId: {
+  customerName: {
     type: String,
     required: true,
-    unique: true
-    },
-
-    paymentStatus: {
-      type: String,
-      enum: ["PENDING", "SUCCESS", "FAILED"],
-      default: "PENDING",
-    },
-
-    invoiceDate: {
-      type: Date,
-      default: Date.now,
-    },
   },
-  { timestamps: true }
+
+  customerPhone: {
+    type: String,
+    required: true,
+  },
+
+  customerEmail: String,
+
+  items: [
+    {
+      id: String,
+      name: String,
+      price: Number,
+      quantity: Number,
+    },
+  ],
+
+  amount: Number,
+
+  transactionId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
+  paymentMethod: {
+    type: String,
+    default: "PHONEPE",
+  },
+
+  paymentStatus: {
+    type: String,
+    enum: ["PENDING", "SUCCESS", "FAILED"],
+    default: "PENDING",
+  },
+
+  invoiceDate: {
+    type: Date,
+    default: Date.now,
+  },
+},
+{ timestamps: true }
 );
 
 export default mongoose.models.Order ||
-  mongoose.model("Order", OrderSchema);
+mongoose.model("Order", OrderSchema);

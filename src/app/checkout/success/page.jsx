@@ -54,6 +54,9 @@
 //     );
 // }
 
+
+//src/app/checkout/success/page.jsx
+
 import { Suspense } from "react";
 import SuccessClient from "./SuccessClient";
 
