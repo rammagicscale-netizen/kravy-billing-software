@@ -1,53 +1,69 @@
 //src/app/api/phonepe/status/[id]/route.js
+
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
 
 const BASE_URL =
-process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  process.env.NEXT_PUBLIC_BASE_URL || "https://www.kravy.in";
 
+async function handleSuccess(merchantOrderId) {
+  await connectToDatabase();
+
+  await Order.findOneAndUpdate(
+    { transactionId: merchantOrderId },
+    { paymentStatus: "SUCCESS" }
+  );
+
+  return NextResponse.redirect(
+    `${BASE_URL}/checkout/success?orderId=${merchantOrderId}`
+  );
+}
+
+async function handleFail(merchantOrderId) {
+  await connectToDatabase();
+
+  await Order.findOneAndUpdate(
+    { transactionId: merchantOrderId },
+    { paymentStatus: "FAILED" }
+  );
+
+  return NextResponse.redirect(
+    `${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`
+  );
+}
+
+/* PHONEPE POST REDIRECT */
 export async function POST(req, { params }) {
 
-const merchantOrderId = params.id;
+  const merchantOrderId = params.id;
 
-await connectToDatabase();
+  try {
+    const formData = await req.formData();
+    const code = formData.get("code");
 
-try {
+    if (code === "PAYMENT_SUCCESS") {
+      return handleSuccess(merchantOrderId);
+    }
 
-let code = null;
+    return handleFail(merchantOrderId);
 
-try {
-const formData = await req.formData();
-code = formData.get("code");
-} catch {}
-
-if (code === "PAYMENT_SUCCESS") {
-
-await Order.findOneAndUpdate(
-{ transactionId: merchantOrderId },
-{ paymentStatus: "SUCCESS" }
-);
-
-return NextResponse.redirect(
-`${BASE_URL}/checkout/success?orderId=${merchantOrderId}`,
-{ status: 303 }
-);
+  } catch (error) {
+    return handleFail(merchantOrderId);
+  }
 }
 
-await Order.findOneAndUpdate(
-{ transactionId: merchantOrderId },
-{ paymentStatus: "FAILED" }
-);
+/* BROWSER GET REDIRECT */
+export async function GET(req, { params }) {
 
-return NextResponse.redirect(
-`${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`,
-{ status: 303 }
-);
+  const merchantOrderId = params.id;
 
-} catch (error) {
+  const url = new URL(req.url);
+  const code = url.searchParams.get("code");
 
-return NextResponse.redirect(
-`${BASE_URL}/checkout/failed?transactionId=${merchantOrderId}`
-);
-}
+  if (code === "PAYMENT_SUCCESS") {
+    return handleSuccess(merchantOrderId);
+  }
+
+  return handleFail(merchantOrderId);
 }
