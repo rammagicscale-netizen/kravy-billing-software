@@ -37,10 +37,11 @@ Invoice is ready for download.
 
 {orderId && (
 <a
-href={`/api/invoice/${orderId}`}
-className="px-6 py-3 bg-black text-white rounded-lg"
+  href={`/api/invoice/${orderId}`}
+  target="_blank"
+  className="mb-4 px-6 py-3 bg-black text-white rounded-lg"
 >
-Download Invoice
+  Download Invoice
 </a>
 )}
 
