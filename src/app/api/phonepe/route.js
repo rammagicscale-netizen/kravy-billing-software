@@ -1,11 +1,10 @@
 //src/app/api/phonepe/route.js
 
+
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const TOKEN_URL =
 "https://api.phonepe.com/apis/identity-manager/v1/oauth/token";
@@ -22,30 +21,34 @@ params.append("client_id",process.env.PHONEPE_CLIENT_ID);
 params.append("client_version",process.env.PHONEPE_CLIENT_VERSION);
 params.append("client_secret",process.env.PHONEPE_CLIENT_SECRET);
 
-const res = await axios.post(TOKEN_URL,params,{
-headers:{ "Content-Type":"application/x-www-form-urlencoded"}
-});
+const res = await axios.post(
+TOKEN_URL,
+params,
+{headers:{ "Content-Type":"application/x-www-form-urlencoded"}}
+);
 
 return res.data.access_token;
+
 }
 
 export async function POST(req){
 
 try{
 
-const { amount, customer } = await req.json();
+const { amount, customer, items } = await req.json();
 
 const token = await getAccessToken();
 
-const merchantOrderId = "KRAVY_" + Date.now();
+const merchantOrderId="KRAVY_"+Date.now();
 
 const payload={
 merchantOrderId,
-amount: Math.round(amount*100),
+amount:Math.round(amount*100),
+
 paymentFlow:{
 type:"PG_CHECKOUT",
 merchantUrls:{
-redirectUrl:`${BASE_URL}/api/phonepe/status/${merchantOrderId}`
+redirectUrl:`${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success`
 }
 }
 };
@@ -62,33 +65,63 @@ Authorization:`O-Bearer ${token}`,
 }
 );
 
-const orderId = response.data.orderId;
+const orderId=response.data.orderId;
 
 await connectToDatabase();
 
+/* invoice */
+
+let invoiceNumber;
+
+const lastOrder = await Order
+.findOne({ invoiceNumber: { $exists: true } })
+.sort({ createdAt: -1 });
+
+if (!lastOrder) {
+
+  invoiceNumber = "INV-2026-0001";
+
+} else {
+
+  const lastNum = parseInt(lastOrder.invoiceNumber.split("-")[2] || "0");
+
+  invoiceNumber = `INV-2026-${String(lastNum + 1).padStart(4, "0")}`;
+
+}
+
+/* save order */
+
 await Order.create({
+
+invoiceNumber,
 phonepeOrderId: orderId,
-transactionId: merchantOrderId,
-amount,
 customerName: customer.name,
 customerPhone: customer.phone,
 customerEmail: customer.email,
+items,
+amount,
 paymentStatus:"PENDING"
+
 });
 
 const redirectUrl =
 response.data.redirectUrl ||
 response.data.data?.redirectUrl;
 
-return NextResponse.json({ url: redirectUrl });
+return NextResponse.json({url:redirectUrl});
 
 }catch(err){
 
-console.error("PhonePe Payment Error:",err.response?.data || err);
+console.error("PhonePe Error:",err.response?.data || err);
 
 return NextResponse.json(
-{error:"Payment initiation failed"},
+{
+error:"Payment initiation failed",
+details:err.message
+},
 {status:500}
 );
+
 }
+
 }

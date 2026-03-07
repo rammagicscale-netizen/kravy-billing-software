@@ -74,6 +74,7 @@ const handleCustomerChange = (e) => {
     [e.target.name]: e.target.value,
   });
 };
+
   return (
     <section className="max-w-3xl mx-auto px-6 py-16">
       <h1 className="text-3xl font-bold mb-4">Checkout</h1>

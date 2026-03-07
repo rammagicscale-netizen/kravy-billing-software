@@ -1,70 +1,78 @@
 //src/app/api/phonepe/webhook/route.js
+
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
 
-export async function POST(req) {
+export async function POST(req){
 
-  try {
+try{
 
-    const auth = req.headers.get("authorization");
+const auth = req.headers.get("authorization");
 
-    const expected =
-      "Basic " +
-      Buffer.from(
-        `${process.env.PHONEPE_WEBHOOK_USERNAME}:${process.env.PHONEPE_WEBHOOK_PASSWORD}`
-      ).toString("base64");
+const expected =
+"Basic " +
+Buffer.from(
+`${process.env.PHONEPE_WEBHOOK_USERNAME}:${process.env.PHONEPE_WEBHOOK_PASSWORD}`
+).toString("base64");
 
-    if (auth !== expected) {
-      return new Response("Unauthorized", { status: 401 });
-    }
+if(auth !== expected){
 
-    const body = await req.json();
+return new Response("Unauthorized",{status:401});
 
-    console.log("PhonePe Webhook:", body);
+}
 
-    // PhonePe may send nested payload
-    const merchantOrderId =
-      body.merchantOrderId ||
-      body.payload?.merchantOrderId;
+const body = await req.json();
 
-    const state =
-      body.state ||
-      body.payload?.state;
+console.log("PhonePe Webhook:",body);
 
-    if (!merchantOrderId) {
-      return Response.json({ error: "Invalid payload" }, { status: 400 });
-    }
+const orderId =
+body.orderId ||
+body.payload?.orderId;
 
-    await connectToDatabase();
+const state =
+body.state ||
+body.payload?.state;
 
-    if (state === "COMPLETED") {
+if(!orderId){
 
-      await Order.findOneAndUpdate(
-        { transactionId: merchantOrderId },
-        { paymentStatus: "SUCCESS" }
-      );
+return Response.json(
+{error:"Invalid webhook payload"},
+{status:400}
+);
 
-    }
+}
 
-    if (state === "FAILED") {
+await connectToDatabase();
 
-      await Order.findOneAndUpdate(
-        { transactionId: merchantOrderId },
-        { paymentStatus: "FAILED" }
-      );
+if(state==="COMPLETED"){
 
-    }
+await Order.findOneAndUpdate(
+{phonepeOrderId:orderId},
+{paymentStatus:"SUCCESS"}
+);
 
-    return Response.json({ received: true });
+}
 
-  } catch (error) {
+if(state==="FAILED"){
 
-    console.error("Webhook Error:", error);
+await Order.findOneAndUpdate(
+{phonepeOrderId:orderId},
+{paymentStatus:"FAILED"}
+);
 
-    return Response.json(
-      { error: "Webhook processing failed" },
-      { status: 500 }
-    );
+}
 
-  }
+return Response.json({received:true});
+
+}catch(err){
+
+console.error("Webhook error",err);
+
+return Response.json(
+{error:"Webhook processing failed"},
+{status:500}
+);
+
+}
+
 }

@@ -1,42 +1,48 @@
 //src/app/api/invoice/[id]/route.js
+
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import { generateInvoice } from "@/lib/generateInvoice";
 
-export async function GET(req, { params }) {
-  try {
+export async function GET(req,{params}){
 
-    const { id } = params;
+try{
 
-    await connectToDatabase();
+const {id}=params;
 
-    const order = await Order.findOne({
-      transactionId: id
-    });
+await connectToDatabase();
 
-    if (!order) {
-      return Response.json(
-        { error: "Order not found" },
-        { status: 404 }
-      );
-    }
+const order = await Order.findOne({
+phonepeOrderId:id
+});
 
-    const pdfBuffer = await generateInvoice(order);
+if(!order){
 
-    return new Response(pdfBuffer, {
-      headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename=${order.invoiceNumber}.pdf`,
-      },
-    });
+return Response.json(
+{error:"Order not found"},
+{status:404}
+);
 
-  } catch (error) {
+}
 
-    console.error("Invoice generation error:", error);
+const pdfBuffer = await generateInvoice(order);
 
-    return Response.json(
-      { error: "Failed to generate invoice" },
-      { status: 500 }
-    );
-  }
+return new Response(pdfBuffer,{
+headers:{
+"Content-Type":"application/pdf",
+"Content-Disposition":`attachment; filename=${order.invoiceNumber}.pdf`
+}
+});
+
+}catch(err){
+
+console.error("Invoice error",err);
+
+return Response.json(
+{error:"Failed to generate invoice"},
+{status:500}
+);
+
+}
+
 }
