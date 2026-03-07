@@ -1,19 +1,16 @@
 //src/app/api/phonepe/status/[id]/route.js
-
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://kravy.in";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const PHONEPE_ENV = process.env.PHONEPE_ENV || "PROD";
+const TOKEN_URL =
+  "https://api.phonepe.com/apis/identity-manager/v1/oauth/token";
 
 const STATUS_URL =
-  PHONEPE_ENV === "PROD"
-    ? "https://api.phonepe.com/apis/pg/checkout/v2/order/"
-    : "https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/order/";
+  "https://api.phonepe.com/apis/pg/checkout/v2/order/";
 
 async function getAccessToken() {
 
@@ -24,78 +21,78 @@ async function getAccessToken() {
   params.append("client_version", process.env.PHONEPE_CLIENT_VERSION);
   params.append("client_secret", process.env.PHONEPE_CLIENT_SECRET);
 
-  const response = await axios.post(
-    PHONEPE_ENV === "PROD"
-      ? "https://api.phonepe.com/apis/identity-manager/v1/oauth/token"
-      : "https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token",
-    params,
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  );
+  const response = await axios.post(TOKEN_URL, params, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
 
   return response.data.access_token;
 }
 
-async function verifyPayment(transactionId) {
+export async function GET(req, { params }) {
 
-  const token = await getAccessToken();
+  try {
 
-  const response = await axios.get(
-    `${STATUS_URL}${transactionId}`,
-    {
-      headers: {
-        Authorization: `O-Bearer ${token}`,
-        "X-MERCHANT-ID": process.env.PHONEPE_MERCHANT_ID,
-      },
+    const { id } = params;
+
+    await connectToDatabase();
+
+    const order = await Order.findOne({
+      transactionId: id,
+    });
+
+    if (!order) {
+      return NextResponse.redirect(
+        `${BASE_URL}/checkout/failed?transactionId=${id}`
+      );
     }
-  );
 
-  return response.data;
-}
+    const token = await getAccessToken();
 
-async function handlePayment(transactionId) {
+    const response = await axios.get(
+      `${STATUS_URL}${id}`,
+      {
+        headers: {
+          Authorization: `O-Bearer ${token}`,
+          "X-MERCHANT-ID": process.env.PHONEPE_MERCHANT_ID,
+        },
+      }
+    );
 
-  await connectToDatabase();
+    const state = response.data.state;
 
-  const status = await verifyPayment(transactionId);
+    if (state === "COMPLETED") {
 
-  const state = status.state;
+      await Order.findOneAndUpdate(
+        { transactionId: id },
+        { paymentStatus: "SUCCESS" }
+      );
 
-  if (state === "COMPLETED") {
+      return NextResponse.redirect(
+        `${BASE_URL}/checkout/success?orderId=${id}`
+      );
+    }
 
     await Order.findOneAndUpdate(
-      { transactionId },
-      { paymentStatus: "SUCCESS" }
+      { transactionId: id },
+      { paymentStatus: "FAILED" }
     );
 
     return NextResponse.redirect(
-      `${BASE_URL}/checkout/success?orderId=${transactionId}`
+      `${BASE_URL}/checkout/failed?transactionId=${id}`
+    );
+
+  } catch (error) {
+
+    console.error("PhonePe status error:", error.response?.data || error);
+
+    return NextResponse.redirect(
+      `${BASE_URL}/checkout/failed?transactionId=${params.id}`
     );
   }
-
-  await Order.findOneAndUpdate(
-    { transactionId },
-    { paymentStatus: "FAILED" }
-  );
-
-  return NextResponse.redirect(
-    `${BASE_URL}/checkout/failed?transactionId=${transactionId}`
-  );
 }
 
-export async function GET(req, { params }) {
-
-  const transactionId = params.id;
-
-  return handlePayment(transactionId);
-}
-
-export async function POST(req, { params }) {
-
-  const transactionId = params.id;
-
-  return handlePayment(transactionId);
+export async function POST(req, ctx) {
+  return GET(req, ctx);
 }
