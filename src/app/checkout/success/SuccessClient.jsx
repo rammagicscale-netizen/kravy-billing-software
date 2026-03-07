@@ -16,10 +16,11 @@ const searchParams = useSearchParams();
 const orderId = searchParams.get("orderId");
 
 useEffect(() => {
-clearCart();
-}, [clearCart]);
+  clearCart();
+}, []);
 
 return (
+
 <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
 
 <CheckCircle2 className="w-20 h-20 text-emerald-500 mb-6" />
@@ -29,7 +30,7 @@ Payment Successful
 </h1>
 
 <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md">
-Your order has been successfully placed.  
+Your order has been successfully placed.
 Invoice is ready for download.
 </p>
 
@@ -37,20 +38,23 @@ Invoice is ready for download.
 
 {orderId && (
 <a
-  href={`/api/invoice/${orderId}`}
-  target="_blank"
-  className="mb-4 px-6 py-3 bg-black text-white rounded-lg"
+href={`/api/invoice/${orderId}`}
+target="_blank"
+rel="noopener noreferrer"
+className="px-6 py-3 bg-black text-white rounded-lg"
 >
-  Download Invoice
+Download Invoice
 </a>
 )}
 
+{orderId && (
 <button
-onClick={() => window.print()}
+onClick={() => window.open(`/api/invoice/${orderId}`, "_blank")}
 className="px-6 py-3 border rounded-lg"
 >
-Print Page
+Print Invoice
 </button>
+)}
 
 <Link
 href="/"
@@ -62,5 +66,6 @@ Go Home
 </div>
 
 </div>
+
 );
 }
