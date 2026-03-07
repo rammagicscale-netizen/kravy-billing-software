@@ -43,6 +43,8 @@ const OrderSchema = new mongoose.Schema(
     default: "PHONEPE",
   },
 
+  phonepeOrderId: String,
+  
   paymentStatus: {
     type: String,
     enum: ["PENDING", "SUCCESS", "FAILED"],

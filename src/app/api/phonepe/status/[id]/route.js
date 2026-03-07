@@ -1,4 +1,6 @@
 //src/app/api/phonepe/status/[id]/route.js
+
+
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { connectToDatabase } from "@/lib/mongodb";
@@ -22,9 +24,7 @@ async function getAccessToken() {
   params.append("client_secret", process.env.PHONEPE_CLIENT_SECRET);
 
   const response = await axios.post(TOKEN_URL, params, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
 
   return response.data.access_token;
@@ -51,7 +51,7 @@ export async function GET(req, { params }) {
     const token = await getAccessToken();
 
     const response = await axios.get(
-      `${STATUS_URL}${id}`,
+      `${STATUS_URL}${order.phonepeOrderId}`,
       {
         headers: {
           Authorization: `O-Bearer ${token}`,
@@ -85,7 +85,7 @@ export async function GET(req, { params }) {
 
   } catch (error) {
 
-    console.error("PhonePe status error:", error.response?.data || error);
+    console.error("Status API Error:", error.response?.data || error);
 
     return NextResponse.redirect(
       `${BASE_URL}/checkout/failed?transactionId=${params.id}`

@@ -34,10 +34,10 @@ COMPANY DETAILS
 doc
 .fontSize(10)
 .font("Helvetica")
-.text("Kravy Technologies", 40, 120)
-.text("Delhi, India")
+.text("Kravy Billing Software ", 40, 120)
+.text(" 599, 3rd floor, Rajokri, Delhi, India")
 .text("Email: support@kravy.in")
-.text("GSTIN: 07ABCDE1234F1Z5");
+.text("GSTIN: 07CFNPV4928Q1Z9");
 
 /* -----------------------
 INVOICE INFO
