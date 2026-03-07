@@ -8,80 +8,87 @@ import Order from "@/models/Order";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const TOKEN_URL =
-  "https://api.phonepe.com/apis/identity-manager/v1/oauth/token";
+"https://api.phonepe.com/apis/identity-manager/v1/oauth/token";
 
 const PAY_URL =
-  "https://api.phonepe.com/apis/pg/checkout/v2/pay";
+"https://api.phonepe.com/apis/pg/checkout/v2/pay";
 
-async function getAccessToken() {
+async function getAccessToken(){
 
-  const params = new URLSearchParams();
+const params = new URLSearchParams();
 
-  params.append("grant_type", "client_credentials");
-  params.append("client_id", process.env.PHONEPE_CLIENT_ID);
-  params.append("client_version", process.env.PHONEPE_CLIENT_VERSION);
-  params.append("client_secret", process.env.PHONEPE_CLIENT_SECRET);
+params.append("grant_type","client_credentials");
+params.append("client_id",process.env.PHONEPE_CLIENT_ID);
+params.append("client_version",process.env.PHONEPE_CLIENT_VERSION);
+params.append("client_secret",process.env.PHONEPE_CLIENT_SECRET);
 
-  const response = await axios.post(TOKEN_URL, params, {
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  });
+const res = await axios.post(TOKEN_URL,params,{
+headers:{ "Content-Type":"application/x-www-form-urlencoded"}
+});
 
-  return response.data.access_token;
+return res.data.access_token;
 }
 
-export async function POST(req) {
+export async function POST(req){
 
-  try {
+try{
 
-    const { amount, transactionId } = await req.json();
+const { amount, customer } = await req.json();
 
-    const token = await getAccessToken();
+const token = await getAccessToken();
 
-    const payload = {
-      merchantOrderId: transactionId,
-      amount: Math.round(amount * 100),
-      paymentFlow: {
-        type: "PG_CHECKOUT",
-        merchantUrls: {
-          redirectUrl: `${BASE_URL}/api/phonepe/status/${transactionId}`,
-        },
-      },
-    };
+const merchantOrderId = "KRAVY_" + Date.now();
 
-    const response = await axios.post(
-      PAY_URL,
-      payload,
-      {
-        headers: {
-          Authorization: `O-Bearer ${token}`,
-          "Content-Type": "application/json",
-          "X-MERCHANT-ID": process.env.PHONEPE_MERCHANT_ID,
-        },
-      }
-    );
+const payload={
+merchantOrderId,
+amount: Math.round(amount*100),
+paymentFlow:{
+type:"PG_CHECKOUT",
+merchantUrls:{
+redirectUrl:`${BASE_URL}/api/phonepe/status/${merchantOrderId}`
+}
+}
+};
 
-    const orderId = response.data.orderId;
+const response = await axios.post(
+PAY_URL,
+payload,
+{
+headers:{
+Authorization:`O-Bearer ${token}`,
+"Content-Type":"application/json",
+"X-MERCHANT-ID":process.env.PHONEPE_MERCHANT_ID
+}
+}
+);
 
-    await connectToDatabase();
+const orderId = response.data.orderId;
 
-    await Order.findOneAndUpdate(
-      { transactionId },
-      { phonepeOrderId: orderId }
-    );
+await connectToDatabase();
 
-    const redirectUrl =
-      response.data.redirectUrl ||
-      response.data?.data?.redirectUrl;
+await Order.create({
+phonepeOrderId: orderId,
+transactionId: merchantOrderId,
+amount,
+customerName: customer.name,
+customerPhone: customer.phone,
+customerEmail: customer.email,
+paymentStatus:"PENDING"
+});
 
-    return NextResponse.json({ url: redirectUrl });
+const redirectUrl =
+response.data.redirectUrl ||
+response.data.data?.redirectUrl;
 
-  } catch (error) {
+return NextResponse.json({ url: redirectUrl });
 
-    console.error("PhonePe Payment Error:", error.response?.data || error);
+}catch(err){
 
-    return NextResponse.json(
-      { error: "Payment initiation failed" },
-      { status: 500 }
-    );
-  }
+console.error("PhonePe Payment Error:",err.response?.data || err);
+
+return NextResponse.json(
+{error:"Payment initiation failed"},
+{status:500}
+);
+}
 }

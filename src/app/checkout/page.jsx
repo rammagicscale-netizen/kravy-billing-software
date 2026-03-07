@@ -36,7 +36,8 @@ export default function CheckoutPage() {
       maximumFractionDigits: 0,
     }).format(val);
 
-  const handlePayment = async () => {
+const handlePayment = async () => {
+
   if (!cartItems.length) return;
 
   if (!customer.name || !customer.phone) {
@@ -45,23 +46,11 @@ export default function CheckoutPage() {
   }
 
   try {
-    const transactionId = "MT" + Date.now();
 
-    // Save order in DB
-    await axios.post("/api/orders", {
-      customerName: customer.name,
-      customerPhone: customer.phone,
-      customerEmail: customer.email,
-      items: cartItems,
-      amount: totalAmount,
-      transactionId,
-    });
-
-    // Initiate PhonePe payment
     const response = await axios.post("/api/phonepe", {
       amount: totalAmount,
-      transactionId,
-      mobileNumber: customer.phone,
+      customer,
+      items: cartItems
     });
 
     if (response.data.url) {
@@ -71,6 +60,7 @@ export default function CheckoutPage() {
   } catch (error) {
     console.error("Payment Error:", error);
   }
+
 };
 
   const [customer, setCustomer] = useState({

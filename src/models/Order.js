@@ -32,9 +32,8 @@ const OrderSchema = new mongoose.Schema(
 
   amount: Number,
 
-  transactionId: {
+  phonepeOrderId: {
     type: String,
-    required: true,
     unique: true,
   },
 
@@ -43,8 +42,6 @@ const OrderSchema = new mongoose.Schema(
     default: "PHONEPE",
   },
 
-  phonepeOrderId: String,
-  
   paymentStatus: {
     type: String,
     enum: ["PENDING", "SUCCESS", "FAILED"],

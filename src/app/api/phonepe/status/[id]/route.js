@@ -34,24 +34,24 @@ export async function GET(req, { params }) {
 
   try {
 
-    const { id } = params;
+    const { id } = params; // This is PhonePe orderId
 
     await connectToDatabase();
 
     const order = await Order.findOne({
-      transactionId: id,
+      phonepeOrderId: id,
     });
 
     if (!order) {
       return NextResponse.redirect(
-        `${BASE_URL}/checkout/failed?transactionId=${id}`
+        `${BASE_URL}/checkout/failed?orderId=${id}`
       );
     }
 
     const token = await getAccessToken();
 
     const response = await axios.get(
-      `${STATUS_URL}${order.phonepeOrderId}`,
+      `${STATUS_URL}${id}`,
       {
         headers: {
           Authorization: `O-Bearer ${token}`,
@@ -65,7 +65,7 @@ export async function GET(req, { params }) {
     if (state === "COMPLETED") {
 
       await Order.findOneAndUpdate(
-        { transactionId: id },
+        { phonepeOrderId: id },
         { paymentStatus: "SUCCESS" }
       );
 
@@ -75,12 +75,12 @@ export async function GET(req, { params }) {
     }
 
     await Order.findOneAndUpdate(
-      { transactionId: id },
+      { phonepeOrderId: id },
       { paymentStatus: "FAILED" }
     );
 
     return NextResponse.redirect(
-      `${BASE_URL}/checkout/failed?transactionId=${id}`
+      `${BASE_URL}/checkout/failed?orderId=${id}`
     );
 
   } catch (error) {
@@ -88,7 +88,7 @@ export async function GET(req, { params }) {
     console.error("Status API Error:", error.response?.data || error);
 
     return NextResponse.redirect(
-      `${BASE_URL}/checkout/failed?transactionId=${params.id}`
+      `${BASE_URL}/checkout/failed`
     );
   }
 }
