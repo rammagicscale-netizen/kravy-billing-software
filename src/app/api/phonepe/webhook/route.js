@@ -5,9 +5,11 @@ export async function POST(req) {
 
   const auth = req.headers.get("authorization");
 
-  const expected = "Basic " + Buffer
-    .from("kravy_webhook:kravyWebhook@2026")
-    .toString("base64");
+  const expected =
+    "Basic " +
+    Buffer.from(
+      `${process.env.PHONEPE_WEBHOOK_USERNAME}:${process.env.PHONEPE_WEBHOOK_PASSWORD}`
+    ).toString("base64");
 
   if (auth !== expected) {
     return new Response("Unauthorized", { status: 401 });
@@ -20,19 +22,17 @@ export async function POST(req) {
   await connectToDatabase();
 
   if (state === "COMPLETED") {
-
     await Order.findOneAndUpdate(
       { transactionId: merchantOrderId },
       { paymentStatus: "SUCCESS" }
     );
+  }
 
-  } else if (state === "FAILED") {
-
+  if (state === "FAILED") {
     await Order.findOneAndUpdate(
       { transactionId: merchantOrderId },
       { paymentStatus: "FAILED" }
     );
-
   }
 
   return Response.json({ success: true });
