@@ -31,97 +31,89 @@ return res.data.access_token;
 
 }
 
-export async function POST(req){
+export async function POST(req) {
+  try {
+    const { amount, customer, items } = await req.json();
 
-try{
+    const token = await getAccessToken();
 
-const { amount, customer, items } = await req.json();
+    // your order id
+    const merchantOrderId = "OMO" + Date.now();
 
-const token = await getAccessToken();
+    const payload = {
+      merchantOrderId,
+      amount: Math.round(amount * 100),
 
-const merchantOrderId="KRAVY_"+Date.now();
+      paymentFlow: {
+        type: "PG_CHECKOUT",
+        merchantUrls: {
+          redirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?orderId=${merchantOrderId}`,
+        },
+      },
+    };
 
-const payload={
-merchantOrderId,
-amount:Math.round(amount*100),
+    const response = await axios.post(
+      PAY_URL,
+      payload,
+      {
+        headers: {
+          Authorization: `O-Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-MERCHANT-ID": process.env.PHONEPE_MERCHANT_ID,
+        },
+      }
+    );
 
-paymentFlow:{
-type:"PG_CHECKOUT",
-merchantUrls:{
-redirectUrl:`${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?orderId=${merchantOrderId}`,
-}
-}
-};
+    // phonepe order id
+    const phonepeOrderId = response.data.orderId;
 
-const response = await axios.post(
-PAY_URL,
-payload,
-{
-headers:{
-Authorization:`O-Bearer ${token}`,
-"Content-Type":"application/json",
-"X-MERCHANT-ID":process.env.PHONEPE_MERCHANT_ID
-}
-}
-);
+    await connectToDatabase();
 
-const orderId=response.data.orderId;
+    /* invoice */
 
-await connectToDatabase();
+    let invoiceNumber;
 
-/* invoice */
+    const lastOrder = await Order
+      .findOne({ invoiceNumber: { $exists: true } })
+      .sort({ createdAt: -1 });
 
-let invoiceNumber;
+    if (!lastOrder) {
+      invoiceNumber = "INV-2026-0001";
+    } else {
+      const lastNum = parseInt(lastOrder.invoiceNumber.split("-")[2] || "0");
+      invoiceNumber = `INV-2026-${String(lastNum + 1).padStart(4, "0")}`;
+    }
 
-const lastOrder = await Order
-.findOne({ invoiceNumber: { $exists: true } })
-.sort({ createdAt: -1 });
+    /* save order */
 
-if (!lastOrder) {
+    await Order.create({
+      invoiceNumber,
+      merchantOrderId,     // YOUR ID
+      phonepeOrderId,      // PHONEPE ID
+      customerName: customer.name,
+      customerPhone: customer.phone,
+      customerEmail: customer.email,
+      items,
+      amount,
+      paymentStatus: "PENDING",
+    });
 
-  invoiceNumber = "INV-2026-0001";
+    const redirectUrl =
+      response.data.redirectUrl ||
+      response.data.data?.redirectUrl;
 
-} else {
+    return NextResponse.json({ url: redirectUrl });
 
-  const lastNum = parseInt(lastOrder.invoiceNumber.split("-")[2] || "0");
+  } catch (err) {
 
-  invoiceNumber = `INV-2026-${String(lastNum + 1).padStart(4, "0")}`;
+    console.error("PhonePe Error:", err.response?.data || err);
 
-}
-
-/* save order */
-
-await Order.create({
-
-invoiceNumber,
-phonepeOrderId: orderId,
-customerName: customer.name,
-customerPhone: customer.phone,
-customerEmail: customer.email,
-items,
-amount,
-paymentStatus:"PENDING"
-
-});
-
-const redirectUrl =
-response.data.redirectUrl ||
-response.data.data?.redirectUrl;
-
-return NextResponse.json({url:redirectUrl});
-
-}catch(err){
-
-console.error("PhonePe Error:",err.response?.data || err);
-
-return NextResponse.json(
-{
-error:"Payment initiation failed",
-details:err.message
-},
-{status:500}
-);
-
-}
-
+    return NextResponse.json(
+      {
+        error: "Payment initiation failed",
+        details: err.message,
+      },
+      { status: 500 }
+    );
+  }
 }
