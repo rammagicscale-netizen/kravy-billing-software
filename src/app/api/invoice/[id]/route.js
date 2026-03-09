@@ -1,4 +1,5 @@
 //src/app/api/invoice/[id]/route.js
+export const runtime = "nodejs";
 
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
@@ -8,7 +9,7 @@ export async function GET(req,{params}){
 
 try{
 
-const {id}=params;
+const { id } = await params;
 
 await connectToDatabase();
 
@@ -30,19 +31,21 @@ const pdfBuffer = await generateInvoice(order);
 return new Response(pdfBuffer,{
 headers:{
 "Content-Type":"application/pdf",
-"Content-Disposition":`attachment; filename=${order.invoiceNumber}.pdf`
+"Content-Disposition":`inline; filename=${order.invoiceNumber}.pdf`
 }
 });
 
-}catch(err){
+}
+catch (err) {
+  console.error("Invoice error:", err);
 
-console.error("Invoice error",err);
-
-return Response.json(
-{error:"Failed to generate invoice"},
-{status:500}
-);
-
+  return Response.json(
+    {
+      error: err.message,
+      stack: err.stack
+    },
+    { status: 500 }
+  );
 }
 
 }

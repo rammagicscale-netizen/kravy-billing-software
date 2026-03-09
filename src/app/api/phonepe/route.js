@@ -48,7 +48,7 @@ amount:Math.round(amount*100),
 paymentFlow:{
 type:"PG_CHECKOUT",
 merchantUrls:{
-redirectUrl:`${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?orderId=${merchantOrderId}`
+redirectUrl:`${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?orderId=${phonepeOrderId}`
 }
 }
 };

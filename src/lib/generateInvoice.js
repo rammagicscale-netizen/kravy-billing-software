@@ -1,178 +1,275 @@
-//src/lib/generateInvoice.js
-
-import PDFDocument from "pdfkit";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import QRCode from "qrcode";
+import fs from "fs";
+import path from "path";
 
-export async function generateInvoice(order) {
+export async function generateInvoice(order){
 
-const doc = new PDFDocument({
-size: "A4",
-margin: 40,
+const pdfDoc = await PDFDocument.create();
+const page = pdfDoc.addPage([595,842]);
+
+const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+const { height } = page.getSize();
+
+const brand = rgb(0.149, 0.278, 0.878);
+
+/* ---------- HEADER ---------- */
+
+
+const headerHeight = 100;
+
+page.drawRectangle({
+  x: 0,
+  y: height - headerHeight,
+  width: 595,
+  height: headerHeight,
+  color: rgb(0.149, 0.278, 0.878)
 });
 
-const buffers = [];
+/* ---------- LOGO ---------- */
 
-doc.on("data", buffers.push.bind(buffers));
+const logoPath = path.join(process.cwd(), "public/logo.png");
 
-/* -----------------------
-HEADER
------------------------ */
+if (fs.existsSync(logoPath)) {
 
-doc.image("public/logo.png", 40, 40, { width: 110 });
+  const logoBytes = fs.readFileSync(logoPath);
+  const logo = await pdfDoc.embedPng(logoBytes);
 
-doc
-.fontSize(22)
-.font("Helvetica-Bold")
-.text("TAX INVOICE", 420, 45);
+  const logoWidth = 90;
+  const logoHeight = 90;
 
-doc.moveDown(2);
+  page.drawImage(logo, {
+    x: 40,
+    y: height - headerHeight / 2 - logoHeight / 2,
+    width: logoWidth,
+    height: logoHeight
+  });
 
-/* -----------------------
-COMPANY DETAILS
------------------------ */
+}
 
-doc
-.fontSize(10)
-.font("Helvetica")
-.text("Kravy Billing Software ", 40, 120)
-.text(" 599, 3rd floor, Rajokri, Delhi, India")
-.text("Email: support@kravy.in")
-.text("GSTIN: 07CFNPV4928Q1Z9");
+/* ---------- COMPANY TEXT ---------- */
 
-/* -----------------------
-INVOICE INFO
------------------------ */
+const companyName = "Kravy Software";
+const address1 = "House No. 599, 3rd Floor";
+const address2 = "Rajokri, New Delhi, India, 110038";
+const gst = "GSTIN: 07CFNPV4928Q1Z9";
 
-doc
-.fontSize(10)
-.text(`Invoice No: ${order.invoiceNumber}`, 350, 120)
-.text(`Invoice Date: ${new Date(order.invoiceDate).toLocaleDateString()}`)
-.text(`Transaction ID: ${order.transactionId}`)
-.text(`Payment Method: PhonePe`);
+const rightMargin = 40;
+const textSizeTitle = 20;
+const textSize = 9;
 
-doc.moveDown(2);
+const nameWidth = bold.widthOfTextAtSize(companyName, textSizeTitle);
 
-/* -----------------------
-CUSTOMER DETAILS
------------------------ */
+const startX = 595 - nameWidth - rightMargin;
+const startY = height - 35;
 
-doc
-.fontSize(12)
-.font("Helvetica-Bold")
-.text("Bill To", 40, 180);
+page.drawText(companyName, {
+  x: startX,
+  y: startY,
+  size: textSizeTitle,
+  font: bold,
+  color: rgb(1,1,1)
+});
 
-doc
-.font("Helvetica")
-.fontSize(10)
-.text(order.customerName)
-.text(`Phone: ${order.customerPhone}`)
-.text(`Email: ${order.customerEmail || "-"}`);
+page.drawText(address1, {
+  x: startX,
+  y: startY - 15,
+  size: textSize,
+  font,
+  color: rgb(1,1,1)
+});
 
-doc.moveDown(2);
+page.drawText(address2, {
+  x: startX,
+  y: startY - 28,
+  size: textSize,
+  font,
+  color: rgb(1,1,1)
+});
 
-/* -----------------------
-TABLE HEADER
------------------------ */
+page.drawText(gst, {
+  x: startX,
+  y: startY - 41,
+  size: textSize,
+  font,
+  color: rgb(1,1,1)
+});
+/* ---------- TITLE ---------- */
 
-const tableTop = 250;
+page.drawText("INVOICE",{
+x:260,
+y:height-150,
+size:18,
+font:bold
+});
 
-doc
-.font("Helvetica-Bold")
-.fontSize(10)
-.text("Item", 40, tableTop)
-.text("Qty", 300, tableTop)
-.text("Price", 350, tableTop)
-.text("Total", 450, tableTop);
+/* ---------- BILL TO ---------- */
 
-doc.moveTo(40, tableTop + 15)
-.lineTo(550, tableTop + 15)
-.stroke();
+let y = height - 200;
 
-/* -----------------------
-TABLE ITEMS
------------------------ */
+page.drawText("Bill To",{x:40,y,size:11,font:bold});
 
-let position = tableTop + 25;
+y -= 18;
 
-doc.font("Helvetica");
+page.drawText(order.customerName,{x:40,y,size:10,font});
+y -= 14;
 
-order.items.forEach((item) => {
+page.drawText(`Phone: ${order.customerPhone}`,{x:40,y,size:10,font});
+
+/* ---------- INVOICE DETAILS ---------- */
+
+let infoY = height - 200;
+
+page.drawText("Invoice #",{x:350,y:infoY,size:10,font});
+page.drawText(order.invoiceNumber,{x:440,y:infoY,size:10,font:bold});
+
+infoY -= 16;
+
+page.drawText("Date",{x:350,y:infoY,size:10,font});
+page.drawText(
+new Date(order.invoiceDate).toLocaleDateString(),
+{x:440,y:infoY,size:10,font}
+);
+
+infoY -= 16;
+
+page.drawText("Txn ID",{x:350,y:infoY,size:10,font});
+page.drawText(order.phonepeOrderId,{x:440,y:infoY,size:9,font});
+
+/* ---------- TABLE HEADER ---------- */
+
+y -= 50;
+
+page.drawRectangle({
+x:40,
+y,
+width:510,
+height:22,
+color: rgb(0.149, 0.278, 0.878)
+});
+
+page.drawText("#",{x:50,y:y+6,size:10,font:bold,color:rgb(1,1,1)});
+page.drawText("Item & Description",{x:80,y:y+6,size:10,font:bold,color:rgb(1,1,1)});
+page.drawText("Qty",{x:300,y:y+6,size:10,font:bold,color:rgb(1,1,1)});
+page.drawText("Rate",{x:360,y:y+6,size:10,font:bold,color:rgb(1,1,1)});
+page.drawText("Amount",{x:450,y:y+6,size:10,font:bold,color:rgb(1,1,1)});
+
+y -= 30;
+
+/* ---------- ITEMS ---------- */
+
+order.items.forEach((item,i)=>{
 
 const total = item.price * item.quantity;
 
-doc
-.fontSize(10)
-.text(item.name, 40, position)
-.text(item.quantity, 300, position)
-.text(`₹${item.price}`, 350, position)
-.text(`₹${total}`, 450, position);
+page.drawText(String(i+1),{x:50,y,size:10,font});
 
-position += 20;
+page.drawText(item.name,{x:80,y,size:10,font});
+
+page.drawText("Product Service",{x:80,y:y-12,size:8,font,color:rgb(0.5,0.5,0.5)});
+
+page.drawText(String(item.quantity),{x:300,y,size:10,font});
+
+page.drawText(`Rs ${item.price}`,{x:360,y,size:10,font});
+
+page.drawText(`Rs ${total}`,{x:450,y,size:10,font});
+
+y -= 35;
 
 });
 
-/* -----------------------
-TOTAL
------------------------ */
+/* ---------- TOTAL ---------- */
 
-doc.moveTo(40, position + 10)
-.lineTo(550, position + 10)
-.stroke();
+y -= 10;
 
-doc
-.font("Helvetica-Bold")
-.fontSize(12)
-.text("Grand Total", 350, position + 25)
-.text(`₹${order.amount}`, 450, position + 25);
+page.drawText("Total",{x:380,y,size:12,font:bold});
 
-/* -----------------------
-QR CODE
------------------------ */
+page.drawText(`Rs ${order.amount}`,{x:450,y,size:12,font:bold});
 
-const qrData = `Invoice:${order.invoiceNumber}
+/* ---------- PAYMENT ---------- */
+
+y -= 60;
+
+page.drawText("Payment Details",{x:40,y,size:11,font:bold});
+
+y -= 16;
+
+page.drawText("Mode: PhonePe",{x:40,y,size:10,font});
+
+y -= 14;
+
+page.drawText(`Transaction ID: ${order.phonepeOrderId}`,{
+x:40,
+y,
+size:10,
+font
+});
+
+/* ---------- QR ---------- */
+
+const qrData=`Invoice:${order.invoiceNumber}
 Amount:${order.amount}
-Customer:${order.customerName}`;
+Txn:${order.phonepeOrderId}`;
 
-const qrImage = await QRCode.toDataURL(qrData);
+const qr = await QRCode.toDataURL(qrData);
 
-const base64 = qrImage.replace(/^data:image\/png;base64,/, "");
-const qrBuffer = Buffer.from(base64, "base64");
-
-doc.image(qrBuffer, 420, position + 70, { width: 100 });
-
-doc
-.fontSize(8)
-.font("Helvetica")
-.text("Scan for invoice verification", 420, position + 180);
-
-/* -----------------------
-FOOTER
------------------------ */
-
-doc
-.fontSize(9)
-.text(
-"This is a computer generated invoice and does not require signature.",
-40,
-750,
-{
-align: "center",
-width: 520,
-}
+const qrImg = await pdfDoc.embedPng(
+Buffer.from(qr.replace(/^data:image\/png;base64,/,""),"base64")
 );
 
-doc.end();
-
-/* -----------------------
-RETURN BUFFER
------------------------ */
-
-return new Promise((resolve) => {
-
-doc.on("end", () => {
-resolve(Buffer.concat(buffers));
+page.drawImage(qrImg,{
+x:260,
+y:90,
+width:100,
+height:100
 });
 
+/* ---------- FOOTER ---------- */
+const footerHeight = 30;
+
+/* ---------- RECEIPT TEXT ABOVE FOOTER ---------- */
+
+const receiptText =
+"This is a computer generated receipt and does not require signature.";
+
+const receiptWidth = font.widthOfTextAtSize(receiptText, 9);
+
+page.drawText(receiptText, {
+  x: (595 - receiptWidth) / 2,
+  y: footerHeight + 10,
+  size: 9,
+  font
 });
+
+/* ---------- FOOTER BAR ---------- */
+
+page.drawRectangle({
+  x: 0,
+  y: 0,
+  width: 595,
+  height: footerHeight,
+  color: rgb(0.149, 0.278, 0.878)
+});
+
+/* ---------- FOOTER CONTACT TEXT ---------- */
+
+const footerText =
+"Phone: 9289507882  |  www.kravy.in  |  support@kravy.in";
+
+const textWidth = font.widthOfTextAtSize(footerText, 9);
+
+page.drawText(footerText, {
+  x: (595 - textWidth) / 2,
+  y: footerHeight / 2 - 4,
+  size: 9,
+  font,
+  color: rgb(1,1,1)
+});
+
+const pdfBytes = await pdfDoc.save();
+
+return Buffer.from(pdfBytes);
 
 }
