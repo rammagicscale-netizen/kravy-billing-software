@@ -1,10 +1,6 @@
-//src/app/api/phonepe/route.js
-
-
-import { NextResponse } from "next/server";
-import axios from "axios";
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
+import axios from "axios";
 
 const TOKEN_URL =
 "https://api.phonepe.com/apis/identity-manager/v1/oauth/token";
@@ -31,39 +27,73 @@ return res.data.access_token;
 
 }
 
-export async function POST(req){
+export async function GET(req,{params}){
 
 try{
 
-const { amount, customer, items } = await req.json();
+const { id } = await params;
+
+await connectToDatabase();
+
+const order = await Order.findOne({
+merchantOrderId:id
+});
+
+if(!order){
+
+return Response.json(
+{error:"Order not found"},
+{status:404}
+);
+
+}
+
+/* PAYMENT ALREADY COMPLETED */
+
+if(order.paymentStatus === "SUCCESS"){
+
+return Response.json(
+{error:"Payment already completed"},
+{status:400}
+);
+
+}
+
+/* EXISTING PENDING PAYMENT */
+
+if(order.paymentStatus === "PENDING"){
+
+return Response.json({
+
+url:`${process.env.NEXT_PUBLIC_BASE_URL}/payment/status/${order.merchantOrderId}`
+
+});
+
+}
+
+/* FAILED PAYMENT → CREATE NEW PHONEPE ORDER */
 
 const token = await getAccessToken();
 
-const merchantOrderId = "OMO" + Date.now();
-
-/* ---------- PHONEPE PAYLOAD ---------- */
+const newMerchantOrderId = "OMO" + Date.now();
 
 const payload = {
 
-merchantOrderId,
+merchantOrderId:newMerchantOrderId,
 
-amount: Math.round(amount * 100),
+amount:Math.round(order.amount * 100),
 
 paymentFlow:{
 type:"PG_CHECKOUT",
 
 merchantUrls:{
-
 redirectUrl:
-`${process.env.NEXT_PUBLIC_BASE_URL}/payment/status/${merchantOrderId}`
-
+`${process.env.NEXT_PUBLIC_BASE_URL}/payment/status/${newMerchantOrderId}`
 }
 
 }
 
 };
-
-/* ---------- CREATE PAYMENT ---------- */
 
 const response = await axios.post(
 
@@ -83,37 +113,17 @@ Authorization:`O-Bearer ${token}`,
 
 );
 
-const phonepeOrderId = response.data.orderId;
+/* UPDATE ORDER */
 
-/* ---------- SAVE ORDER ---------- */
+order.merchantOrderId = newMerchantOrderId;
 
-await connectToDatabase();
-
-await Order.create({
-
-merchantOrderId,
-phonepeOrderId,
-
-customer:{
-  name:customer.name,
-  phone:customer.phone,
-  email:customer.email,
-  address:customer.address
-},
-
-items,
-amount,
-paymentStatus:"PENDING"
-
-});
-
-/* ---------- RETURN REDIRECT ---------- */
+await order.save();
 
 const redirectUrl =
 response.data.redirectUrl ||
 response.data.data?.redirectUrl;
 
-return NextResponse.json({
+return Response.json({
 
 url:redirectUrl
 
@@ -121,17 +131,11 @@ url:redirectUrl
 
 }catch(err){
 
-console.error("PhonePe Error:",err.response?.data || err);
+console.error("Resume Payment Error:",err.response?.data || err);
 
-return NextResponse.json(
-
-{
-error:"Payment initiation failed",
-details:err.message
-},
-
+return Response.json(
+{error:"Resume payment failed"},
 {status:500}
-
 );
 
 }

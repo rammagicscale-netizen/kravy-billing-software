@@ -1,3 +1,5 @@
+//src/lib/generateInvoice.js
+
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import QRCode from "qrcode";
 import fs from "fs";
@@ -113,10 +115,14 @@ page.drawText("Bill To",{x:40,y,size:11,font:bold});
 
 y -= 18;
 
-page.drawText(order.customerName,{x:40,y,size:10,font});
+page.drawText(order.customer.name,{x:40,y,size:10,font});
 y -= 14;
 
-page.drawText(`Phone: ${order.customerPhone}`,{x:40,y,size:10,font});
+page.drawText(`Phone: ${order.customer.phone}`,{x:40,y,size:10,font});
+
+page.drawText(`Email: ${order.customer.email}`, {x:40,y,size:10,font});
+
+page.drawText(`Address: ${order.customer.address}`, {x:40,y,size:10,font});
 
 /* ---------- INVOICE DETAILS ---------- */
 
@@ -129,7 +135,7 @@ infoY -= 16;
 
 page.drawText("Date",{x:350,y:infoY,size:10,font});
 page.drawText(
-new Date(order.invoiceDate).toLocaleDateString(),
+new Date(order.createdAt).toLocaleDateString(),
 {x:440,y:infoY,size:10,font}
 );
 

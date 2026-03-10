@@ -1,4 +1,5 @@
 //src/app/api/invoice/[id]/route.js
+
 export const runtime = "nodejs";
 
 import { connectToDatabase } from "@/lib/mongodb";
@@ -9,13 +10,13 @@ export async function GET(req,{params}){
 
 try{
 
-const { id } = await params;
+const { id } = params;
 
 await connectToDatabase();
 
 const order = await Order.findOne({
-phonepeOrderId:id
-});
+merchantOrderId:id
+}).lean();
 
 if(!order){
 
@@ -26,26 +27,43 @@ return Response.json(
 
 }
 
+/* PAYMENT CHECK */
+
+if(order.paymentStatus !== "SUCCESS"){
+
+return Response.json(
+{error:"Payment not completed"},
+{status:400}
+);
+
+}
+
+/* GENERATE PDF */
+
 const pdfBuffer = await generateInvoice(order);
 
 return new Response(pdfBuffer,{
+
 headers:{
+
 "Content-Type":"application/pdf",
-"Content-Disposition":`inline; filename=${order.invoiceNumber}.pdf`
+
+"Content-Disposition":
+`attachment; filename=${order.invoiceNumber}.pdf`
+
 }
+
 });
 
-}
-catch (err) {
-  console.error("Invoice error:", err);
+}catch(err){
 
-  return Response.json(
-    {
-      error: err.message,
-      stack: err.stack
-    },
-    { status: 500 }
-  );
+console.error("Invoice error:",err);
+
+return Response.json(
+{error:err.message},
+{status:500}
+);
+
 }
 
 }

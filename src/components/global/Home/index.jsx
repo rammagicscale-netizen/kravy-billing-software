@@ -1,3 +1,4 @@
+//src/components/global/Home/index.jsx
 "use client";
 
 import React, { useState } from "react";

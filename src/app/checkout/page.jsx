@@ -67,6 +67,7 @@ const handlePayment = async () => {
   name: "",
   phone: "",
   email: "",
+  address: "",
 });
 const handleCustomerChange = (e) => {
   setCustomer({
@@ -102,6 +103,16 @@ const handleCustomerChange = (e) => {
       value={customer.phone}
       onChange={handleCustomerChange}
       className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+    <input
+      type="text"
+      name="address"
+      placeholder="Address (optional)"
+      value={customer.address}
+      onChange={handleCustomerChange}
+      rows={3}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 sm:col-span-2 resize-none"
     />
 
     <input

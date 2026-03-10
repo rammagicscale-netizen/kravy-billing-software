@@ -33,6 +33,7 @@ const navLinks = [
   { title: "FAQs", href: "/faqs" },
   { title: "Contact Us", href: "/contact" },
   { title: "Pricing", href: "/pricing" },
+  { title: "Orders", href: "/orders" },
 ];
 
 // Mobile navigation (About has its own dropdown, so not here)
@@ -40,17 +41,19 @@ const navMobileLinks = [
   { title: "Updates", href: "/updates" },
   { title: "FAQs", href: "/faqs" },
   { title: "Contact Us", href: "/contact" },
+  { title: "Pricing", href: "/pricing" },
+  { title: "Orders", href: "/orders" },
   { title: "Privacy Policy", href: "/privacy-policy" },
   { title: "Terms & Conditions", href: "/terms-and-conditions" },
 ];
 
 // Product list for mobile accordion
-const productsList = [
-  { id: "basic", name: "Kravy Billing Software Basic", priceLabel: "₹499/month", price: 499 },
-  { id: "pos-pro", name: "Kravy POS System Pro", priceLabel: "₹899/month", price: 899 },
-  { id: "inventory-addon", name: "Kravy Inventory Add-on", priceLabel: "₹299/month", price: 299 },
-  { id: "analytics-pro", name: "Kravy Analytics Pro", priceLabel: "₹699/month", price: 699 },
-];
+// const productsList = [
+//   { id: "basic", name: "Kravy Billing Software Basic", priceLabel: "₹499/month", price: 499 },
+//   { id: "pos-pro", name: "Kravy POS System Pro", priceLabel: "₹899/month", price: 899 },
+//   { id: "inventory-addon", name: "Kravy Inventory Add-on", priceLabel: "₹299/month", price: 299 },
+//   { id: "analytics-pro", name: "Kravy Analytics Pro", priceLabel: "₹699/month", price: 699 },
+// ];
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -304,13 +307,13 @@ export default function Header() {
               ))}
 
               {/* Products Dropdown (mobile quick add to cart) */}
-              <button
+              {/* <button
                 onClick={() => setShowProducts((p) => !p)}
                 className="flex justify-between items-center w-full py-2 text-left text-gray-800 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700"
               >
                 <span>Quick Add Products</span>
                 {showProducts ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-              </button>
+              </button> */}
 
               <AnimatePresence>
                 {showProducts && (
