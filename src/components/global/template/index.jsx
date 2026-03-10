@@ -93,7 +93,7 @@ const Template = ({
             >
               <GradientText
                 icon={<Clock className="w-4 h-4 text-green-400" />}
-                title="Last Updated on July 1, 2025"
+                title="Last Updated on Jan 31, 2026"
               />
             </motion.div>
           )}
