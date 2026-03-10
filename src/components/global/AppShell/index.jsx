@@ -4,7 +4,7 @@
 
 import Header from "../Header";
 import Footer from "../Footer";
-import EnquiryModal from "../EnquiryModal"; // ✅ Correct Path
+import EnquiryModal from "../../EnquiryModal"; // ✅ Correct Path
 
 export default function AppShell({ children }) {
   return (

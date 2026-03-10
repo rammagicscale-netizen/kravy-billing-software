@@ -1,3 +1,4 @@
+//src/app/(policy)/Privacy/page.jsx
 import React, { use } from "react";
 import Template from "@/components/global/template";
 import { Headset } from "lucide-react";

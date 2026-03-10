@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function EnquiryModal() {
+  const pathname = usePathname();   // get current route
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -11,17 +13,17 @@ export default function EnquiryModal() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Always show popup on every page load (after small delay)
+  // Show popup only on homepage
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (pathname !== "/") return;
 
-    const timer = setTimeout(() => setOpen(true), 1800); // 1.8s delay
+    const timer = setTimeout(() => setOpen(true), 1800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
   const validatePhone = (value) => {
     const digits = value.replace(/\D/g, "");
-    return digits.length === 10; // simple Indian 10-digit check
+    return digits.length === 10;
   };
 
   const handleSubmit = async (e) => {
@@ -36,26 +38,22 @@ export default function EnquiryModal() {
 
     try {
       setLoading(true);
+
       const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          phone,
-          source: "popup",
-        }),
+        body: JSON.stringify({ name, phone, source: "popup" }),
       });
 
       const data = await res.json().catch(() => ({}));
+
       if (!res.ok || !data.success) {
         throw new Error(data.error || "Failed to submit. Try again.");
       }
 
       setSuccess("Thanks! We’ll contact you shortly.");
 
-      setTimeout(() => {
-        setOpen(false);
-      }, 1400);
+      setTimeout(() => setOpen(false), 1400);
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -63,6 +61,8 @@ export default function EnquiryModal() {
     }
   };
 
+  // Don't render on other pages
+  if (pathname !== "/") return null;
   if (!open) return null;
 
   return (
