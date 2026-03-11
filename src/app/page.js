@@ -4,7 +4,6 @@ import React from "react";
 import Home from "@/components/global/Home";
 import { motion } from "framer-motion";
 import AnimatedBackground from "@/components/global/animated-background";
-import PlanBanner from "@/components/global/PlanBanner";
 
 export default function Page() {
   return (
@@ -19,10 +18,7 @@ export default function Page() {
       >
         {/* Hero / main section */}
         <Home />
-
-        {/* Plan banner section */}
         <div className="mt-12">
-          {/* <PlanBanner /> */}
         </div>
       </motion.div>
     </div>

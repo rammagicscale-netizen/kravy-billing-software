@@ -246,7 +246,7 @@ return Response.json({received:true});
 
 /* ---------- PAYMENT SUCCESS ---------- */
 
-if(state === "COMPLETED"){
+if(sstate === "COMPLETED" || state === "SUCCESS"){
 
 order.paymentStatus = "SUCCESS";
 order.paidAt = new Date();

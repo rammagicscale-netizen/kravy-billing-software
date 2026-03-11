@@ -13,6 +13,7 @@ export default function CheckoutPage() {
 
   const printerPrice = 1999;
   const printerAdded = cartItems.some((item) => item.id === "printer");
+  const [customerFound,setCustomerFound] = useState(false);
 
   const addPrinter = () => {
     if (printerAdded) return;
@@ -63,16 +64,23 @@ const handlePayment = async () => {
 
 };
 
-  const [customer, setCustomer] = useState({
-  name: "",
-  phone: "",
-  email: "",
-  address: "",
+const [customer,setCustomer] = useState({
+  name:"",
+  phone:"",
+  email:"",
+  gst:"",
+  house:"",
+  addressLine:"",
+  district:"",
+  state:"",
+  country:"",
+  pincode:""
 });
-const handleCustomerChange = (e) => {
+
+const handleCustomerChange = (e)=>{
   setCustomer({
     ...customer,
-    [e.target.name]: e.target.value,
+    [e.target.name]:e.target.value
   });
 };
 
@@ -86,34 +94,64 @@ const handleCustomerChange = (e) => {
   </h2>
 
   <div className="grid gap-4 sm:grid-cols-2">
-    
+
+    {/* CUSTOMER NAME */}
+
     <input
       type="text"
       name="name"
       placeholder="Customer Name"
+      required
       value={customer.name}
       onChange={handleCustomerChange}
       className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
     />
 
-    <input
+    {/* MOBILE */}
+
+      <input
       type="tel"
       name="phone"
       placeholder="Mobile Number"
+      required
       value={customer.phone}
-      onChange={handleCustomerChange}
-      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-    />
+      onChange={async (e)=>{
 
-    <input
-      type="text"
-      name="address"
-      placeholder="Address (optional)"
-      value={customer.address}
-      onChange={handleCustomerChange}
-      rows={3}
-      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 sm:col-span-2 resize-none"
-    />
+        const phone = e.target.value.replace(/\D/g,"");
+
+        setCustomer({
+          ...customer,
+          phone
+        });
+
+        if(phone.length === 10){
+
+          try{
+
+            const res = await fetch(`/api/customer-by-phone?phone=${phone}`);
+            const data = await res.json();
+
+            if(data){
+
+              setCustomer({
+                ...customer,
+                ...data,
+                phone
+              });
+
+            }
+
+          }catch(err){
+            console.log(err);
+          }
+
+        }
+
+      }}
+      className="w-full px-3 py-2 border rounded-lg text-sm"
+      />
+
+    {/* EMAIL */}
 
     <input
       type="email"
@@ -121,7 +159,92 @@ const handleCustomerChange = (e) => {
       placeholder="Email (optional)"
       value={customer.email}
       onChange={handleCustomerChange}
-      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 sm:col-span-2"
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 "
+    />
+
+    {/* GST (OPTIONAL) */}
+
+    <input
+      type="text"
+      name="gst"
+      placeholder="GST Number (optional)"
+      value={customer.gst}
+      onChange={(e)=>{
+        setCustomer({...customer,gst:e.target.value.toUpperCase()});
+      }}
+      className="w-full px-3 py-2 border rounded-lg text-sm"
+    />
+
+    {/* FLAT / SHOP */}
+
+    <input
+      type="text"
+      name="house"
+      placeholder="Flat / Home / Shop No"
+      required
+      value={customer.house}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+    {/* ADDRESS LINE */}
+
+    <input
+      type="text"
+      name="addressLine"
+      placeholder="Street / Area / Address Line"
+      required
+      value={customer.addressLine}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+    {/* DISTRICT */}
+
+    <input
+      type="text"
+      name="district"
+      placeholder="District / City"
+      required
+      value={customer.district}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+    {/* STATE */}
+
+    <input
+      type="text"
+      name="state"
+      placeholder="State"
+      required
+      value={customer.state}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+  {/* Country*/}
+
+    <input
+      type="text"
+      name="country"
+      placeholder="Country"
+      required
+      value={customer.country}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+    />
+
+    {/* PINCODE */}
+
+    <input
+      type="text"
+      name="pincode"
+      placeholder="Pincode"
+      required
+      value={customer.pincode}
+      onChange={handleCustomerChange}
+      className="w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 "
     />
 
   </div>

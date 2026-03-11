@@ -32,7 +32,7 @@ const steps = [
 
 export default function AboutThisPlatform() {
   return (
-    <section className="relative py-20 px-4 md:px-6 lg:px-8 text-white">
+    <section className="relative py-20 px-4 md:px-6 lg:px-8 text-gray-900 dark:text-white">
       <div className="max-w-6xl mx-auto text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -52,7 +52,7 @@ export default function AboutThisPlatform() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md shadow-lg flex flex-col items-start text-start"
+              className="rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-4 backdrop-blur-md shadow-lg flex flex-col items-start text-start"
             >
               <img
                 src={step.img}
@@ -61,7 +61,7 @@ export default function AboutThisPlatform() {
               />
 
               <h3 className="text-lg font-semibold mb-2">{i+1}. {step.title}</h3>
-              <p className="text-sm text-neutral-300">{step.desc}</p>
+              <p className="text-sm text-gray-600 dark:text-neutral-300">{step.desc}</p>
             </motion.div>
           ))}
         </div>

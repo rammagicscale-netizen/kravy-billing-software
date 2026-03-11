@@ -95,10 +95,7 @@ merchantOrderId,
 phonepeOrderId,
 
 customer:{
-  name:customer.name,
-  phone:customer.phone,
-  email:customer.email,
-  address:customer.address
+  ...customer
 },
 
 items,

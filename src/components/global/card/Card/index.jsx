@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import DownloadDropdown from "../../dropdown";
+
 const Card = ({ image, index, slug }) => {
   return (
     <motion.figure
@@ -18,8 +19,8 @@ const Card = ({ image, index, slug }) => {
           src={image.image_url}
           alt={
             image.title
-              ? `${image.title} - High Quality Zomato & Swiggy Approved Food Image by Foodsnap`
-              : "Premium food image for restaurant menus - Zomato & Swiggy approved"
+              ? `${image.title} - Restaurant Billing Software Feature | Kravy`
+              : "Kravy restaurant billing software dashboard feature"
           }
           className="w-full h-56 sm:h-64 object-cover rounded-md group-hover:scale-105 transition-transform duration-500"
         />
@@ -29,7 +30,7 @@ const Card = ({ image, index, slug }) => {
         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-300">
           <DownloadDropdown
             withWatermarkUrl={image.image_url}
-            withoutWatermarkUrl={`https://app.foodsnap.in?search=${slug}`}
+            withoutWatermarkUrl={`https://billing.kravy.in/dashboard?search=${slug}`}
             title={image.title}
           />
         </div>
@@ -46,20 +47,23 @@ const Card = ({ image, index, slug }) => {
           "@context": "https://schema.org",
           "@type": "ImageObject",
           contentUrl: image.image_url,
-          name: image.title || "Foodsnap Food Image",
+          name: image.title || "Kravy Billing Software Feature",
           description:
             image.title ||
-            "High quality food image for restaurant menus - Zomato & Swiggy approved",
+            "Restaurant billing software feature from Kravy POS system",
           creator: {
             "@type": "Organization",
-            name: "Foodsnap",
-            url: "https://foodsnap.in",
+            name: "Kravy",
+            url: "https://kravy.in",
           },
-          creditText:
-            "Image courtesy of Foodsnap.in (curated from Zomato/Google sources)",
-          copyrightNotice: "© Original rights holders / Curated by Foodsnap.in",
-          license: "https://foodsnap.in/license",
-          acquireLicensePage: "https://foodsnap.in/acquire-image-rights",
+          publisher: {
+            "@type": "Organization",
+            name: "Kravy",
+            url: "https://kravy.in",
+          },
+          creditText: "Kravy Restaurant Billing Platform",
+          copyrightNotice: "© Kravy",
+          license: "https://kravy.in/terms",
         })}
       </script>
     </motion.figure>

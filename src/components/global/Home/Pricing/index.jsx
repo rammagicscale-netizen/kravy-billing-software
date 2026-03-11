@@ -11,42 +11,59 @@ export const plans = [
     name: "Free Trial",
     price: 1,
     originalPrice: null,
-    description: "Try the billing software free for 3 days.",
+    description: "Explore the billing platform with a full feature trial.",
     features: [
       "3 Day full access trial",
       "Unlimited invoices during trial",
-      "Dashboard & reports",
-      "Customer & item management",
+      "Analytics dashboard",
+      "Customer management",
+      "Invoice with logo & QR",
+      "3 click billing system",
+      "Basic inventory management",
+      "Chat support",
     ],
   },
+
   {
     key: "year1",
     name: "1 Year Plan",
     price: 3999,
     originalPrice: 7000,
-    description: "Perfect for small restaurants and shops.",
+    description: "Perfect for restaurants and small businesses.",
     features: [
       "Unlimited invoices",
-      "Business dashboard",
-      "GST billing support",
-      "Customer & item management",
-      "Email support",
+      "Analytics dashboard",
+      "3 click billing system",
+      "Customer management",
+      "Inventory management",
+      "Tax / GST management",
+      "Invoice with logo & QR",
+      "Table QR ordering",
+      "Bulk item uploading",
+      "Chat & Email support",
     ],
   },
+
   {
     key: "year2",
     name: "2 Year Plan",
     price: 5999,
     originalPrice: 14000,
-    description: "Best value for growing businesses.",
+    description: "Best choice for growing businesses.",
     features: [
       "Everything in 1 Year plan",
+      "Advanced analytics dashboard",
+      "Kitchen workflow system",
+      "Coupons, loyalty & offers management",
+      "Table QR ordering system",
+      "Inventory tracking with alerts",
+      "Bulk menu uploading",
       "Priority support",
-      "Advanced reports",
-      "Staff management",
-      "Cloud backup",
+      "Customer insights reports",
+      "Chat & Email support",
     ],
   },
+
   {
     key: "year3",
     name: "3 Year Plan",
@@ -55,10 +72,15 @@ export const plans = [
     description: "Maximum savings for long-term businesses.",
     features: [
       "Everything in 2 Year plan",
-      "Multi outlet support",
-      "Advanced analytics",
-      "Dedicated onboarding",
-      "Lifetime data backup",
+      "Advanced analytics dashboard",
+      "Kitchen workflow automation",
+      "Inventory smart tracking",
+      "Coupons, loyalty & offers management",
+      "Table QR ordering system",
+      "Bulk uploading system",
+      "Advanced tax / GST reports",
+      "Priority support",
+      "Chat & Email support",
     ],
     highlight: true,
   },
@@ -110,6 +132,10 @@ export default function PricingSection() {
           const saving =
             plan.originalPrice && plan.originalPrice - plan.price;
 
+          const savePercent =
+            plan.originalPrice &&
+            Math.round((saving / plan.originalPrice) * 100);
+
           return (
             <motion.div
               key={plan.key}
@@ -128,9 +154,9 @@ export default function PricingSection() {
                 </span>
               )}
 
-              {saving && (
+              {savePercent && (
                 <div className="text-xs font-semibold text-green-500 mb-2">
-                  Save ₹{saving.toLocaleString()}
+                  Save {savePercent}%
                 </div>
               )}
 

@@ -96,8 +96,9 @@ export default function Home() {
 
       <OutletCompare />
       <WhyChooseUs />
-      <AboutPlatform />
       <PricingSection />
+      <AboutPlatform />
+      
       {/* <Testimonials /> */}
       {/* <motion.div
         initial={{ opacity: 0, y: 40 }}
