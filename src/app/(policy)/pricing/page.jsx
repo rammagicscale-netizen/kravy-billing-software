@@ -4,19 +4,20 @@ import { COMPANY } from "@/constants";
 
 export const metadata = {
   title: `Pricing - ${COMPANY.name}`,
-  description: `Explore ${COMPANY.name} pricing plans for hassle-free food photography and menu image uploads compatible with Swiggy and Zomato.`,
+  description: `Explore ${COMPANY.name} pricing plans for our smart billing software designed to help businesses manage invoices, orders, and payments easily.`,
   keywords: [
     `${COMPANY.name} pricing`,
-    "Swiggy menu images",
-    "Zomato menu images",
-    "restaurant image upload",
-    "food photography services",
+    "billing software pricing",
+    "invoice management software",
+    "POS billing system",
+    "business billing solution",
   ],
   authors: [{ name: `${COMPANY.name} Team`, email: COMPANY.email }],
   robots: "index, follow",
+
   openGraph: {
     title: `Pricing - ${COMPANY.name}`,
-    description: `Discover affordable plans at ${COMPANY.name} for high-quality, ready-to-upload food photos.`,
+    description: `Discover affordable billing software plans at ${COMPANY.name} to manage invoices, orders, and payments efficiently.`,
     url: `${COMPANY.url}/pricing`,
     type: "website",
     images: [
@@ -28,10 +29,11 @@ export const metadata = {
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: `Pricing - ${COMPANY.name}`,
-    description: `Check out pricing for ${COMPANY.name} — the food photo library built for restaurants.`,
+    description: `Check pricing plans for ${COMPANY.name} billing software and simplify your business billing process.`,
   },
 };
 

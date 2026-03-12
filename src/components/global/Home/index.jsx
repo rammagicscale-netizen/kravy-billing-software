@@ -69,19 +69,22 @@ export default function Home() {
             </button>
           </a> */}
           {/* Button hidden as requested */}
-          {/* <a
+          <a
             href="https://kravy-pos-website.vercel.app/"
             target="_blank"
+            rel="noopener noreferrer"
             className="hidden group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl 
-  bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 
-  px-7 py-3.5 font-semibold text-white transition-all duration-300 
-  shadow-md hover:shadow-lg hover:scale-[1.04] active:scale-[0.97]"
+            bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 
+            px-7 py-3.5 font-semibold text-white transition-all duration-300 
+            shadow-md hover:shadow-lg hover:scale-[1.04] active:scale-[0.97]"
           >
             <div
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-    bg-gradient-to-r from-emerald-600 to-green-700 blur-xl"
+              bg-gradient-to-r from-emerald-600 to-green-700 blur-xl"
             />
-          </a> */}
+
+            <span className="relative z-10">Get Started</span>
+          </a>
         </motion.div>
       </div>
 {/* 

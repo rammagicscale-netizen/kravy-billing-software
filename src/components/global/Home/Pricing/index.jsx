@@ -5,6 +5,12 @@ import { CheckCircle2, ArrowRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 
+
+export const metadata = {
+title: "Pricing | Kravy Billing Software",
+description: "Affordable POS billing software for restaurants and shops.",
+};
+
 export const plans = [
   {
     key: "trial",

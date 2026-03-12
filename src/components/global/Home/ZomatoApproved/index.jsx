@@ -20,19 +20,15 @@ const zomatoImages = [
 // REELS (local videos + cover images)
 const instagramReels = [
   {
-    cover: "/assets/reels/reel1.jpg",
     video: "/assets/reels/reel1.mp4",
   },
   {
-    cover: "/assets/reels/reel2.jpg",
     video: "/assets/reels/reel2.mp4",
   },
   {
-    cover: "/assets/reels/reel3.jpg",
     video: "/assets/reels/reel3.mp4",
   },
   {
-    cover: "/assets/reels/reel4.jpg",
     video: "/assets/reels/reel4.mp4",
   },
 ];
