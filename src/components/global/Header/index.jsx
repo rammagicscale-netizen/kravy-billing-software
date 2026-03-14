@@ -31,6 +31,7 @@ const aboutSubLinks = [
 const navLinks = [
   { title: "Updates", href: "/updates" },
   { title: "FAQs", href: "/faqs" },
+  { title: "Blog", href: "/blog" },
   { title: "Contact Us", href: "/contact" },
   { title: "Pricing", href: "/pricing" },
   { title: "Orders", href: "/orders" },
