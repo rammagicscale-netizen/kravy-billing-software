@@ -136,7 +136,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navbar */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8">
             {/* About dropdown (desktop) */}
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -204,12 +204,12 @@ export default function Header() {
           </nav>
 
           {/* Right Side */}
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex items-center gap-5 md:gap-4">
             {/* CTA */}
             <motion.a
               href="https://kravy-pos-website.vercel.app/"
               target="_blank"
-              className="hidden md:inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-md text-sm font-semibold shadow-md"
+              className="hidden lg:inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-md text-sm font-semibold shadow-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
@@ -249,7 +249,7 @@ export default function Header() {
             {/* Mobile Toggle */}
             <button
               onClick={() => setIsOpen((p) => !p)}
-              className="md:hidden text-gray-800 dark:text-white"
+              className="lg:hidden text-gray-800 dark:text-white"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -263,7 +263,7 @@ export default function Header() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="md:hidden mt-2 px-4 pb-4 space-y-2 border-t border-gray-300 dark:border-gray-700"
+              className="lg:hidden mt-2 px-4 pb-4 space-y-2 border-t border-gray-300 dark:border-gray-700"
             >
               {/* About dropdown (mobile) */}
               <button
