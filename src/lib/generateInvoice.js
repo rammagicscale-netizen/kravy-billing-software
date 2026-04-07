@@ -15,7 +15,20 @@ export async function generateInvoice(order) {
   const brandColor = rgb(0.149, 0.278, 0.878);
   const textColor = rgb(1, 1, 1);
   const darkTextColor = rgb(0.1, 0.1, 0.1);
-  const greyTextColor = rgb(0.5, 0.5, 0.5);
+  const greyTextColor = rgb(0.4, 0.4, 0.4);
+
+  /* ---------- TAX CALCULATIONS (Inclusive 18%) ---------- */
+  const totalAmount = order.amount || 0;
+  const taxableAmount = totalAmount / 1.18;
+  const totalTax = totalAmount - taxableAmount;
+  
+  // State-based split: Delhi = CGST/SGST, Other = IGST
+  const isDelhi = String(order.customer?.state || "").toLowerCase().includes("delhi");
+  const cgst = isDelhi ? totalTax / 2 : 0;
+  const sgst = isDelhi ? totalTax / 2 : 0;
+  const igst = !isDelhi ? totalTax : 0;
+
+  const formatRS = (val) => `Rs ${Number(val).toFixed(2)}`;
 
   /* ---------- TOP BRANDING BAR (HEADER) ---------- */
   const headerHeight = 110;
@@ -49,7 +62,7 @@ export async function generateInvoice(order) {
   const companyName = "Kravy Software";
   const address1 = "House No. 599, 3rd Floor";
   const address2 = "Rajokri, New Delhi, India, 110038";
-  const gst = "GSTIN: 07CFNPV4928Q1Z9";
+  const companyGst = "GSTIN: 07CFNPV4928Q1Z9";
 
   const infoX = 400;
   let infoY = height - 30;
@@ -60,11 +73,11 @@ export async function generateInvoice(order) {
   infoY -= 13;
   page.drawText(address2, { x: infoX, y: infoY, size: 9, font, color: textColor });
   infoY -= 13;
-  page.drawText(gst, { x: infoX, y: infoY, size: 9, font, color: textColor });
+  page.drawText(companyGst, { x: infoX, y: infoY, size: 9, font, color: textColor });
 
   /* ---------- INVOICE TITLE ---------- */
-  page.drawText("INVOICE", {
-    x: 595 / 2 - 40,
+  page.drawText("TAX INVOICE", {
+    x: 595 / 2 - 60,
     y: height - 160,
     size: 20,
     font: bold,
@@ -77,15 +90,42 @@ export async function generateInvoice(order) {
   const rightX = 380;
 
   // Bill To
-  page.drawText("Bill To", { x: leftX, y: topY, size: 12, font: bold });
+  page.drawText("Bill To", { x: leftX, y: topY, size: 11, font: bold });
   let billY = topY - 18;
   page.drawText(String(order.customer?.name || "Customer"), { x: leftX, y: billY, size: 10, font });
+  
+  // Full Address
   billY -= 14;
+  const customerAddr = `${order.customer?.house}, ${order.customer?.addressLine}, ${order.customer?.district}, ${order.customer?.state} - ${order.customer?.pincode}`;
+  const addrWords = customerAddr.split(' ');
+  let addrLines = [];
+  let currentLine = "";
+  addrWords.forEach(word => {
+     if ((currentLine + word).length < 45) {
+         currentLine += " " + word;
+     } else {
+         addrLines.push(currentLine.trim());
+         currentLine = word;
+     }
+  });
+  addrLines.push(currentLine.trim());
+  
+  addrLines.forEach(line => {
+    page.drawText(line, { x: leftX, y: billY, size: 9, font, color: greyTextColor });
+    billY -= 12;
+  });
+
+  billY -= 4;
   page.drawText(`Phone: ${String(order.customer?.phone || "N/A")}`, { x: leftX, y: billY, size: 10, font });
   
   if (order.customer?.email) {
     billY -= 14;
     page.drawText(`Email: ${String(order.customer.email)}`, { x: leftX, y: billY, size: 10, font });
+  }
+  
+  if (order.customer?.gst) {
+    billY -= 14;
+    page.drawText(`GSTIN: ${String(order.customer.gst)}`, { x: leftX, y: billY, size: 10, font: bold });
   }
 
   // Invoice Meta
@@ -97,10 +137,10 @@ export async function generateInvoice(order) {
   page.drawText(new Date(order.createdAt).toLocaleDateString(), { x: 480, y: metaY, size: 10, font });
   metaY -= 16;
   page.drawText("Txn ID", { x: rightX, y: metaY, size: 10, font });
-  page.drawText(String(order.phonepeOrderId || "N/A").slice(0, 15) + "...", { x: 480, y: metaY, size: 9, font });
+  page.drawText(String(order.paymentId || order.merchantOrderId || "N/A").slice(0, 18), { x: 480, y: metaY, size: 8, font });
 
   /* ---------- TABLE HEADER ---------- */
-  let tableY = height - 310;
+  let tableY = height - 350;
   page.drawRectangle({
     x: 45,
     y: tableY,
@@ -119,32 +159,55 @@ export async function generateInvoice(order) {
   /* ---------- ITEMS ---------- */
   let itemY = tableY - 30;
   order.items.forEach((item, index) => {
-    const amount = item.price * item.quantity;
+    const itemTotal = item.price * item.quantity;
     page.drawText(String(index + 1), { x: 55, y: itemY, size: 10, font });
     page.drawText(String(item.name || "N/A"), { x: 90, y: itemY, size: 10, font: bold });
     page.drawText("Product Service", { x: 90, y: itemY - 12, size: 8, font, color: greyTextColor });
     page.drawText(String(item.quantity), { x: 345, y: itemY, size: 10, font });
-    page.drawText(`Rs ${item.price}`, { x: 400, y: itemY, size: 10, font });
-    page.drawText(`Rs ${amount}`, { x: 490, y: itemY, size: 10, font: bold });
-    itemY -= 40;
+    page.drawText(formatRS(item.price), { x: 400, y: itemY, size: 10, font });
+    page.drawText(formatRS(itemTotal), { x: 490, y: itemY, size: 10, font: bold });
+    itemY -= 45;
   });
 
+  /* ---------- TAX SUMMARY ---------- */
+  itemY -= 20;
+  const summaryX = 350;
+  const valX = 490;
+
+  page.drawText("Taxable Amount", { x: summaryX, y: itemY, size: 10, font, color: greyTextColor });
+  page.drawText(formatRS(taxableAmount), { x: valX, y: itemY, size: 10, font });
+  itemY -= 15;
+
+  if (isDelhi) {
+    page.drawText(`CGST (9%)`, { x: summaryX, y: itemY, size: 10, font, color: greyTextColor });
+    page.drawText(formatRS(cgst), { x: valX, y: itemY, size: 10, font });
+    itemY -= 15;
+    page.drawText(`SGST (9%)`, { x: summaryX, y: itemY, size: 10, font, color: greyTextColor });
+    page.drawText(formatRS(sgst), { x: valX, y: itemY, size: 10, font });
+    itemY -= 15;
+  } else {
+    page.drawText(`IGST (18%)`, { x: summaryX, y: itemY, size: 10, font, color: greyTextColor });
+    page.drawText(formatRS(igst), { x: valX, y: itemY, size: 10, font });
+    itemY -= 15;
+  }
+
   /* ---------- TOTAL ---------- */
-  itemY -= 10;
-  page.drawText("Total", { x: 420, y: itemY, size: 14, font: bold });
-  page.drawText(`Rs ${order.amount}`, { x: 490, y: itemY, size: 14, font: bold });
+  page.drawRectangle({ x: summaryX, y: itemY - 5, width: 200, height: 1, color: rgb(0.9, 0.9, 0.9) });
+  itemY -= 20;
+  page.drawText("Grand Total", { x: summaryX, y: itemY, size: 13, font: bold });
+  page.drawText(formatRS(totalAmount), { x: valX, y: itemY, size: 13, font: bold, color: brandColor });
 
   /* ---------- PAYMENT DETAILS ---------- */
-  let paymentY = itemY - 50;
-  page.drawText("Payment Details", { x: 45, y: paymentY, size: 12, font: bold });
-  paymentY -= 18;
-  page.drawText("Mode: PhonePe", { x: 45, y: paymentY, size: 10, font });
-  paymentY -= 14;
-  page.drawText(`Transaction ID: ${String(order.phonepeOrderId || "N/A")}`, { x: 45, y: paymentY, size: 9, font });
+  itemY -= 60;
+  page.drawText("Payment Details", { x: 45, y: itemY, size: 12, font: bold });
+  itemY -= 18;
+  page.drawText("Mode: Online via PhonePe", { x: 45, y: itemY, size: 10, font });
+  itemY -= 14;
+  page.drawText(`Reference ID: ${String(order.paymentId || order.merchantOrderId || "N/A")}`, { x: 45, y: itemY, size: 9, font });
 
   /* ---------- QR CODE (CENTERED) ---------- */
   try {
-    const qrText = `INV:${order.invoiceNumber}\nAMT:${order.amount}\nTXN:${order.phonepeOrderId}`;
+    const qrText = `INV:${order.invoiceNumber}\nAMT:${order.amount}\nTXN:${order.paymentId || order.merchantOrderId}`;
     const qrDataUrl = await QRCode.toDataURL(qrText);
     const qrImageBytes = Buffer.from(qrDataUrl.split(",")[1], "base64");
     const qrImage = await pdfDoc.embedPng(qrImageBytes);
@@ -159,7 +222,7 @@ export async function generateInvoice(order) {
   }
 
   /* ---------- FOOTER TEXT ---------- */
-  const disclaimer = "This is a computer generated receipt and does not require signature.";
+  const disclaimer = "This is a computer generated tax invoice and does not require signature.";
   const disclaimerWidth = font.widthOfTextAtSize(disclaimer, 8);
   page.drawText(disclaimer, {
     x: (595 - disclaimerWidth) / 2,
