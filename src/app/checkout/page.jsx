@@ -8,13 +8,15 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 
 function CheckoutContent() {
-  const { cartItems, addToCart, removeFromCart, totalAmount, clearCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, totalAmount, clearCart, increaseQty, decreaseQty } = useCart();
   const searchParams = useSearchParams();
   const retryOrderId = searchParams.get("retry");
   
   const [showPrinterModal, setShowPrinterModal] = useState(false);
   const printerPrice = 1999;
-  const printerAdded = cartItems.some((item) => item.id === "printer");
+  const printerItem = cartItems.find((item) => item.id === "printer");
+  const printerAdded = !!printerItem;
+  const printerQty = printerItem?.quantity || 0;
   
   const [customer, setCustomer] = useState({
     name: "",
@@ -278,16 +280,34 @@ function CheckoutContent() {
             <div className="relative z-10">
                 <h3 className="font-bold text-amber-900 dark:text-amber-200">🧾 Need a receipt printer?</h3>
                 <p className="text-sm text-amber-800/70 dark:text-amber-400/70 mt-1 max-w-xs">Add our 58mm thermal printer for just {formatCurrency(printerPrice)} and print instant bills.</p>
-                <div className="flex gap-3 mt-4">
-                  <button 
-                      onClick={addPrinter}
-                      className="px-6 py-2 bg-amber-600 text-white rounded-xl text-xs font-bold hover:bg-amber-700 transition-all shadow-md active:scale-95"
-                  >
-                      ADD TO CART
-                  </button>
+                <div className="flex items-center gap-3 mt-4">
+                  {!printerAdded ? (
+                    <button 
+                        onClick={addPrinter}
+                        className="px-8 py-2.5 bg-amber-600 text-white rounded-xl text-xs font-black hover:bg-amber-700 transition-all shadow-lg active:scale-95"
+                    >
+                        ADD TO CART
+                    </button>
+                  ) : (
+                    <div className="flex items-center bg-white dark:bg-neutral-800 rounded-xl border border-amber-200 dark:border-amber-700 p-1 shadow-sm">
+                        <button 
+                          onClick={() => decreaseQty("printer")}
+                          className="w-8 h-8 flex items-center justify-center text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors font-black text-lg"
+                        >
+                          −
+                        </button>
+                        <span className="w-10 text-center font-black text-amber-900 dark:text-amber-100">{printerQty}</span>
+                        <button 
+                          onClick={() => increaseQty("printer")}
+                          className="w-8 h-8 flex items-center justify-center text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors font-black text-lg"
+                        >
+                          +
+                        </button>
+                    </div>
+                  )}
                   <button 
                       onClick={() => setShowPrinterModal(true)}
-                      className="text-xs font-medium text-amber-700 dark:text-amber-400 hover:underline"
+                      className="text-xs font-bold text-amber-700 dark:text-amber-400 hover:underline px-2"
                   >
                       View details
                   </button>
