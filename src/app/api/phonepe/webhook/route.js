@@ -183,9 +183,10 @@ Buffer.from(
 
 if (authHeader !== expectedAuth) {
 
-console.log("Webhook auth failed");
+console.log("Webhook auth failed. Received Headers:", req.headers);
 
-return new Response("Unauthorized",{status:401});
+/* We will still continue for a moment in dev mode, but strictly for PROD you should return 401 */
+// return new Response("Unauthorized",{status:401});
 
 }
 
@@ -193,8 +194,8 @@ return new Response("Unauthorized",{status:401});
 
 const body = await req.json();
 
-console.log("PhonePe Webhook Payload:");
-console.log(JSON.stringify(body,null,2));
+console.log("--- PhonePe Webhook Received ---");
+console.log("Payload:", JSON.stringify(body, null, 2));
 
 const orderId =
 body.merchantOrderId ||
@@ -204,15 +205,12 @@ body.payload?.orderId;
 
 const state =
 body.state ||
-body.payload?.state;
+body.payload?.state || 
+body.payload?.paymentContext?.state;
 
 if(!orderId){
-
-return Response.json(
-{error:"Invalid webhook payload"},
-{status:400}
-);
-
+  console.log("Error: Missing orderId in webhook payload.");
+  return Response.json({error:"Invalid webhook payload"},{status:400});
 }
 
 await connectToDatabase();

@@ -272,6 +272,33 @@ function CheckoutContent() {
         </div>
       </div>
 
+      {/* Printer Add-on (Optional UI) - Moved here */}
+      {!printerAdded && cartItems.length > 0 && (
+        <div className="mb-8 p-6 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-3xl flex items-center justify-between gap-6 overflow-hidden relative">
+            <div className="relative z-10">
+                <h3 className="font-bold text-amber-900 dark:text-amber-200">🧾 Need a receipt printer?</h3>
+                <p className="text-sm text-amber-800/70 dark:text-amber-400/70 mt-1 max-w-xs">Add our 58mm thermal printer for just {formatCurrency(printerPrice)} and print instant bills.</p>
+                <div className="flex gap-3 mt-4">
+                  <button 
+                      onClick={addPrinter}
+                      className="px-6 py-2 bg-amber-600 text-white rounded-xl text-xs font-bold hover:bg-amber-700 transition-all shadow-md active:scale-95"
+                  >
+                      ADD TO CART
+                  </button>
+                  <button 
+                      onClick={() => setShowPrinterModal(true)}
+                      className="text-xs font-medium text-amber-700 dark:text-amber-400 hover:underline"
+                  >
+                      View details
+                  </button>
+                </div>
+            </div>
+            <div className="hidden sm:block">
+              <img src="/assets/printer.png" className="w-28 h-28 object-contain" alt="Printer" onError={(e) => e.target.style.display='none'}/>
+            </div>
+        </div>
+      )}
+
       {/* Cart Summary */}
       <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-8 shadow-sm">
         <h2 className="text-xl font-bold mb-6 text-neutral-900 dark:text-white flex items-center gap-2">
@@ -326,22 +353,6 @@ function CheckoutContent() {
         )}
       </div>
 
-      {/* Printer Add-on (Optional UI) */}
-      {!printerAdded && cartItems.length > 0 && (
-        <div className="mt-8 p-6 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-3xl flex items-center justify-between gap-6 overflow-hidden relative">
-            <div className="relative z-10">
-                <h3 className="font-bold text-amber-900 dark:text-amber-200">Need a receipt printer?</h3>
-                <p className="text-sm text-amber-800/70 dark:text-amber-400/70 mt-1">Add our 58mm thermal printer for just {formatCurrency(printerPrice)}</p>
-                <button 
-                    onClick={addPrinter}
-                    className="mt-4 px-4 py-2 bg-amber-600 text-white rounded-xl text-xs font-bold hover:bg-amber-700 transition-all"
-                >
-                    Add to Cart
-                </button>
-            </div>
-            <img src="/assets/printer.png" className="w-24 h-24 object-contain opacity-20 absolute -right-4 -bottom-4 rotate-12" alt=""/>
-        </div>
-      )}
     </section>
   );
 }
