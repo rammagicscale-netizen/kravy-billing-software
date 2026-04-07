@@ -274,13 +274,16 @@ function CheckoutContent() {
         </div>
       </div>
 
-      {/* Printer Add-on (Optional UI) - Moved here */}
-      {!printerAdded && cartItems.length > 0 && (
-        <div className="mb-8 p-6 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-3xl flex items-center justify-between gap-6 overflow-hidden relative">
-            <div className="relative z-10">
-                <h3 className="font-bold text-amber-900 dark:text-amber-200">🧾 Need a receipt printer?</h3>
+      {/* Printer Add-on (Optional UI) - Always visible if cart is not empty */}
+      {cartItems.length > 0 && (
+        <div className="mb-8 p-6 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-3xl flex items-center justify-between gap-6 overflow-hidden relative transition-all">
+            <div className="relative z-10 w-full">
+                <h3 className="font-bold text-amber-900 dark:text-amber-200 flex items-center gap-2">
+                  🧾 Need a receipt printer?
+                  {printerAdded && <span className="text-[10px] bg-amber-200 dark:bg-amber-800 px-2 py-0.5 rounded text-amber-900 dark:text-amber-100 font-black">ADDED TO CART</span>}
+                </h3>
                 <p className="text-sm text-amber-800/70 dark:text-amber-400/70 mt-1 max-w-xs">Add our 58mm thermal printer for just {formatCurrency(printerPrice)} and print instant bills.</p>
-                <div className="flex items-center gap-3 mt-4">
+                <div className="flex flex-wrap items-center gap-4 mt-4">
                   {!printerAdded ? (
                     <button 
                         onClick={addPrinter}
@@ -289,32 +292,44 @@ function CheckoutContent() {
                         ADD TO CART
                     </button>
                   ) : (
-                    <div className="flex items-center bg-white dark:bg-neutral-800 rounded-xl border border-amber-200 dark:border-amber-700 p-1 shadow-sm">
-                        <button 
-                          onClick={() => decreaseQty("printer")}
-                          className="w-8 h-8 flex items-center justify-center text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors font-black text-lg"
-                        >
-                          −
-                        </button>
-                        <span className="w-10 text-center font-black text-amber-900 dark:text-amber-100">{printerQty}</span>
-                        <button 
-                          onClick={() => increaseQty("printer")}
-                          className="w-8 h-8 flex items-center justify-center text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors font-black text-lg"
-                        >
-                          +
-                        </button>
+                    <div className="flex items-center gap-3">
+                      {/* Quantity Controls */}
+                      <div className="flex items-center bg-white dark:bg-neutral-800 rounded-xl border border-amber-200 dark:border-amber-700 p-1 shadow-sm">
+                          <button 
+                            onClick={() => decreaseQty("printer")}
+                            className="w-8 h-8 flex items-center justify-center text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors font-black text-lg"
+                          >
+                            −
+                          </button>
+                          <span className="w-10 text-center font-black text-amber-900 dark:text-amber-100">{printerQty}</span>
+                          <button 
+                            onClick={() => increaseQty("printer")}
+                            className="w-8 h-8 flex items-center justify-center text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors font-black text-lg"
+                          >
+                            +
+                          </button>
+                      </div>
+                      
+                      {/* Remove Button */}
+                      <button 
+                        onClick={removePrinter}
+                        className="text-xs font-bold text-red-500 hover:text-red-600 hover:underline px-2 transition-colors"
+                      >
+                        Remove
+                      </button>
                     </div>
                   )}
+                  
                   <button 
                       onClick={() => setShowPrinterModal(true)}
-                      className="text-xs font-bold text-amber-700 dark:text-amber-400 hover:underline px-2"
+                      className="text-xs font-bold text-amber-700 dark:text-amber-400 hover:underline"
                   >
                       View details
                   </button>
                 </div>
             </div>
             <div className="hidden sm:block">
-              <img src="/assets/printer.png" className="w-28 h-28 object-contain" alt="Printer" onError={(e) => e.target.style.display='none'}/>
+              <img src="/assets/printer.png" className="w-24 h-24 object-contain opacity-90" alt="Printer" onError={(e) => e.target.style.display='none'}/>
             </div>
         </div>
       )}
