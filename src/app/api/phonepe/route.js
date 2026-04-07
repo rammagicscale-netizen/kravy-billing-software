@@ -55,7 +55,7 @@ type:"PG_CHECKOUT",
 merchantUrls:{
 
 redirectUrl:
-`${process.env.NEXT_PUBLIC_BASE_URL}/payment/status/${merchantOrderId}`
+`${process.env.NEXT_PUBLIC_BASE_URL}/payment/result/${merchantOrderId}`
 
 }
 
@@ -120,17 +120,18 @@ url:redirectUrl
 
 console.error("PhonePe Error:",err.response?.data || err);
 
+if (err.name === "ValidationError") {
+  console.error("Mongoose Validation Error Details:", JSON.stringify(err.errors, null, 2));
+}
+
 return NextResponse.json(
-
-{
-error:"Payment initiation failed",
-details:err.message
-},
-
-{status:500}
-
+  {
+    error:"Payment initiation failed",
+    details:err.message,
+    fields: err.errors ? Object.keys(err.errors) : undefined
+  },
+  {status:500}
 );
-
 }
 
 }

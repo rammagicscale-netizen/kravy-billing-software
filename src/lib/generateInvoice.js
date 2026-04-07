@@ -119,10 +119,20 @@ page.drawText(order.customer.name,{x:40,y,size:10,font});
 y -= 14;
 
 page.drawText(`Phone: ${order.customer.phone}`,{x:40,y,size:10,font});
+y -= 14;
 
-page.drawText(`Email: ${order.customer.email}`, {x:40,y,size:10,font});
+if (order.customer.email) {
+  page.drawText(`Email: ${order.customer.email}`, {x:40,y,size:10,font});
+  y -= 14;
+}
 
-page.drawText(`Address: ${order.customer.address}`, {x:40,y,size:10,font});
+const fullAddress = `${order.customer.house}, ${order.customer.addressLine}, ${order.customer.district}, ${order.customer.state} - ${order.customer.pincode}`;
+page.drawText(`Address: ${fullAddress}`, {x:40,y,size:10,font});
+
+if (order.customer.gst) {
+  y -= 14;
+  page.drawText(`GST: ${order.customer.gst}`, {x:40,y,size:10,font});
+}
 
 /* ---------- INVOICE DETAILS ---------- */
 
