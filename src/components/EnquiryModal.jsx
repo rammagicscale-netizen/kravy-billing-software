@@ -13,9 +13,13 @@ export default function EnquiryModal() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Show popup only on homepage
+  // Show popup only on homepage & if not submitted before
   useEffect(() => {
     if (pathname !== "/") return;
+
+    // persistence check
+    const isSubmitted = localStorage.getItem("kravy_enquiry_submitted");
+    if (isSubmitted) return;
 
     const timer = setTimeout(() => setOpen(true), 1800);
     return () => clearTimeout(timer);
@@ -51,6 +55,8 @@ export default function EnquiryModal() {
         throw new Error(data.error || "Failed to submit. Try again.");
       }
 
+      // save to localStorage
+      localStorage.setItem("kravy_enquiry_submitted", "true");
       setSuccess("Thanks! We’ll contact you shortly.");
 
       setTimeout(() => setOpen(false), 1400);

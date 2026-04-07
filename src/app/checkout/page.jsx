@@ -102,6 +102,8 @@ function CheckoutContent() {
       });
 
       if (response.data.url) {
+        // Clear cart before redirecting to payment gateway
+        clearCart();
         window.location.href = response.data.url;
       }
     } catch (error) {
