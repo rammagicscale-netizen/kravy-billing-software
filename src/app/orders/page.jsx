@@ -100,7 +100,7 @@ export default function Orders() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-2xl mx-auto relative z-10"
         >
-          <h1 className="text-3xl md:text-5xl font-black mb-4 dark:text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black mb-4 dark:text-white tracking-tight">
             Order Tracking
           </h1>
           <p className="text-sm md:text-base text-neutral-500 dark:text-neutral-400 max-w-md mx-auto">
@@ -115,8 +115,8 @@ export default function Orders() {
           transition={{ delay: 0.1 }}
           className="max-w-md mx-auto mt-10 relative z-20 group"
         >
-          <div className="flex gap-2 p-1.5 bg-white dark:bg-zinc-900 border dark:border-white/10 rounded-2xl shadow-xl shadow-indigo-500/5 focus-within:ring-2 focus-within:ring-indigo-500/50 transition-all">
-            <div className="flex items-center pl-3 text-neutral-400">
+          <div className="flex flex-col sm:flex-row gap-2 p-1.5 bg-white dark:bg-zinc-900 border dark:border-white/10 rounded-2xl shadow-xl shadow-indigo-500/5 focus-within:ring-2 focus-within:ring-indigo-500/50 transition-all">
+            <div className="flex items-center pl-3 pr-1 text-neutral-400 py-2 sm:py-0">
               <Search size={18} />
             </div>
             <input
@@ -131,7 +131,7 @@ export default function Orders() {
             <button
               onClick={search}
               disabled={loading}
-              className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-6 py-3 rounded-xl text-xs font-black transition-all active:scale-95 shadow-lg shadow-indigo-500/20 whitespace-nowrap"
+              className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-6 py-3.5 sm:py-3 rounded-xl text-xs font-black transition-all active:scale-95 shadow-lg shadow-indigo-500/20 whitespace-nowrap w-full sm:w-auto"
             >
               {loading ? "SEARCHING..." : "FIND ORDERS"}
             </button>

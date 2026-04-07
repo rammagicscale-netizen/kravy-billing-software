@@ -121,7 +121,7 @@ export default function Header() {
   return (
     <>
       {/* NAVBAR */}
-      <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl px-6 rounded-xl backdrop-blur-md bg-white/70 dark:bg-darkBackground/40 border border-gray-200 dark:border-gray-500 shadow-lg">
+      <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl px-3 sm:px-6 rounded-xl backdrop-blur-md bg-white/70 dark:bg-darkBackground/40 border border-gray-200 dark:border-gray-500 shadow-lg transition-all duration-300">
         <div className="flex items-center justify-between py-3">
           {/* Logo */}
           <Link href="/">
@@ -129,7 +129,7 @@ export default function Header() {
               initial={{ opacity: 0, x: -15 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4 }}
-              className="text-xl font-extrabold cursor-pointer text-black dark:text-white"
+              className="text-lg xs:text-xl font-extrabold cursor-pointer text-black dark:text-white"
             >
               Kravy<span className="text-green-500">.in</span>
             </motion.div>
@@ -204,7 +204,7 @@ export default function Header() {
           </nav>
 
           {/* Right Side */}
-          <div className="flex items-center gap-5 md:gap-4">
+          <div className="flex items-center gap-2 xs:gap-5 lg:gap-4 transition-all">
             {/* CTA */}
             <motion.a
               href="https://kravy-pos-website.vercel.app/"
