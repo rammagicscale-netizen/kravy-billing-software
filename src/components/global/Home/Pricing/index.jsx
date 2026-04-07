@@ -94,30 +94,21 @@ export const plans = [
 
 export default function PricingSection() {
   const router = useRouter();
-  const { addToCart, cartItems, removeFromCart } = useCart();
+  const { addToCart, cartItems, removeFromCart, setIsCartOpen } = useCart();
 
-  const handlePlanSelect = (plan, any) => {
-
-    const planKeys = ["trial", "year1", "year2", "year3"];
-
-    // remove existing plan if already in cart
-    cartItems.forEach((item) => {
-      if (planKeys.includes(item.id)) {
-        removeFromCart(item.id);
-      }
-    });
-
+  const handlePlanSelect = (plan) => {
+    // The plan keys mapping is already handled by CartContext's addToCart logic
+    // but we can ensure consistency here if needed.
+    
     // add selected plan
     addToCart({
       id: plan.key,
       name: plan.name,
       price: plan.price,
-      quantity: 1,
-      cycle: "plan",
     });
 
-    // redirect to checkout
-    router.push("/checkout");
+    // open the cart sidebar
+    setIsCartOpen(true);
   };
 
   return (

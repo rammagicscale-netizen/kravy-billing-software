@@ -9,6 +9,7 @@ const PLAN_IDS = ["trial", "year1", "year2", "year3"];
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Load from localStorage
   useEffect(() => {
@@ -100,6 +101,8 @@ export function CartProvider({ children }) {
     <CartContext.Provider
       value={{
         cartItems,
+        isCartOpen,
+        setIsCartOpen,
         addToCart,
         increaseQty,
         decreaseQty,

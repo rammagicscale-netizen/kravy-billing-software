@@ -59,7 +59,6 @@ const navMobileLinks = [
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [aboutMobileOpen, setAboutMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false); // ✅ for hydration-safe theme toggle
 
@@ -69,6 +68,8 @@ export default function Header() {
 
   const {
     cartItems,
+    isCartOpen,
+    setIsCartOpen,
     addToCart,
     removeFromCart,
     increaseQty,
@@ -77,6 +78,18 @@ export default function Header() {
     totalItems,
     totalAmount,
   } = useCart();
+
+  const printerAdded = cartItems.some(item => item.id === "printer");
+  const printerPrice = 1999;
+
+  const addPrinter = () => {
+    if (printerAdded) return;
+    addToCart({
+      id: "printer",
+      name: "Thermal Printer (58mm)",
+      price: printerPrice,
+    });
+  };
 
   useEffect(() => {
     const closeOnScroll = () => {
@@ -381,49 +394,74 @@ export default function Header() {
                 {cartItems.length === 0 ? (
                   <p className="text-sm text-gray-500">Your cart is empty.</p>
                 ) : (
-                  cartItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex justify-between bg-gray-100 dark:bg-gray-900 p-3 rounded-lg"
-                    >
-                      <div>
-                        <p className="text-sm font-semibold">{item.name}</p>
-                        <p className="text-xs text-gray-500">
-                          {formatCurrency(item.price)}
-                        </p>
+                  <>
+                    {cartItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex justify-between bg-gray-100 dark:bg-gray-900 p-3 rounded-lg"
+                      >
+                        <div>
+                          <p className="text-sm font-semibold">{item.name}</p>
+                          <p className="text-xs text-gray-500">
+                            {formatCurrency(item.price)}
+                          </p>
 
-                        <div className="flex items-center mt-2 gap-2">
+                          <div className="flex items-center mt-2 gap-2">
+                            <button
+                              onClick={() => decreaseQty(item.id)}
+                              className="w-6 h-6 bg-gray-300 dark:bg-gray-700 rounded-full text-xs"
+                            >
+                              -
+                            </button>
+                            <span>{item.quantity}</span>
+                            <button
+                              onClick={() => increaseQty(item.id)}
+                              className="w-6 h-6 bg-gray-300 dark:bg-gray-700 rounded-full text-xs"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="text-sm font-semibold">
+                            {formatCurrency(item.quantity * item.price)}
+                          </p>
+
                           <button
-                            onClick={() => decreaseQty(item.id)}
-                            className="w-6 h-6 bg-gray-300 dark:bg-gray-700 rounded-full text-xs"
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-xs text-red-500 flex items-center gap-1 mt-2"
                           >
-                            -
-                          </button>
-                          <span>{item.quantity}</span>
-                          <button
-                            onClick={() => increaseQty(item.id)}
-                            className="w-6 h-6 bg-gray-300 dark:bg-gray-700 rounded-full text-xs"
-                          >
-                            +
+                            <Trash2 size={14} />
+                            Remove
                           </button>
                         </div>
                       </div>
+                    ))}
 
-                      <div className="text-right">
-                        <p className="text-sm font-semibold">
-                          {formatCurrency(item.quantity * item.price)}
-                        </p>
-
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-xs text-red-500 flex items-center gap-1 mt-2"
-                        >
-                          <Trash2 size={14} />
-                          Remove
-                        </button>
+                    {/* Printer Suggestion inside Sidebar */}
+                    {!printerAdded && (
+                      <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-2xl flex flex-col gap-3 relative overflow-hidden">
+                        <div className="relative z-10">
+                          <h3 className="text-xs font-bold text-amber-900 dark:text-amber-200 flex items-center gap-2">
+                            🧾 Recommended Add-On
+                          </h3>
+                          <p className="text-[10px] text-amber-800/70 dark:text-amber-400/70 mt-1">
+                            Add a 58mm thermal printer for instant bill printing.
+                          </p>
+                          <div className="flex items-center justify-between mt-3">
+                            <span className="text-sm font-black text-amber-600 dark:text-amber-400">{formatCurrency(printerPrice)}</span>
+                            <button 
+                              onClick={addPrinter}
+                              className="px-4 py-1.5 bg-amber-600 text-white rounded-lg text-[10px] font-bold hover:bg-amber-700 transition-all shadow-md active:scale-95"
+                            >
+                              ADD TO CART
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    )}
+                  </>
                 )}
               </div>
 
