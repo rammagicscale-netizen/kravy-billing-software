@@ -19,7 +19,7 @@ export async function GET(req) {
     }
 
     const orders = await Order.find({
-      customerPhone: phone
+      "customer.phone": phone
     })
       .sort({ createdAt: -1 })
       .lean();

@@ -124,15 +124,15 @@ export async function generateInvoice(order) {
     page.drawText(String(item.name || "N/A"), { x: 90, y: itemY, size: 10, font: bold });
     page.drawText("Product Service", { x: 90, y: itemY - 12, size: 8, font, color: greyTextColor });
     page.drawText(String(item.quantity), { x: 345, y: itemY, size: 10, font });
-    page.drawText(`₹${item.price}`, { x: 400, y: itemY, size: 10, font });
-    page.drawText(`₹${amount}`, { x: 490, y: itemY, size: 10, font: bold });
+    page.drawText(`Rs ${item.price}`, { x: 400, y: itemY, size: 10, font });
+    page.drawText(`Rs ${amount}`, { x: 490, y: itemY, size: 10, font: bold });
     itemY -= 40;
   });
 
   /* ---------- TOTAL ---------- */
   itemY -= 10;
   page.drawText("Total", { x: 420, y: itemY, size: 14, font: bold });
-  page.drawText(`₹${order.amount}`, { x: 490, y: itemY, size: 14, font: bold });
+  page.drawText(`Rs ${order.amount}`, { x: 490, y: itemY, size: 14, font: bold });
 
   /* ---------- PAYMENT DETAILS ---------- */
   let paymentY = itemY - 50;
