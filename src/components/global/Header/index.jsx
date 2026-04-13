@@ -207,7 +207,7 @@ export default function Header() {
           <div className="flex items-center gap-2 xs:gap-5 lg:gap-4 transition-all">
             {/* CTA */}
             <motion.a
-              href="https://kravy-pos-website.vercel.app/"
+              href="https://billing.kravy.in/"
               target="_blank"
               className="hidden lg:inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-md text-sm font-semibold shadow-md"
               initial={{ opacity: 0 }}

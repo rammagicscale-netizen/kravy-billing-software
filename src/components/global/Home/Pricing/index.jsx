@@ -112,17 +112,17 @@ export default function PricingSection() {
   };
 
   return (
-    <section className="px-4 py-20 text-center">
+    <section id="pricing" className="px-6 py-20 text-center">
 
-      <h2 className="text-4xl font-bold mb-4">
+      <h2 className="text-4xl font-black mb-4 dark:text-white tracking-tight">
         Choose Your Plan
       </h2>
 
-      <p className="text-gray-500 mb-12 max-w-xl mx-auto">
-        Simple pricing designed for restaurants and food businesses.
+      <p className="text-sm text-gray-500 dark:text-neutral-400 mb-12 max-w-xl mx-auto px-4">
+        Simple, transparent pricing designed for restaurants and food businesses. No hidden fees.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
 
         {plans.map((plan) => {
 
@@ -136,12 +136,12 @@ export default function PricingSection() {
           return (
             <motion.div
               key={plan.key}
-              whileHover={{ scale: 1.05 }}
-              className={`relative flex flex-col rounded-2xl p-6 border shadow-sm
+              whileHover={{ y: -5 }}
+              className={`relative flex flex-col rounded-[2.5rem] p-8 border transition-all duration-300 shadow-sm
               ${
                 plan.highlight
-                  ? "bg-gradient-to-br from-purple-600 to-indigo-600 text-white border-none"
-                  : "bg-white dark:bg-[#121228]"
+                  ? "bg-gradient-to-br from-indigo-600 to-indigo-800 text-white border-none shadow-xl shadow-indigo-500/20"
+                  : "bg-white dark:bg-zinc-900 border-neutral-200 dark:border-white/5"
               }`}
             >
 

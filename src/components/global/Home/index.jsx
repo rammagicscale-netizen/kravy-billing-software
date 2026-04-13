@@ -37,7 +37,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl w-full sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white"
+          className="text-[2.6rem] w-full sm:text-5xl md:text-6xl font-extrabold tracking-tighter sm:tracking-tight leading-[1.1] sm:leading-tight text-gray-900 dark:text-white"
         >
           Tired of Billing {" "}
           <span className="text-red-500 underline">Do Effortless Billing </span>
