@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useEffect, useState, Suspense } from "react";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, CheckCircle2, Zap, ShieldCheck, Printer } from "lucide-react";
 
 function CheckoutContent() {
   const { cartItems, addToCart, removeFromCart, totalAmount, clearCart, increaseQty, decreaseQty } = useCart();
@@ -389,6 +391,14 @@ function CheckoutContent() {
           </>
         )}
       </div>
+      
+      {/* Printer Details Modal */}
+      <PrinterModal 
+        isOpen={showPrinterModal} 
+        onClose={() => setShowPrinterModal(false)} 
+        onAdd={addPrinter}
+        isAdded={printerAdded}
+      />
 
     </section>
   );
@@ -399,6 +409,112 @@ const Loader2 = ({ className }) => (
     <path d="M21 12a9 9 0 1 1-6.219-8.56" />
   </svg>
 );
+
+const PrinterModal = ({ isOpen, onClose, onAdd, isAdded }) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-lg bg-white dark:bg-neutral-900 rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-200 dark:border-neutral-800"
+          >
+            {/* Close Button */}
+            <button 
+              onClick={onClose}
+              className="absolute top-6 right-6 p-2 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors z-10"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="p-8 md:p-10">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-16 h-16 rounded-2xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                  <Printer className="w-8 h-8 text-amber-600" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-neutral-900 dark:text-white">Thermal Receipt Printer</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-emerald-500 text-xs font-bold uppercase tracking-wider">In Stock</span>
+                    <span className="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700" />
+                    <span className="text-neutral-500 text-xs italic">Model: K-58Pro</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6 mb-10">
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 p-1 rounded-full bg-emerald-500/10 text-emerald-500">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-neutral-900 dark:text-white text-sm">High-Speed Printing</h4>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Industrial grade 90mm/s printing speed for zero customer wait time.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 p-1 rounded-full bg-blue-500/10 text-blue-500">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-neutral-900 dark:text-white text-sm">Direct Thermal Technology</h4>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">No ink or ribbons required. Just put the paper and start printing.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 p-1 rounded-full bg-amber-500/10 text-amber-500">
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-neutral-900 dark:text-white text-sm">1 Year Warranty</h4>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Complete peace of mind with our 1-year replacement warranty.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-6 bg-neutral-50 dark:bg-neutral-800/50 rounded-3xl border border-neutral-100 dark:border-neutral-800">
+                <div>
+                  <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest mb-1">One-time price</p>
+                  <p className="text-3xl font-black text-neutral-900 dark:text-white">₹1,999</p>
+                </div>
+                {!isAdded ? (
+                  <button 
+                    onClick={() => { onAdd(); onClose(); }}
+                    className="px-8 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-2xl font-black text-sm hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/10 dark:shadow-white/5"
+                  >
+                    ADD TO CART
+                  </button>
+                ) : (
+                  <button 
+                    disabled
+                    className="px-8 py-3 bg-emerald-500 text-white rounded-2xl font-black text-sm opacity-50 cursor-not-allowed"
+                  >
+                    ALREADY ADDED
+                  </button>
+                )}
+              </div>
+            </div>
+            
+            <div className="px-10 py-4 bg-emerald-500/5 text-center">
+              <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">🔥 42 merchants bought this in the last 24 hours</p>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export default function CheckoutPage() {
   return (

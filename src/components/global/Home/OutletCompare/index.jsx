@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function OutletCompare() {
   return (
-    <section className="w-full px-4 py-16">
+    <section id="compare" className="w-full px-4 py-16">
       {/* Heading */}
       <motion.div
         className="text-center max-w-4xl mx-auto mb-12"

@@ -125,14 +125,22 @@ export default function Header() {
         <div className="flex items-center justify-between py-3">
           {/* Logo */}
           <Link href="/">
-            <motion.div
-              initial={{ opacity: 0, x: -15 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4 }}
-              className="text-lg xs:text-xl font-extrabold cursor-pointer text-black dark:text-white"
-            >
-              Kravy<span className="text-green-500">.in</span>
-            </motion.div>
+              <div className="flex items-center gap-2">
+                {!mounted ? (
+                  <div className="w-32 h-10" />
+                ) : (
+                  <>
+                    <img
+                      src={theme === "dark" ? "/kravylight.png" : "/kravydark.png"}
+                      alt="Kravy Logo"
+                      className="h-10 w-auto object-contain mix-blend-multiply dark:mix-blend-normal"
+                    />
+                    <span className="text-xl font-black tracking-tighter text-black dark:text-white">
+                      Kravy<span className="text-blue-600">.in</span>
+                    </span>
+                  </>
+                )}
+              </div>
           </Link>
 
           {/* Desktop Navbar */}

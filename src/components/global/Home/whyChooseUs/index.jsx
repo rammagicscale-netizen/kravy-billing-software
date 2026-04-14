@@ -1,80 +1,112 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle } from "lucide-react";
+import { 
+  Receipt, 
+  Smartphone, 
+  TrendingUp, 
+  Calculator, 
+  LayoutDashboard, 
+  CreditCard 
+} from "lucide-react";
 
 const features = [
-  "Easy invoicing and quick bill generation",
-  "Works on mobile, tablet, and POS devices",
-  "Real-time sales tracking",
-  "SGST-ready billing",
-  "User-friendly POS interface",
-  "Multiple payment options (cash, card, UPI)",
+  {
+    title: "Fast Invoicing",
+    description: "Generate bills in 3 clicks. No more customer queues.",
+    icon: <Receipt size={22} />,
+    color: "bg-blue-500"
+  },
+  {
+    title: "Any Device",
+    description: "Seamlessly runs on Mobile, Tablets, and POS hardware.",
+    icon: <Smartphone size={22} />,
+    color: "bg-purple-500"
+  },
+  {
+    title: "Sale Insights",
+    description: "Real-time tracking of orders, payments, and profits.",
+    icon: <TrendingUp size={22} />,
+    color: "bg-emerald-500"
+  },
+  {
+    title: "GST Ready",
+    description: "Automated SGST/CGST calculations for hassle-free filing.",
+    icon: <Calculator size={22} />,
+    color: "bg-rose-500"
+  },
+  {
+    title: "Smart POS",
+    description: "Intuitive interface designed for high-speed counter operations.",
+    icon: <LayoutDashboard size={22} />,
+    color: "bg-amber-500"
+  },
+  {
+    title: "UPI & More",
+    description: "Accept payments via UPI QR, Cards, or Cash instantly.",
+    icon: <CreditCard size={22} />,
+    color: "bg-indigo-500"
+  }
 ];
 
-const featureVariants = {
-  hidden: { opacity: 0, y: 30 },
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: (i) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.12,
-      duration: 0.4,
-      ease: "easeOut",
+      delay: i * 0.1,
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1]
     },
   }),
 };
 
 export default function WhyChooseUs() {
   return (
-    <section className="mt-24 px-4 md:px-0 max-w-6xl mx-auto text-center relative z-10">
-      {/* Optional Subtle Background for Light/Dark Mode */}
-      <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-white via-neutral-100 to-white dark:from-transparent dark:via-white/5 dark:to-transparent blur-lg" />
+    <section id="features" className="py-24 px-6 md:px-0 max-w-6xl mx-auto relative z-10 overflow-hidden">
+      
+      {/* Decorative Blur */}
+      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[500px] h-[500px] bg-emerald-500/[0.03] dark:bg-emerald-500/[0.05] blur-[120px] rounded-full pointer-events-none" />
 
-      {/* Heading */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight"
-      >
-        What Makes Our Billing Software So Special ?
-      </motion.h2>
+      <div className="text-center mb-16">
+        <motion.span
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="text-xs font-black uppercase tracking-[0.3em] text-emerald-500 mb-4 inline-block"
+        >
+          Premium Features
+        </motion.span>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-6xl font-black text-neutral-900 dark:text-white tracking-tighter"
+        >
+          Built for <span className="italic text-neutral-400">High-Performance</span> Teams
+        </motion.h2>
+      </div>
 
-      {/* Subheading */}
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-        className="text-gray-600 dark:text-neutral-300 mb-10 max-w-2xl mx-auto text-base md:text-lg"
-      >
-        Kravy stands out with fast billing, smart automation, and cloud backup. It saves time, reduces errors, and helps you run your business stress-free.
-      </motion.p>
-
-      {/* Features Grid */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {features.map((feature, i) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {features.map((f, i) => (
           <motion.div
             key={i}
             custom={i}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            variants={featureVariants}
-            className="flex items-center gap-4 rounded-2xl border border-neutral-200 dark:border-white/10 p-5 md:p-6 bg-white dark:bg-white/10 shadow-lg hover:scale-[1.02] transition-all duration-300"
+            variants={cardVariants}
+            whileHover={{ y: -5 }}
+            className="group p-8 rounded-[2.5rem] bg-white dark:bg-[#0a0a0f] border border-neutral-100 dark:border-white/5 shadow-xl shadow-neutral-200/20 dark:shadow-none hover:border-emerald-500/20 transition-all duration-300"
           >
-            <motion.div
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.6 }}
-              className="bg-green-600 p-2 rounded-full text-white shrink-0"
-            >
-              <CheckCircle size={18} />
-            </motion.div>
-            <span className="text-left text-sm text-gray-800 dark:text-white leading-snug tracking-wide">
-              {feature}
-            </span>
+            <div className={`w-12 h-12 rounded-2xl ${f.color} text-white flex items-center justify-center mb-6 shadow-lg shadow-current/20 group-hover:scale-110 transition-transform duration-300`}>
+              {f.icon}
+            </div>
+            <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">{f.title}</h3>
+            <p className="text-neutral-500 dark:text-neutral-400 text-[13px] leading-relaxed">
+              {f.description}
+            </p>
           </motion.div>
         ))}
       </div>

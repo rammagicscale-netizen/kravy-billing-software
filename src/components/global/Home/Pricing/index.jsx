@@ -190,14 +190,14 @@ export default function PricingSection() {
 
               <button
                 onClick={() => handlePlanSelect(plan)}
-                className={`mt-auto py-3 rounded-xl font-semibold flex items-center justify-center gap-2
+                className={`mt-auto py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]
                 ${
                   plan.highlight
-                    ? "bg-white text-purple-700"
-                    : "bg-gray-900 text-white"
+                    ? "bg-white text-black"
+                    : "bg-neutral-900 dark:bg-white/10 text-white"
                 }`}
               >
-                Get Plan
+                Select Plan
                 <ArrowRight className="w-4 h-4" />
               </button>
 
