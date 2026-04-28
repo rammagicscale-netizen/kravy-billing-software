@@ -18,6 +18,7 @@ import OutletCompare from "./OutletCompare";
 import MasonryGallery from "../galllery";
 import ZomatoApproved from "./ZomatoApproved";
 import InstagramReels from "./InstagramReels";
+import AppDownload from "./AppDownload";
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
@@ -97,13 +98,13 @@ export default function Home() {
 
       <InstagramReels />
       <ZomatoApproved />
-
-
       <OutletCompare />
       <WhyChooseUs />
       <PricingSection />
       <AboutPlatform />
       <Testimonials />
+      <AppDownload />
     </div>
   );
 }
+
