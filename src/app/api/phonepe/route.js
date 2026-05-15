@@ -35,7 +35,7 @@ export async function POST(req){
 
 try{
 
-const { amount, customer, items } = await req.json();
+const { amount, customer, items, clerkUserId } = await req.json();
 
 const token = await getAccessToken();
 
@@ -100,6 +100,7 @@ customer:{
 
 items,
 amount,
+clerkUserId,
 paymentStatus:"PENDING"
 
 });

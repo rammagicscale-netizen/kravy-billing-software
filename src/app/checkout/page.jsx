@@ -97,10 +97,13 @@ function CheckoutContent() {
 
     setLoading(true);
     try {
+      const clerkUserId = searchParams.get("clerkId");
+      
       const response = await axios.post("/api/phonepe", {
         amount: totalAmount,
         customer,
-        items: cartItems
+        items: cartItems,
+        clerkUserId // Pass the clerkId if it exists
       });
 
       if (response.data.url) {

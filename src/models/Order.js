@@ -84,6 +84,8 @@ default:"PENDING"
 
 paymentId:String,
 
+clerkUserId:String, // For cross-domain subscription bridge
+
 createdAt:{
 type:Date,
 default:Date.now

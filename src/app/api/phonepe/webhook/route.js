@@ -254,8 +254,22 @@ order.paidAt = new Date();
 const invoiceNumber = await generateInvoiceNumber();
 
 order.invoiceNumber = invoiceNumber;
-
 await order.save();
+
+// --- BRIDGE CONFIRMATION ---
+if (order.clerkUserId) {
+  try {
+    await axios.post('https://billing.kravy.in/api/subscription/confirm', {
+      clerkId: order.clerkUserId,
+      amount: order.amount,
+      secretKey: 'kravy_bridge_secret_987'
+    });
+    console.log("Bridge Confirmation Success for clerkId:", order.clerkUserId);
+  } catch (bridgeErr) {
+    console.error("Bridge Confirmation Failed:", bridgeErr.message);
+  }
+}
+// ---------------------------
 
 console.log("Payment SUCCESS:",orderId,"Invoice:",invoiceNumber);
 
