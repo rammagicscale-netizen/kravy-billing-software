@@ -145,6 +145,7 @@
 
 import { connectToDatabase } from "@/lib/mongodb";
 import Order from "@/models/Order";
+import axios from "axios";
 
 /* ---------- GENERATE UNIQUE INVOICE ---------- */
 
