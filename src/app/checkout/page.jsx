@@ -55,6 +55,26 @@ function CheckoutContent() {
     }
   }, [retryOrderId]);
 
+  // Pin Code Auto-fetch logic
+  useEffect(() => {
+    if (customer.pincode.length === 6) {
+        fetch(`https://api.postalpincode.in/pincode/${customer.pincode}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data[0].Status === "Success") {
+                    const postOffice = data[0].PostOffice[0];
+                    setCustomer(prev => ({
+                        ...prev,
+                        district: postOffice.District,
+                        state: postOffice.State,
+                        addressLine: prev.addressLine || postOffice.Name
+                    }));
+                }
+            })
+            .catch(err => console.error("Pincode API Error:", err));
+    }
+  }, [customer.pincode]);
+
   const addPrinter = () => {
     if (printerAdded) return;
     addToCart({
