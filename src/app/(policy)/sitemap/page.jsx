@@ -1,223 +1,230 @@
 import React from "react";
-import Link from "next/link";
-import { Compass, ShieldCheck, Zap, HelpCircle } from "lucide-react";
 import Template from "@/components/global/template";
+import Link from "next/link";
+import { Compass } from "lucide-react";
 import { COMPANY } from "@/constants";
 
 export const metadata = {
-  title: `Sitemap - ${COMPANY.NAME}`,
-  description: `Find all the pages, resources, features, and legal policies of ${COMPANY.NAME} Billing Software.`,
+  title: `Sitemap | ${COMPANY.NAME}`,
+  description: `Navigate through the Kravy billing software website easily. Find direct links to our features, pricing, support, and company information.`,
   keywords: [
     COMPANY.NAME,
     "Sitemap",
-    "Billing Software",
-    "POS System",
-    "All Pages",
+    "Website Navigation",
+    "Billing Software Links",
+    "POS System Sitemap",
   ],
-  authors: [{ name: `${COMPANY.NAME} Team`, url: COMPANY.DOMAIN }],
   openGraph: {
-    title: `Sitemap - ${COMPANY.NAME}`,
-    description: `Find all the pages, resources, features, and legal policies of ${COMPANY.NAME} Billing Software.`,
+    title: `Sitemap | ${COMPANY.NAME}`,
+    description: `Easily find your way around the Kravy platform with our comprehensive site map.`,
     url: `${COMPANY.DOMAIN}/sitemap`,
-    siteName: COMPANY.NAME,
     type: "website",
+    images: [
+      {
+        url: COMPANY.OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: `${COMPANY.NAME} Sitemap`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `Sitemap - ${COMPANY.NAME}`,
-    description: `Find all the pages, resources, features, and legal policies of ${COMPANY.NAME} Billing Software.`,
+    title: `Sitemap | ${COMPANY.NAME}`,
+    description: `Easily find your way around the Kravy platform with our comprehensive site map.`,
+    images: [COMPANY.OG_IMAGE],
   },
 };
 
-const sitemapData = [
+const SITEMAP_INFO = [
   {
-    title: "Main Navigation",
-    description: "Explore the primary pages and sections of the Kravy platform.",
-    icon: <Compass className="w-6 h-6 text-green-500" />,
+    title: "Core Pages",
+    description: "Access the main areas of the Kravy platform.",
     content: (
-      <ul className="space-y-3 font-medium">
+      <ul className="space-y-2 mt-2">
         <li>
-          <Link href="/" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Home Page
+          <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Home Page
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Kravy main page, featuring 3-click billing details, testimonials, and platform overview.
+          </span>
         </li>
         <li>
-          <Link href="/about" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> About Us
+          <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            About Us
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Learn more about our team, goals, vision, and mission to revolutionize POS billing.
+          </span>
         </li>
         <li>
-          <Link href="/pricing" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Software Pricing
+          <Link href="/pricing" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Pricing Plans
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Affordable monthly and annual plans tailored for food trucks, cafes, and multi-outlet restaurants.
+          </span>
         </li>
         <li>
-          <Link href="/updates" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Product Updates
+          <Link href="/updates" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Product Updates
           </Link>
-        </li>
-        <li>
-          <Link href="/blog" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Blog & Resources
-          </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Stay in the loop with our latest features, design upgrades, and POS software patches.
+          </span>
         </li>
       </ul>
     ),
   },
   {
-    title: "Features & Sections",
-    description: "Discover our high-tech capabilities built to simplify your business operations.",
-    icon: <Zap className="w-6 h-6 text-green-500" />,
+    title: "Support & FAQs",
+    description: "Find solutions, ask questions, or report technical difficulties.",
     content: (
-      <ul className="space-y-3 font-medium">
+      <ul className="space-y-2 mt-2">
         <li>
-          <Link href="/#features" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> 3-Click Easy Billing
+          <Link href="/faqs" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Frequently Asked Questions
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Got questions about integrations, security, or custom hardware setup? Find answers instantly.
+          </span>
         </li>
         <li>
-          <Link href="/#features" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Real-Time Sales Analytics
+          <Link href="/contact" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Contact Support
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Get in touch with our product experts, customer service, or request a custom billing consultation.
+          </span>
         </li>
         <li>
-          <Link href="/#features" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Cloud Inventory Management
+          <Link href="/report-issue" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Report an Issue
           </Link>
-        </li>
-        <li>
-          <Link href="/#features" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> QR Code Table Ordering
-          </Link>
-        </li>
-        <li>
-          <Link href="/orders" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Order Tracking
-          </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Encountered a bug or error? Let us know so we can fix it for you immediately.
+          </span>
         </li>
       </ul>
     ),
   },
   {
-    title: "Legal & Policies",
-    description: "Read our rules, user guidelines, and transparency policies.",
-    icon: <ShieldCheck className="w-6 h-6 text-green-500" />,
+    title: "Legal & Compliance",
+    description: "Read our regulatory policies, user terms, and legal terms.",
     content: (
-      <ul className="space-y-3 font-medium">
+      <ul className="space-y-2 mt-2">
         <li>
-          <Link href="/privacy-policy" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Privacy Policy
+          <Link href="/privacy-policy" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Privacy Policy
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Read about how we collect, encrypt, use, and protect your store and customer records.
+          </span>
         </li>
         <li>
-          <Link href="/terms-and-conditions" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Terms & Conditions
+          <Link href="/terms-and-conditions" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Terms of Service
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            The legal terms governing your use of our billing applications and cloud dashboards.
+          </span>
         </li>
         <li>
-          <Link href="/cancellation-and-refund-policy" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Refund & Cancellation Policy
+          <Link href="/cancellation-and-refund-policy" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Refund & Cancellation Policy
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Information about subscription cancellations, automatic renewals, and refund eligibility.
+          </span>
         </li>
         <li>
-          <Link href="/disclaimer" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Disclaimer
+          <Link href="/delete-account" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Delete Account
           </Link>
-        </li>
-        <li>
-          <Link href="/delete-account" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Account Deletion
-          </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Request the closure of your Kravy account and deletion of your personal and business data.
+          </span>
         </li>
       </ul>
     ),
   },
   {
-    title: "Support & Assistance",
-    description: "Get assistance, resolve query issues, or connect with our specialized team.",
-    icon: <HelpCircle className="w-6 h-6 text-green-500" />,
+    title: "Insights & Resources",
+    description: "Explore our helpful resources and manage your orders.",
     content: (
-      <ul className="space-y-3 font-medium">
+      <ul className="space-y-2 mt-2">
         <li>
-          <Link href="/faqs" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> FAQ Center
+          <Link href="/blog" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Official Blog
           </Link>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Tips on maximizing restaurant sales, running a retail outlet, and leveraging modern POS technology.
+          </span>
         </li>
         <li>
-          <Link href="/contact" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Contact Support
+          <Link href="/orders" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm">
+            Track Orders
           </Link>
-        </li>
-        <li>
-          <Link href="/report-issue" className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Report an Issue
-          </Link>
-        </li>
-        <li>
-          <a href={`mailto:${COMPANY.EMAIL.SUPPORT}`} className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Email: {COMPANY.EMAIL.SUPPORT}
-          </a>
-        </li>
-        <li>
-          <a href={`tel:${COMPANY.PHONE}`} className="hover:text-green-500 dark:hover:text-green-400 transition-colors flex items-center gap-2">
-            <span>•</span> Call: {COMPANY.PHONE}
-          </a>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 block">
+            Track hardware orders (like printers or scanners) or check subscription payment status.
+          </span>
         </li>
       </ul>
     ),
   },
 ];
 
-const contactData = {
-  title: "Looking for something specific?",
-  description: "Our dedicated support desk is available to assist you with customized configurations or other concerns.",
+const SITEMAP_CONTACT = {
+  title: "Can't Find What You're Looking For?",
+  description:
+    "If you are looking for a specific page, feature, or customized solution that is not listed here, please contact us.",
   content: (
     <div>
       <p className="mb-4">
-        You can email us directly at{" "}
-        <a
-          href={`mailto:${COMPANY.EMAIL.SUPPORT}`}
-          className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2 font-semibold"
-        >
-          {COMPANY.EMAIL.SUPPORT}
-        </a>{" "}
-        or call us at{" "}
-        <a
-          href={`tel:${COMPANY.PHONE}`}
-          className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2 font-semibold"
-        >
-          {COMPANY.PHONE}
-        </a>.
+        Our customer support representatives are available 24/7 to guide you through the platform or help you get a custom setup.
       </p>
       <p>
-        Our business office is situated at {COMPANY.ADDRESS}. We operate from {COMPANY.WORKING_HOURS} to ensure high-uptime software operations for your business.
+        Email Support:{" "}
+        <a
+          href={`mailto:${COMPANY.EMAIL.SUPPORT}`}
+          className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+        >
+          {COMPANY.EMAIL.SUPPORT}
+        </a>
+        <br />
+        Call/WhatsApp:{" "}
+        <a
+          href={`tel:${COMPANY.PHONE}`}
+          className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+        >
+          {COMPANY.PHONE}
+        </a>
       </p>
     </div>
   ),
 };
 
-const SitemapPage = () => {
+export default function SitemapPage() {
   return (
     <Template
       title="Sitemap"
       heading={
         <div>
-          Kravy Platform <br className="hidden sm:block" /> Sitemap & Directory
+          Explore All Pages <br className="hidden sm:block" /> and Resources on Kravy
         </div>
       }
-      description="Easy navigation to all parts of our billing software website. Access legal terms, features, and main links quickly."
-      ctaDescription={`Looking for a reliable billing partner for your restaurant or cafe? Activate ${COMPANY.NAME} POS system today.`}
+      description="Easily navigate through our website to find billing software features, pricing, blogs, policies, and helpful customer support channels."
+      ctaDescription="Have custom requirements or need help getting started with our POS? Reach out to our billing team."
       ctaLink="/contact"
       ctaButton={
         <span className="flex items-center gap-2">
-          <Zap className="w-4 h-4" />
-          Request a Demo
+          <Compass className="w-4 h-4" />
+          Navigate to Contact
         </span>
       }
-      infoData={sitemapData}
-      contactData={contactData}
+      infoData={SITEMAP_INFO}
+      contactData={SITEMAP_CONTACT}
     />
   );
-};
-
-export default SitemapPage;
+}
