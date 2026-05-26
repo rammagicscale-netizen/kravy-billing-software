@@ -65,7 +65,7 @@ export default function Footer() {
                     className="h-10 w-auto object-contain mix-blend-multiply dark:mix-blend-normal"
                   />
                   <span className="text-2xl font-black text-neutral-900 dark:text-white tracking-tighter">
-                    Kravy<span className="text-blue-600">.in</span>
+                    Kravy
                   </span>
                 </>
               )}

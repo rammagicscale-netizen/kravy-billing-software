@@ -136,7 +136,7 @@ export default function Header() {
                       className="h-10 w-auto object-contain mix-blend-multiply dark:mix-blend-normal"
                     />
                     <span className="text-xl font-black tracking-tighter text-black dark:text-white">
-                      Kravy<span className="text-blue-600">.in</span>
+                      Kravy
                     </span>
                   </>
                 )}
