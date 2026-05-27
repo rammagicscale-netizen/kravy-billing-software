@@ -66,6 +66,30 @@ const team = [
   },
 ];
 
+const techTeam = [
+  {
+    name: "Vikash Verma",
+    role: "Product Manager",
+    image: "/assets/Vikash.jpeg",
+    description: "Spearheading product strategy and designing intuitive, fast-paced workflows for shop counters.",
+    techStack: "Product Strategy & UX",
+  },
+  {
+    name: "Deepak",
+    role: "App Developer",
+    image: "/assets/Deepak.jpeg",
+    description: "Crafting lightweight, highly responsive mobile POS apps optimized for Android devices.",
+    techStack: "React Native & Android",
+  },
+  {
+    name: "Ramveer",
+    role: "Software Developer",
+    image: "/assets/Ramveer.jpg",
+    description: "Building resilient cloud infrastructures, offline-sync backends, and robust security protocols.",
+    techStack: "Next.js & Node.js",
+  },
+];
+
 const trustedBy = [
   "Local kirana & retail stores",
   "Cafés & quick-service restaurants",
@@ -372,10 +396,132 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Founder's Note */}
+      <section
+        id="founder"
+        className="max-w-6xl mx-auto px-4 md:px-6 pb-20 scroll-mt-28"
+      >
+        <div className="relative rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-md dark:border-slate-700 dark:bg-slate-950/70">
+          {/* Subtle background glow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-slate-50 dark:from-emerald-950/20 dark:via-slate-950 dark:to-slate-950 pointer-events-none" />
+
+          <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center md:items-start gap-8">
+            {/* Founder Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 }}
+              className="flex-shrink-0"
+            >
+              <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-3xl overflow-hidden border-4 border-emerald-200 dark:border-emerald-700/50 shadow-xl">
+                <img
+                  src="/assets/founder.png"
+                  alt="Kravy Founder"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+              <div className="mt-3 text-center">
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-100">Akash Verma</p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Founder, Kravy Software Development</p>
+              </div>
+            </motion.div>
+
+            {/* Note */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="flex-1"
+            >
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200 text-[11px] uppercase tracking-[0.18em] dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/40 mb-4">
+                <Sparkles size={12} />
+                A Note from Our Founder
+              </span>
+
+              <blockquote className="border-l-4 border-emerald-400 pl-4 dark:border-emerald-500">
+                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
+                  "When I started Kravy, the goal was simple — to build a billing tool that a shopkeeper
+                  in Delhi or a café owner in Bangalore could actually use without any training. Not something
+                  built for tech-savvy users in an air-conditioned office, but something built for the real
+                  hustle at the counter."
+                </p>
+                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
+                  "Every feature we ship comes from real conversations with real shop owners. If it doesn't
+                  make their day easier, we don't build it. And if something breaks, we fix it before they
+                  even finish their chai."
+                </p>
+                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  "Kravy is still a work in progress — and that's exactly how we like it. We grow with our
+                  customers, one bill at a time."
+                </p>
+              </blockquote>
+
+              <div className="mt-5 flex items-center gap-3">
+                <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 italic">— Akash Verma, Founder at Kravy</span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech & Product Team */}
+      <section id="team" className="max-w-6xl mx-auto px-4 md:px-6 pb-20 scroll-mt-28">
+        <div className="flex items-center justify-between gap-4 mb-8">
+          <div>
+            <h2 className="text-lg md:text-2xl font-bold">Meet our Tech & Product Builders</h2>
+            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 mt-1 max-w-xl">
+              The engineers and product minds crafting the future of billing technology for Indian retail.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {techTeam.map((member, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.4 }}
+              className="group relative rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 dark:border-slate-800 dark:bg-slate-950/70"
+            >
+              <div className="aspect-[4/5] w-full overflow-hidden bg-slate-100 dark:bg-slate-900 relative">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <span className="text-xs font-semibold text-emerald-400">
+                    {member.techStack}
+                  </span>
+                </div>
+              </div>
+              <div className="p-5">
+                <div className="flex items-center justify-between mb-1">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                    {member.name}
+                  </h3>
+                  <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold">
+                    Core Tech
+                  </span>
+                </div>
+                <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
+                  {member.role}
+                </p>
+                <p className="text-xs text-slate-600 dark:text-slate-300">
+                  {member.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* Meet the Team (Our Team anchor) */}
       <section
-        id="team"
-        className="max-w-6xl mx-auto px-4 md:px-6 pb-20 scroll-mt-28"
+        className="max-w-6xl mx-auto px-4 md:px-6 pb-20"
       >
         <div className="flex items-center justify-between gap-4 mb-6">
           <div>
@@ -449,6 +595,7 @@ export default function AboutPage() {
     </main>
   );
 }
+
 
 /* Reusable card block */
 function CardBlock({ icon, title, text }) {
