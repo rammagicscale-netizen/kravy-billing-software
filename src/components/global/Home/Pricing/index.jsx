@@ -19,7 +19,7 @@ export const plans = [
     originalPrice: null,
     description: "Explore the billing platform with a full feature trial.",
     features: [
-      "3 Day full access trial",
+      "1 Day full access trial",
       "Unlimited invoices during trial",
       "Analytics dashboard",
       "Customer management",
@@ -33,7 +33,7 @@ export const plans = [
   {
     key: "year1",
     name: "1 Year Plan",
-    price: 3999,
+    price: 4999,
     originalPrice: 7000,
     description: "Perfect for restaurants and small businesses.",
     features: [
@@ -53,7 +53,7 @@ export const plans = [
   {
     key: "year2",
     name: "2 Year Plan",
-    price: 5999,
+    price: 6999,
     originalPrice: 14000,
     description: "Best choice for growing businesses.",
     features: [
@@ -73,7 +73,7 @@ export const plans = [
   {
     key: "year3",
     name: "3 Year Plan",
-    price: 7499,
+    price: 7999,
     originalPrice: 21000,
     description: "Maximum savings for long-term businesses.",
     features: [
